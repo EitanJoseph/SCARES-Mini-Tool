@@ -26,10 +26,12 @@ function zoomed() {
     countriesGroup.attr("transform", "translate(" + [t.x,t.y] + ")scale(" + t.k + ")");
 }
 
+// pass in function zoomed()
 var zoom = d3.zoom().on("zoom", zoomed);
 
 function getTextBox(selection) {
     selection.each(function(d) {
+        // bounded box
         d.bbox = this.getBBox();
     });
 }

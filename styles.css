@@ -21,10 +21,13 @@ body {
     fill: #4B5358;   /* highlight colour for selected country */
   }
   .countryLabel{
-    display: none;   /* hide all country labels by default */
+    visibility: "hidden";  /* hide all country labels by default */
   }
   .countryName{
-    fill: #FFFAFF;   /* country label text colour */
+    fill: rgb(216, 5, 216);   /* country label text colour */
+    font-size: 20px;
+    font-family: "comic-sans";
+    animation: rotateWordsFirst 18s linear infinite 0s;
   }
   .countryLabelBg{
     fill: #30BCED;   /* country label background colour */

@@ -1,4 +1,3 @@
-
       // DEFINE VARIABLES
       // Define size of map group
       // Full world map is 2:1 ratio
@@ -174,7 +173,6 @@
                 d3.select("#countryLabel" + d.properties.postal).style("visibility", "hidden");
             })
             // add an onclick action to zoom into clicked country
-
             
             .on("click", function(d, i) {
                 d3.selectAll(".country").classed("country-on", false);

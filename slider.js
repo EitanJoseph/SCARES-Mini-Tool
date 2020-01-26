@@ -16,6 +16,30 @@ function updateCurrYearText() {
     
 }
 
+function buildStates() {
+    let states = new Array();
+    // initialize 50 states
+    // parse csv into each one
+}
+
+class State {
+
+    constructor(/* csv data */) {
+        this.years = new Array()        
+        
+    }
+
+    
+
+}
+
+
+
+class ElectionYear {
+
+}
+
 function processCurrentYear() {
     
 }
+

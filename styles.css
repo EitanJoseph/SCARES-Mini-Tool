@@ -1,17 +1,17 @@
 
       body {
         margin: 0;
-        background-color: pink;
+        background-color: white;
         font-family: 'Arial', sans-serif;
         font-weight: 200;
-        font-size: 200px;
+        font-size: 15px;
       }
       #map-holder {
         width: 100vw;
         height: 100vh;
       }
       svg rect {
-        fill: pink;   /* map background colour */
+        fill: white;   /* map background colour */
       }
       .country{
         fill: #d0d0d0;   /* country colour */
@@ -29,4 +29,52 @@
       }
       .countryLabelBg{
         fill: #30BCED;   /* country label background colour */
+      }
+
+
+      .slidecontainer {
+        width: 100%; /* Width of the outside container */
+      }
+      
+     
+      
+      /* Mouse-over effects */
+      .slider:hover {
+        opacity: 1; /* Fully shown on mouse-over */
+      }
+      
+      .slider {
+        -webkit-appearance: none;
+        width: 100%;
+        height: 50px;
+        border-radius: 5px;  
+        background: #d3d3d3;
+        outline: none;
+        opacity: 0.7;
+        -webkit-transition: .2s;
+        transition: opacity .2s;
+      }
+      
+      .slider::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%; 
+        background: black;
+        cursor: pointer;
+      }
+      
+      .slider::-moz-range-thumb {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background: black;
+        cursor: pointer;
+      }
+
+      .textInput {
+        width: 200px;
+        height: 50px;
+        font-size: 40;
       }

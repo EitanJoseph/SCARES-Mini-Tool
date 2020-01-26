@@ -5,6 +5,12 @@
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
    </head>
 
+    <div class="slidecontainer">
+      <input type="range" min="1976" max="2016" step="4" value="1996" class="slider" id="myRange" oninput="updateCurrYearSlider()">
+      <input type="text" id="currYearInput" value="1996" text="1996">
+      <button onclick="updateCurrYearText()">Go</button>
+    </div>
+  </head>
 
 
    <div id="map-holder">

@@ -7,8 +7,12 @@
         font-size: 15px;
       }
       #map-holder {
+        margin: 50px;
+        max-width: 95vw;
         width: 100vw;
         height: 100vh;
+        border-style: solid;
+        align-content: center;
       }
       svg rect {
         fill: white;   /* map background colour */
@@ -23,6 +27,7 @@
       }
       .countryLabel{
         visibility: hidden;   /* hide all country labels by default */
+        
       }
       .countryName{
         fill: pink;   /* country label text colour */

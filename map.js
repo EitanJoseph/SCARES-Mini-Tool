@@ -170,10 +170,12 @@
                 d3.select("#countryLabel" + d.properties.STUSPS10).style("visibility", "hidden");
             })
             // add an onclick action to zoom into clicked country
+
+            
             .on("click", function(d, i) {
                 d3.selectAll(".country").classed("country-on", false);
                 d3.select(this).classed("country-on", true);
-            boxZoom(path.bounds(d), path.centroid(d), 20);
+            //boxZoom(path.bounds(d), path.centroid(d), 20);
             });
           // Add a label group to each feature/country. This will contain the country name and a background rectangle
           // Use CSS to have class "countryLabel" initially hidden
@@ -199,10 +201,12 @@
                  d3.select(this).style("visibility", "hidden");
            })
             // add an onlcick action to zoom into clicked country
+
+            
             .on("click", function(d, i) {
                 d3.selectAll(".country").classed("country-on", false);
                 d3.select("#country" + d.properties.STUSPS10).classed("country-on", true);
-              boxZoom(path.bounds(d), path.centroid(d), 20);
+            //  boxZoom(path.bounds(d), path.centroid(d), 20);
             });
           // add the text to the label group showing country name
           countryLabels

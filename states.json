@@ -11181,16 +11181,6 @@
             "party": "no party affiliation",
             "candidate": "",
             "votes": "278"
-          },
-          {
-            "party": "republican",
-            "candidate": "Trump, Donald J.",
-            "votes": "259"
-          },
-          {
-            "party": "democrat",
-            "candidate": "Clinton, Hillary",
-            "votes": "78"
           }
         ],
         "parties": [
@@ -11200,9 +11190,7 @@
           "green",
           "",
           "",
-          "no party affiliation",
-          "republican",
-          "democrat"
+          "no party affiliation"
         ]
       }
     ]

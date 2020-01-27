@@ -246,11 +246,9 @@
             legendGroup.append("text").attr("x", 50).attr("y", 90).text("Other").style("font-size", "15px").attr("alignment-baseline","middle")
 
             infoTextGroup = svg.append("g")
-              .attr("transform","translate(500,20)")
+              .attr("transform","translate(0,120)")
               .attr("id","infoTextGroup");
-            infoTextBox = infoTextGroup.append("rect")
-              .attr("width",300)
-              .attr("height",120)
+            
                   
           initiateZoom();
         }

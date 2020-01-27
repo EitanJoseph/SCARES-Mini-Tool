@@ -1,23 +1,28 @@
-# CS-Department-Class-Tree
-The CS Department's Class Tree in D3
+# US Presidential Election Data
 
-Links: 
+Running: 
 
-https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/42MVDX
+Type "py -m http.server" 
+Open a browser and type "localhost:8000"
 
-https://github.com/jgoodall/us-maps
+Features: 
+
+Selection of year (1976-2016 in 4 year intervals) using slider 
+Selection of year will cause states to turn blue/red/etc. based on presidential winner 
+Hovering over state shows the state's name and breakdown of the election 
+
+Future:
+
+Have drop down menus for each political party to show info over the 1976-2016 time period 
+
+Resources: 
+
+jQuery: https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js
+d3: https://d3js.org/d3.v4.min.js
+US states geo JSON: https://raw.githubusercontent.com/shawnbot/topogram/master/data/us-states.geojson
+US 1976-2016 Presidential election data: https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/42MVDX
 
 
-
-Have scroll bar for each year
-
-1) select year ==> show blue/red for each state 
-
-2) click on state for breakdown
-
-3) hover for name of state 
-
-4) (future) drop down for each party 
 
 
 

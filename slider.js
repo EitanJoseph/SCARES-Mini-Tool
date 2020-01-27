@@ -1,3 +1,10 @@
+$.getJSON('states.json',function(data){
+    states = data;
+}).then(function() {
+    processCurrentYear();
+});
+
+
 function updateCurrYearSlider() {
     $("#currYearInput").val($("#myRange").val())
     processCurrentYear();
@@ -15,98 +22,103 @@ function updateCurrYearText() {
     }
 }
 
-var states = [];
-var stateAbbreviations = [];
-var numStates = 0;
-
-function buildStates(data) {
-    for(var i = 0; i<data.length; i++)
-    {
-        if(states[data[i]['state_po']] === undefined || states[data[i]['state-po']] === null) {
-            states[data[i]['state_po']] = {
-                name: data[i]['state'],
-                abbrev: data[i]['state_po'],
-                years: []
-            }
-            stateAbbreviations.push(data[i]['state_po']);
-            numStates++;
-        }
-        if(states[data[i]['state_po']].years[data[i]['year']] === undefined ||
-            states[data[i]['state_po']].years[data[i]['year']] === null) {
-            states[data[i]['state_po']].years[data[i]['year']] = {
-                year: data[i]['year'],
-                totalVotes: data[i]['totalvotes'],
-                votes: [],
-                parties: [],
-                winningParty: ""
-            };
-        }
-        var vote = {
-            party: data[i]['party'],
-            candidate: data[i]['candidate'],
-            votes: data[i]['candidatevotes']
-        }
-        if(states[data[i]['state_po']].years[data[i]['year']].votes[data[i]['party']] === undefined ||
-            states[data[i]['state_po']].years[data[i]['year']].votes[data[i]['party']] === null) {
-            states[data[i]['state_po']].years[data[i]['year']].votes[data[i]['party']] = vote;
-            states[data[i]['state_po']].years[data[i]['year']].parties.push(data[i]['party']);
-        }
-    }
-}
-
 function processCurrentYear() {
-    d3.csv("1976-2016-president.csv",buildStates);
-    console.log(stateAbbreviations);
-    console.log(states);
-    for(state of stateAbbreviations) {
-        console.log("Info for " + state + " for " + states[state].years[$("#currYearInput").val()].year + ":");
-        for(party of states[state].years[$("#currYearInput").val()].parties) {
-            let vote = states[state].years[$("#currYearInput").val()].votes[party];
-            if(party != "") {
-                console.log("    " + party + /*"(" + vote.candidate + ")" +*/ ": " + vote.votes);
+    getAllWinningParties();
+    for(state of states) {
+        let name = state.name;
+        let abbrev = state.abbrev;
+        let yearIndex = $("#currYearInput").val()/4-494;
+        let votes = state.years[yearIndex].votes;
+        let numVotes = state.years[yearIndex].votes.length;
+        
+        d3.select("#country" + abbrev).on("mouseover", function(d, i) {
+            var txt = [];
+            txt.push("Info for " + name + " for " + state.years[yearIndex].year + ":");
+            for(var k = 0; k < numVotes; k++)
+            {
+                let vote = votes[k];
+                let party = vote.party;
+                if(party != "") {
+                    txt.push("    " + party + "(" + vote.candidate + ")" + ": " + vote.votes);
+                }
+                else {
+                    txt.push("    " + "write-in:" + vote.votes);
+                }
             }
-            else {
-                console.log("    " + "write-in:" + /*"(" + vote.candidate + "): " + */vote.votes);
+            d3.select("#infoTextGroup").selectAll("text").remove();
+            d3.select("#infoTextGroup").append("text")
+                    .text(txt[0])
+                    .attr("x",10)
+                    .attr("y",20)
+                    .style("font-size", "14px");
+            for(var i = 1; i < txt.length; i++) {
+                d3.select("#infoTextGroup").append("text")
+                    .text(txt[i])
+                    .attr("x",30)
+                    .attr("y",20+18*i)
+                    .style("font-size", "12px");
             }
-        }
+            d3.select("#countryLabel" + d.properties.postal).style("visibility", "visible");
+        });
+        d3.select("#country" + abbrev).on("mouseout", function(d, i) {
+            d3.select("#infoTextGroup").selectAll("text").remove();
+            d3.select("#countryLabel" + d.properties.postal).style("visibility", "hidden");
+        });
     }
-    console.log("states:");
-    console.log(states);
-    console.log(states.indexOf("CA"));
-    getWinningParty("CA");
 }
 
-function getInfoYear() { 
-    for(state of stateAbbreviations) {
-        console.log(states);
-        console.log("Info for " + state + " for " + states[state].years[$("#currYearInput").val()].year + ":");
-        for(party of states[state].years[$("#currYearInput").val()].parties) {
-            let vote = states[state].years[$("#currYearInput").val()].votes[party];
-            if(party != "") {
-                console.log("    " + party + /*"(" + vote.candidate + ")" +*/ ": " + vote.votes);
-            }
-            else {
-                console.log("    " + "write-in:" + /*"(" + vote.candidate + "): " + */vote.votes);
-            }
+function getAllWinningParties() {
+    d3.selectAll(".country").classed("republican", false);
+    d3.selectAll(".country").classed("democrat", false);
+    d3.selectAll(".country").classed("other", false);
+    for(state of states)
+    {
+        let win = getWinningParty(state.name);
+        if(win==="republican")
+        {
+            d3.select("#country" + state.abbrev).classed("republican", true);
+        }
+        else if(win==="democrat")
+        {
+            d3.select("#country" + state.abbrev).classed("democrat", true);
+        }
+        else
+        {
+            d3.select("#country" + state.abbrev).classed("other", true);
         }
     }
 }
 
 function getWinningParty(state) {
-    console.log(states);
-    console.log(stateAbbreviations);
-    
     var max = 0;
     var maxParty = "hi";
-    if(state[states] != undefined) {
-        for(party of states[state].years[$("#currYearInput").val()].parties) {
-            let vote = states[state].years[$("#currYearInput").val()].votes[party];
-            if(vote.votes > max) {
-                max = vote.votes;
-                maxParty = party;
+    for(var i = 0; i < states.length; i++) {
+        if(states[i].name === state) {
+            for(party of states[i].years[$("#currYearInput").val()/4-494].parties) {
+                let vote = {};
+                for(var j = 0; j < states[i].years[$("#currYearInput").val()/4-494].votes.length; j++) 
+                {
+                    if(states[i].years[$("#currYearInput").val()/4-494].votes[j].party === party)
+                    vote = states[i].years[$("#currYearInput").val()/4-494].votes[j];
+                }
+                if(vote.votes > max) {
+                    max = +vote.votes;
+                    maxParty = party;
+                }
             }
         }
-        console.log("The winning party for " + state + " for " + $("#currYearInput").val() + " is: " + maxParty);
     }
-    console.log(maxParty);
+    //console.log("The winning party for " + state + " for " + $("#currYearInput").val() + " is: " + maxParty);
+    return maxParty;
 }
+
+const delay = ms => new Promise(res => setTimeout(res, ms));
+
+const animateYears = async () => {
+    for(var i = 1976; i <= 2016; i = i+4) {
+        document.getElementById("myRange").value=i;
+        document.getElementById("currYearInput").value=i;
+        getAllWinningParties();
+        await delay(700);
+    }
+  };

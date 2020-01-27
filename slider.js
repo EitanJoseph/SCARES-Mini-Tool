@@ -22,21 +22,34 @@ function updateCurrYearText() {
     }
 }
 
+function getTextForVote(vote) {
+    let party = vote.party;
+    if (party != "") {
+        return "    " + party + "(" + vote.candidate + ")" + ": " + vote.votes
+    }
+    else {
+        return "    " + "write-in:" + vote.votes
+    }
+}
+
 function getElectionTextForState(state) {
     let yearIndex = $("#currYearInput").val() / 4 - 494
     let stateVoteDataForYr = state.years[yearIndex].votes
+    let maxIndex = 0;
     var txt = [];
+
+    // this will not work for stateVoteDataForYear that's empty (add further protections later)
     txt.push("Info for " + state.name + " for " + state.years[yearIndex].year + ":");
-    for (var k = 0; k < stateVoteDataForYr.length; k++) {
+    txt.push(getTextForVote(stateVoteDataForYr[0]))
+    for (var k = 1; k < stateVoteDataForYr.length; k++) {
         let vote = stateVoteDataForYr[k];
-        let party = vote.party;
-        if (party != "") {
-            txt.push("    " + party + "(" + vote.candidate + ")" + ": " + vote.votes);
+        if (vote.votes > stateVoteDataForYr[maxIndex]) {
+            maxIndex = k
         }
-        else {
-            txt.push("    " + "write-in:" + vote.votes);
-        }
+        txt.push(getTextForVote(vote))
     }
+    txt.splice(1, 0, txt[maxIndex+1])
+    txt.splice(maxIndex+1, 1)
     return txt;
 }
 
@@ -47,14 +60,20 @@ function updateElectionInfoText(d, txt) {
         .attr("x", 10)
         .attr("y", 20)
         .style("font-size", "14px");
-    for (var i = 1; i < txt.length; i++) {
+    d3.select("#infoTextGroup").append("text")
+        .text(txt[1])
+        .attr("x", 30)
+        .attr("y", 20 + 18)
+        .style("font-size", "12px")
+        .style("font-weight", "bold")
+    for (var i = 2; i < txt.length; i++) {
         d3.select("#infoTextGroup").append("text")
             .text(txt[i])
             .attr("x", 30)
             .attr("y", 20 + 18 * i)
             .style("font-size", "12px");
     }
-    d3.select("#countryLabel" + d.properties.postal).style("visibility", "visible");
+    
 }
 
 function processCurrentYear() {
@@ -64,6 +83,7 @@ function processCurrentYear() {
         let txt = getElectionTextForState(state)
         d3.select("#country" + abbrev).on("mouseover", function(d) {
             updateElectionInfoText(d, txt)
+            d3.select("#countryLabel" + d.properties.postal).style("visibility", "visible");
         });
         d3.select("#country" + abbrev).on("mouseout", function (d) {
             d3.select("#infoTextGroup").selectAll("text").remove();
@@ -71,6 +91,7 @@ function processCurrentYear() {
         });
         d3.select("#countryLabel" + abbrev).on("mouseover", function(d) {
             updateElectionInfoText(d, txt)
+            d3.select("#countryLabel" + d.properties.postal).style("visibility", "visible");
         })
         d3.select("#countryLabel" + abbrev).on("mouseout", function(d) {
             d3.select("#infoTextGroup").selectAll("text").remove();

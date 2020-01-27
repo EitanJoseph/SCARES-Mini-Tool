@@ -7,7 +7,7 @@
         font-size: 15px;
       }
       #map-holder {
-        margin: 50px;
+        margin: 20px;
         max-width: 95vw;
         width: 100vw;
         height: 100vh;
@@ -27,7 +27,6 @@
       }
       .countryLabel{
         visibility: hidden;   /* hide all country labels by default */
-        
       }
       .countryName{
         fill: pink;   /* country label text colour */
@@ -36,6 +35,15 @@
         fill: #30BCED;   /* country label background colour */
       }
 
+      .republican{
+        fill: #ff4f4f;
+      }
+      .democrat{
+        fill:#525aff;
+      }
+      .other{
+        fill: #52ff5b;
+      }
 
       .slidecontainer {
         width: 100%; /* Width of the outside container */

@@ -134,7 +134,6 @@
         .call(zoom)
       ;
 
-
       // get map data
       d3.json(
         "https://raw.githubusercontent.com/shawnbot/topogram/master/data/us-states.geojson",
@@ -156,6 +155,7 @@
             .data(json.features)
             .enter()
             .append("path")
+            .attr("id","countriesG")
           
             .attr("d", path)
             .attr("id", function(d, i) {
@@ -236,6 +236,21 @@
             .attr("height", function(d) {
               return d.bbox.height;
             });
+            legendGroup = svg.append("g").attr("id", "legend");
+            legendGroup.append("circle").attr("cx",30).attr("cy",30).attr("r", 6).style("fill", "#ff4f4f")
+            legendGroup.append("circle").attr("cx",30).attr("cy",60).attr("r", 6).style("fill", "#525aff")
+            legendGroup.append("circle").attr("cx",30).attr("cy",90).attr("r", 6).style("fill", "#52ff5b")
+            legendGroup.append("text").attr("x", 50).attr("y", 30).text("Republican").style("font-size", "15px").attr("alignment-baseline","middle")
+            legendGroup.append("text").attr("x", 50).attr("y", 60).text("Democrat").style("font-size", "15px").attr("alignment-baseline","middle")
+            legendGroup.append("text").attr("x", 50).attr("y", 90).text("Other").style("font-size", "15px").attr("alignment-baseline","middle")
+
+            infoTextGroup = svg.append("g")
+              .attr("transform","translate(500,20)")
+              .attr("id","infoTextGroup");
+            infoTextBox = infoTextGroup.append("rect")
+              .attr("width",300)
+              .attr("height",120)
+                  
           initiateZoom();
         }
       );

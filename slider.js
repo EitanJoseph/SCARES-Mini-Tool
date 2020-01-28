@@ -25,7 +25,7 @@ function updateCurrYearText() {
 function getTextForVote(vote) {
     let party = vote.party;
     if (party != "") {
-        return "    " + party + "(" + vote.candidate + ")" + ": " + vote.votes
+        return "    " + party + "(" + vote.candidate + ")" + ":" + vote.votes
     }
     else {
         return "    " + "write-in:" + vote.votes
@@ -39,7 +39,7 @@ function getElectionTextForState(state) {
     var txt = [];
 
     // this will not work for stateVoteDataForYear that's empty (add further protections later)
-    txt.push("Info for " + state.name + " for " + state.years[yearIndex].year + ":");
+    txt.push("" + state.name + " " + state.years[yearIndex].year + " voting results:");
     txt.push(getTextForVote(stateVoteDataForYr[0]))
     for (var k = 1; k < stateVoteDataForYr.length; k++) {
         let vote = stateVoteDataForYr[k];
@@ -140,13 +140,33 @@ function getWinningParty(state) {
     return maxParty;
 }
 
+function updateButton(button, clicked){
+    button.innerText = (clicked) ? "Cancel" : "Animate";
+    updateColor(button, button.value);
+}
+
+function updateColor(button, value){
+    button.style.backgroundColor = (value == "1") ? "red" : "#525aff" /* blue */;
+}
+
+function revertColor(button){
+    button.style.backgroundColor = 'white';
+}
+
 const delay = ms => new Promise(res => setTimeout(res, ms));
 
 const animateYears = async () => {
+    var button = document.getElementById("animate");
+    updateButton(button, true);
     for (var i = 1976; i <= 2016; i = i + 4) {
+        if (button.value == "0"){
+            updateButton(button, false);
+            break;
+        }
         document.getElementById("myRange").value = i;
         document.getElementById("currYearInput").value = i;
         processCurrentYear()
         await delay(700);
     }
+
 };

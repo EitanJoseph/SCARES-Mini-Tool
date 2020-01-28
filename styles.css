@@ -6,6 +6,37 @@
         font-weight: 200;
         font-size: 15px;
       }
+      button {
+        outline:none !important;
+        background-color: white;
+        color: black;
+        border: 2px solid #000000; /* Black */
+      }
+
+      button {
+        -webkit-transition-duration: 0.4s;
+        transition-duration: 0.4s;
+      }
+      
+      button:hover {
+        background-color: #38d11a; /* green */
+        color: white;
+      }
+
+      input[type=text] {
+        margin: 8px 0;
+        box-sizing: border-box;
+        border: 3px solid #ccc;
+        -webkit-transition: 0.5s;
+        transition: 0.5s;
+        outline: none;
+      }
+
+      input[type=text]:focus {
+        outline:none !important;
+        border: 3px solid #555;
+      }
+
       #map-holder {
         margin: 20px;
         max-width: 95vw;
@@ -27,10 +58,11 @@
         visibility: hidden;   /* hide all country labels by default */
       }
       .countryName{
-        fill: pink;   /* country label text colour */
+        fill: black;   /* country label text colour */
       }
       .countryLabelBg{
-        fill: #30BCED;   /* country label background colour */
+        /*fill: #30BCED;   /* country label background colour */
+        fill: white;
       }
 
       .republican{

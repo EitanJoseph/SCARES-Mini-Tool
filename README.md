@@ -5,11 +5,17 @@ Running:
 Type "py -m http.server" 
 Open a browser and type "localhost:8000"
 
-Features: 
+##Features: 
 
+###Version 1
 Selection of year (1976-2016 in 4 year intervals) using slider 
 Selection of year will cause states to turn blue/red/etc. based on presidential winner 
 Hovering over state shows the state's name and breakdown of the election 
+
+###Version 2
+All features of **Version 1** are preserved in addition to:
+Clicking on a state will reveal each state's voting similarity to other states
+
 
 Future:
 

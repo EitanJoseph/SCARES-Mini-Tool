@@ -35,21 +35,21 @@ function getTextForVote(vote) {
 function getElectionTextForState(state) {
     let yearIndex = $("#currYearInput").val() / 4 - 494
     let stateVoteDataForYr = state.years[yearIndex].votes
-    let maxIndex = 0;
+    // let maxIndex = 0;
     var txt = [];
 
     // this will not work for stateVoteDataForYear that's empty (add further protections later)
     txt.push("" + state.name + " " + state.years[yearIndex].year + " voting results:");
-    txt.push(getTextForVote(stateVoteDataForYr[0]))
-    for (var k = 1; k < stateVoteDataForYr.length; k++) {
+    // txt.push(getTextForVote(stateVoteDataForYr[0]))
+    for (var k = 0; k < stateVoteDataForYr.length; k++) {
         let vote = stateVoteDataForYr[k];
-        if (vote.votes > stateVoteDataForYr[maxIndex]) {
-            maxIndex = k
-        }
+        // if (vote.votes > stateVoteDataForYr[maxIndex]) {
+        //     maxIndex = k
+        // }
         txt.push(getTextForVote(vote))
     }
-    txt.splice(1, 0, txt[maxIndex+1])
-    txt.splice(maxIndex+1, 1)
+    // txt.splice(1, 0, txt[maxIndex+1])
+    // txt.splice(maxIndex+1, 1)
     return txt;
 }
 
@@ -77,6 +77,7 @@ function updateElectionInfoText(d, txt) {
 }
 
 function processCurrentYear() {
+    d3.selectAll(".country").style("fill", "unset");
     getAllWinningParties();
     for (state of states) {
         let abbrev = state.abbrev;
@@ -101,19 +102,21 @@ function processCurrentYear() {
 }
 
 function getAllWinningParties() {
+    /*
     d3.selectAll(".country").classed("republican", false);
     d3.selectAll(".country").classed("democrat", false);
     d3.selectAll(".country").classed("other", false);
+    */
     for (state of states) {
         let win = getWinningParty(state.name);
         if (win === "republican") {
-            d3.select("#country" + state.abbrev).classed("republican", true);
+            d3.select("#country" + state.abbrev).style("fill", "#ff4f4f");
         }
         else if (win === "democrat") {
-            d3.select("#country" + state.abbrev).classed("democrat", true);
+            d3.select("#country" + state.abbrev).style("fill", "#525aff");
         }
         else {
-            d3.select("#country" + state.abbrev).classed("other", true);
+            d3.select("#country" + state.abbrev).style("fill", "#52ff5b");
         }
     }
 }
@@ -141,23 +144,36 @@ function getWinningParty(state) {
 }
 
 function updateButton(button, clicked){
-    button.innerText = (clicked) ? "Cancel" : "Animate";
+    button.innerText = (clicked) ? "Pause" : "Animate";
     updateColor(button, button.value);
 }
 
 function updateColor(button, value){
-    button.style.backgroundColor = (value == "1") ? "red" : "#525aff" /* blue */;
+    button.style.backgroundColor = (value == "1") ? "#b786f0" : "#525aff" /* blue */;
 }
 
 function revertColor(button){
     button.style.backgroundColor = 'white';
 }
 
+/* 
+* disables go button 
+*/
+function disableGo(){
+    document.getElementById("go").disabled = true
+}
+
+// enables go button
+function enableGo(){
+    document.getElementById("go").disabled = false
+}
+
 const delay = ms => new Promise(res => setTimeout(res, ms));
 
 const animateYears = async () => {
-    var button = document.getElementById("animate");
-    updateButton(button, true);
+    disableGo()
+    var button = document.getElementById("animate")
+    updateButton(button, true)
     for (var i = 1976; i <= 2016; i = i + 4) {
         if (button.value == "0"){
             updateButton(button, false);
@@ -168,5 +184,6 @@ const animateYears = async () => {
         processCurrentYear()
         await delay(700);
     }
+    enableGo()
 
 };

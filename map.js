@@ -1,4 +1,5 @@
      
+     
       // DEFINE VARIABLES
       // Define size of map group
       // Full world map is 2:1 ratio
@@ -56,7 +57,7 @@
         // Define a "minzoom" whereby the "Countries" is as small possible without leaving white space at top/bottom or sides
         minZoom = Math.max($("#map-holder").width() / w, $("#map-holder").height() / h);
         // set max zoom to a suitable factor of this value
-        maxZoom = 20 * minZoom;
+        maxZoom = 3 * minZoom;
         // set extent of zoom to chosen values
         // set translate extent so that panning can't cause map to move out of viewport
         zoom
@@ -178,6 +179,8 @@
             .on("click", function(d, i) {
                 d3.selectAll(".country").classed("country-on", false);
                 d3.select(this).classed("country-on", true);
+                var scalingFactors = calculateScalingFactor(d);
+                d3.selectAll(".country").style("fill", function(d){return updateStateColors(d, scalingFactors)});
             //boxZoom(path.bounds(d), path.centroid(d), 20);
             });
           // Add a label group to each feature/country. This will contain the country name and a background rectangle
@@ -209,6 +212,8 @@
             .on("click", function(d, i) {
                 d3.selectAll(".country").classed("country-on", false);
                 d3.select("#country" + d.properties.postal).classed("country-on", true);
+                var scalingFactors = calculateScalingFactor(d);
+                d3.selectAll(".country").style("fill", function(d){return updateStateColors(d, scalingFactors)});
             //  boxZoom(path.bounds(d), path.centroid(d), 20);
             });
           // add the text to the label group showing country name
@@ -253,3 +258,6 @@
           initiateZoom();
         }
       );
+
+
+  

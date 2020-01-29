@@ -76,6 +76,9 @@
       .other{
         fill: #52ff5b;
       }
+      .white{
+        fill: white;
+      }
 
       .slidecontainer {
         width: 100%; /* Width of the outside container */

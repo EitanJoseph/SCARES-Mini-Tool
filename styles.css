@@ -42,8 +42,6 @@
         max-width: 95vw;
         width: 100vw;
         height: 100vh;
-        border-style: solid;
-        align-content: center;
       }
       svg rect {
         fill: white;   /* map background colour */

@@ -27,6 +27,7 @@ function updateCurrYearText() {
         $("#currYearInput").val(1996)
         $("#myRange").val(1996)
         $("#bigYear").val(1996)
+        processCurrentYear();
     }
     updateBigYear()
 }

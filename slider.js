@@ -4,14 +4,21 @@ $.getJSON('states.json', function (data) {
     processCurrentYear();
 });
 
+function updateBigYear(){
+    d3.select("#bigYear").select("text").attr("value", $("#myRange").val())
+    d3.select("#bigYear").select("text").text(d3.select("#bigYear").select("text").attr("value"))
+}
 
 function updateCurrYearSlider() {
     $("#currYearInput").val($("#myRange").val())
     processCurrentYear();
+    updateBigYear()
 }
 
 function updateCurrYearText() {
     let v = $("#currYearInput").val()
+
+    
     if (v >= 1976 && v <= 2016) {
         $("#myRange").val($("#currYearInput").val())
         processCurrentYear();
@@ -19,7 +26,9 @@ function updateCurrYearText() {
     else {
         $("#currYearInput").val(1996)
         $("#myRange").val(1996)
+        $("#bigYear").val(1996)
     }
+    updateBigYear()
 }
 
 function getTextForVote(vote) {
@@ -156,6 +165,12 @@ function revertColor(button){
     button.style.backgroundColor = 'white';
 }
 
+function resetButton(button){
+    button.value = (this.value == '0') ? '1' : '0'
+    updateButton(button, false)
+    revertColor(button)
+}
+
 /* 
 * disables go button 
 */
@@ -181,9 +196,12 @@ const animateYears = async () => {
         }
         document.getElementById("myRange").value = i;
         document.getElementById("currYearInput").value = i;
+        d3.select("#bigYear").select("text").attr("value", i);
+        d3.select("#bigYear").select("text").text(i)
         processCurrentYear()
         await delay(700);
     }
+    resetButton(button)
     enableGo()
 
 };

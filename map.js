@@ -250,6 +250,9 @@
             legendGroup.append("text").attr("x", 50).attr("y", 60).text("Democrat").style("font-size", "15px").attr("alignment-baseline","middle")
             legendGroup.append("text").attr("x", 50).attr("y", 90).text("Other").style("font-size", "15px").attr("alignment-baseline","middle")
 
+            year = svg.append("g").attr("id", "bigYear")
+            year.append("text").attr("x", 1500).attr("y", 120).text($("#myRange").val()).style("font-size", "6vw").attr("alignment-baseline","middle").attr("value", "1976")
+
             infoTextGroup = svg.append("g")
               .attr("transform","translate(0,120)")
               .attr("id","infoTextGroup");

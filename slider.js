@@ -7,6 +7,8 @@ $.getJSON('states.json', function (data) {
 function updateBigYear(){
     d3.select("#bigYear").select("text").attr("value", $("#myRange").val())
     d3.select("#bigYear").select("text").text(d3.select("#bigYear").select("text").attr("value"))
+    d3.select("#bigYear").select("text").attr("x", 1500).attr("y", 120)
+    d3.select("#bigYear").select("text").style("font-size", "6vw")
 }
 
 function updateCurrYearSlider() {

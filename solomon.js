@@ -16,6 +16,7 @@ function updateStateColors(state, scalingFactors){
 
 function calculateScalingFactor(state){
     state = captureState(state);
+    updateBigName(state)
     
     var scalingMap = new Map()
     let stateYrMaxes = new Array()
@@ -46,4 +47,24 @@ function captureState(state){
     }
 
     return null;
+}
+
+function updateBigName(state){
+    d3.select("#bigYear").select("text").attr("value", state.name)
+    d3.select("#bigYear").select("text").text(d3.select("#bigYear").select("text").attr("value"))
+    var x = (1500 - 50*((d3.select("#bigYear").select("text").attr("value").length) - 4))
+    var y = getWidthOfText(state.name, "Arial", "4.2vw")
+    console.log(y)
+    d3.select("#bigYear").select("text").attr("x", 1800 - y).attr("y", "90")
+    d3.select("#bigYear").select("text").style("font-size", "4.2vw")
+    
+}
+
+function getWidthOfText(txt, fontname, fontsize){
+    if(getWidthOfText.c === undefined){
+        getWidthOfText.c=document.createElement('canvas');
+        getWidthOfText.ctx=getWidthOfText.c.getContext('2d');
+    }
+    getWidthOfText.ctx.font = fontsize + ' ' + fontname;
+    return getWidthOfText.ctx.measureText(txt).width;
 }

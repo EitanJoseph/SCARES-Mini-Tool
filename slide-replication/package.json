@@ -1,0 +1,22 @@
+{
+  "name": "app.js",
+  "version": "1.0.0",
+  "description": "SCARES",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EitanJoseph/SCARES-HEJP.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/EitanJoseph/SCARES-HEJP/issues"
+  },
+  "homepage": "https://github.com/EitanJoseph/SCARES-HEJP#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>index</title>
+</head>
+
+<body>
+
+<h1>heading</h1>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+<!-- <script type="text/javascript" src="express.js"></script> -->
+<script type="text/javascript" src="test.js"></script>
+<script>
+	$('.my_selector').click(function(){
+   $.get('http://turing.cs-i.brandeis.edu:8000', {}, function(data){
+        console.log(data)
+   });
+});	
+</script>
+<p id="test">paragraph</p>
+
+</body>
+</html>

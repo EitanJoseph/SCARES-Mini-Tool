@@ -47,7 +47,6 @@ function updateMap() {
 }
 
 function drawData(jsonFromServer) {
-  
 }
 
 

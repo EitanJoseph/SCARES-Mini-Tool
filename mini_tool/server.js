@@ -39,5 +39,41 @@ app.use(express.static(__dirname + "/"));
 // Marks that we will be using ejs templating
 app.set("view engine", "ejs");
 
+app.post("/jobsModeData", function(req, res) {
+  // logging the request info for debugging
+  console.log(req.body);
+  client
+  .query(
+    "select state, count(*) from job_state group by state;"
+  )
+  .then(data => {
+    res.json(data.rows);
+  })
+  .catch(e => console.error(e.stack));
+});
+
+/*
+ This data posts the result of a SQL query on the database to /slide4data to be picked
+ up by the client. Specifically, this code will query the database based on the year
+ and subject selections on the client side. 
+ */
+app.post("/skillsModeData", function(req, res) {
+  // logging the request info for debugging
+  console.log(req.body);
+  
+
+});
+
+// Different Visualization Page are rendered at these URLS
+// That is, when the links on index.html are clicked, those URLs are requested, and the ejs pages in the views
+// subfolders are rendered.
+app.get("/skillsMode", function(req, res) {
+  res.render("skillsMode/skillsMode");
+});
+
+app.get("/jobsMode", function(req, res) {
+  res.render("jobsMode/jobsMode");
+});
+
 // server running on port 8000
 app.listen(7000);

@@ -9,11 +9,11 @@ client = new Client({
   host: "/var/run/postgresql",
   user: process.env.USERFLAG,
   password: "",
-  database: "hejp"
+  database: "hejp",
 });
 
 // attempt to connect to server
-client.connect(err => {
+client.connect((err) => {
   if (err) {
     console.error("connection error", err.stack);
   } else {
@@ -43,13 +43,11 @@ app.post("/jobsModeData", function(req, res) {
   // logging the request info for debugging
   console.log(req.body);
   client
-  .query(
-    "select state, count(*) from job_state group by state;"
-  )
-  .then(data => {
-    res.json(data.rows);
-  })
-  .catch(e => console.error(e.stack));
+    .query("select institutionstate as state, count(*) from job_state group by institutionstate;")
+    .then((data) => {
+      res.json(data.rows);
+    })
+    .catch((e) => console.error(e.stack));
 });
 
 /*
@@ -60,8 +58,21 @@ app.post("/jobsModeData", function(req, res) {
 app.post("/skillsModeData", function(req, res) {
   // logging the request info for debugging
   console.log(req.body);
-  
+});
 
+app.post("/jobsModeState", function(req, res) {
+  client
+    .query(
+      "SELECT state, count(jobid) FROM job_state WHERE state not like '" +
+        req.body.value +
+        "' and institutionstate like '" +
+        req.body.value +
+        "' GROUP BY state"
+    )
+    .then((data) => {
+      res.json(data.rows);
+    })
+    .catch((e) => console.error(e.stack));
 });
 
 // Different Visualization Page are rendered at these URLS

@@ -24,33 +24,9 @@
   </head>
   <body onload="updateMap()">
     <div id="map-holder"></div>
-    <script type="text/javascript" src="scripts/jobsMode/map.js"></script>
     <script type="text/javascript" src="scripts/jobsMode/jobsMode.js"></script>
-
-    <input
-      type="range"
-      name="startYearSlider"
-      min="2007"
-      max="2017"
-      value="2007"
-      class="slider"
-      id="startYearSliderID"
-      onchange="updateYear()"
-    />
-
-    <input
-      type="range"
-      name="endYearSlider"
-      min="2007"
-      max="2017"
-      value="2017"
-      class="slider"
-      id="endYearSliderID"
-      onchange="updateYear()"
-    />
-
-    <button onclick="updateYear()">Go</button>
-
+    <script type="text/javascript" src="scripts/jobsMode/map.js"></script>
+   
     <svg id="svg"></svg>
   </body>
 </html>

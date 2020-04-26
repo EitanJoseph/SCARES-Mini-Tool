@@ -4,6 +4,8 @@ var serverData;
 var oldServerData
 // current visibility factor is decided at 1.6
 var VISIBILITY_FACTOR = 1.6
+// the custom coloration for a state that was clicked on
+var clickedRGB = "rgb(27, 224, 129)"
 
 function updateMap() {
   // sending data at /jobsMode over POST as JSON
@@ -101,14 +103,18 @@ function drawData(jsonFromServer, clickedState) {
     if (s == null) {
       return "rgb(255,255,255)";
     }
+    // assign a special color for the clicked-on state
     if (s.state === clickedState){
-      return "rgb(96,9,235)"
+      return clickedRGB
     }
+    // otherwise scale the RGB and return it to be assigned to the states color
     return getScaledRGB(s, maxJobs);
   });
 
+  // remove all the text values
   d3.selectAll(".countryLabel").text("")
 
+  // append a new text value with the updated values we want
   d3.selectAll(".countryLabel")
     .append("text")
     .attr("class", "countryName")
@@ -116,16 +122,24 @@ function drawData(jsonFromServer, clickedState) {
     .attr("dx", 0)
     .attr("dy", 0)
     .text(function(d) {
+      // get the tuple of the current state in d
       let s = getQueryState(d)
       let jobs = 0
+      // some states dont populate in the sql query, in this case we ignore it
       if (s != null) {
+        // otherwise we grab the count of jobs
         jobs = s.count
       }
-      //console.log(oldServerData)
+      // if the state is the one we clicked, we return a custom string
+      if (s != null && s.state === clickedState){
+        return clickedState
+      }
+      // otherwise return the string State: int Jobs
       return d.properties.name + ": " + jobs + " Jobs";
     })
     .call(getTextBox);
 
+  // rescale the country label here
   d3.selectAll(".countryLabel")
     .insert("rect", "text")
     .attr("class", "countryLabelBg")
@@ -141,22 +155,3 @@ function drawData(jsonFromServer, clickedState) {
       return d.bbox.height;
     });
 }
-
-// function updateBigName(state){
-//   d3.select("#bigYear").select("text").attr("value", state.name)
-//   d3.select("#bigYear").select("text").text(d3.select("#bigYear").select("text").attr("value"))
-//   var x = (1500 - 50*((d3.select("#bigYear").select("text").attr("value").length) - 4))
-//   var y = getWidthOfText(state.name, "Arial", "4.2vw")
-//   console.log(y)
-//   d3.select("#bigYear").select("text").attr("x", 1800 - y).attr("y", "90")
-//   d3.select("#bigYear").select("text").style("font-size", "4.2vw")
-// }
-
-// function getWidthOfText(txt, fontname, fontsize){
-//   if(getWidthOfText.c === undefined){
-//       getWidthOfText.c=document.createElement('canvas');
-//       getWidthOfText.ctx=getWidthOfText.c.getContext('2d');
-//   }
-//   getWidthOfText.ctx.font = fontsize + ' ' + fontname;
-//   return getWidthOfText.ctx.measureText(txt).width;
-// }

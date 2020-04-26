@@ -65,7 +65,7 @@ app.post("/jobsModeState", function(req, res) {
     .query(
       "SELECT state, CASE WHEN institutionstate LIKE state THEN 0 ELSE count(jobid) END FROM job_state WHERE institutionstate like '" 
        + req.body.value +
-       "' GROUP BY state"
+       "' GROUP BY institutionstate, state"
     )
     .then((data) => {
       res.json(data.rows);

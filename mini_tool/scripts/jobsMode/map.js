@@ -1,5 +1,3 @@
-// import { drawData } from './jobsMode.js';
-
 // DEFINE VARIABLES
 // Define size of map group
 // Full world map is 2:1 ratio

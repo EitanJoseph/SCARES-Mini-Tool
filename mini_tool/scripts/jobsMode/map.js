@@ -145,7 +145,7 @@ d3.json(
       .attr("id", "countriesG")
 
       .attr("d", path)
-      .attr("id", function(d, i) {
+      .attr("id", function(d) {
         return "country" + d.properties.postal;
       })
       .attr("class", "country")
@@ -168,7 +168,7 @@ d3.json(
       // add an onclick action to zoom into clicked country
 
       .on("click", function(d, i) {
-        outOfStatePostingsGrayScale(d);
+        outOfStatePostingsGrayScale(d, i);
         //boxZoom(path.bounds(d), path.centroid(d), 20);
       });
     // Add a label group to each feature/country. This will contain the country name and a background rectangle
@@ -197,11 +197,11 @@ d3.json(
       // add an onlcick action to zoom into clicked country
 
       .on("click", function(d, i) {
-        outOfStatePostingsGrayScale(d);
+        outOfStatePostingsGrayScale(d, i);
         //  boxZoom(path.bounds(d), path.centroid(d), 20);
       });
 
-    function outOfStatePostingsGrayScale(d) {
+    function outOfStatePostingsGrayScale(d, i) {
       fetch("/jobsModeState", {
         method: "POST",
         headers: {
@@ -216,7 +216,8 @@ d3.json(
 
         .then((jsonFromServer) => {
             console.log(jsonFromServer)
-            drawData(jsonFromServer)
+            console.log("i:" + d.properties.name)
+            drawData(jsonFromServer, d.properties.name)
         });
     }
     // add the text to the label group showing country name

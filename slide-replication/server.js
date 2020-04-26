@@ -689,4 +689,4 @@ app.get("/slide7", function(req, res) {
 });
 
 // server running on port 8000
-app.listen(8000);
+app.listen(7000);

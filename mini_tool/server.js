@@ -63,11 +63,9 @@ app.post("/skillsModeData", function(req, res) {
 app.post("/jobsModeState", function(req, res) {
   client
     .query(
-      "SELECT state, count(jobid) FROM job_state WHERE state not like '" +
-        req.body.value +
-        "' and institutionstate like '" +
-        req.body.value +
-        "' GROUP BY state"
+      "SELECT state, CASE WHEN institutionstate LIKE state THEN 0 ELSE count(jobid) END FROM job_state WHERE institutionstate like '" 
+       + req.body.value +
+       "' GROUP BY state"
     )
     .then((data) => {
       res.json(data.rows);

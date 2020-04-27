@@ -47,41 +47,34 @@
 
       </select>
 
-      <select
-        id="careerarea_select_id"
-        name="careerarea_select"
-        onchange="updateData()"
-        data-dropup-auto="false"
-        multiple overflow="hidden"
-      >
-      <option value='unrestricted'>Unrestricted</option>
-      <option value='Engineering'>Engineering</option>
-      <option value='Agriculture, Horticulture, & the Outdoors'>Agriculture, Horticulture, & the Outdoors</option>
-      <option value='Customer and Client Support'>Customer and Client Support</option>
-      <option value='Science and Research'>Science and Research</option>
-      <option value='Sales'>Sales</option>
-      <option value='Education and Training'>Education and Training</option>
-      <option value='Health Care including Nursing'>Health Care including Nursing</option>
-      <option value='Information Technology'>Information Technology</option>
-      <option value='Finance'>Finance</option>
-      <option value='na'>Other</option>
-      <option value='Law, Compliance, and Public Safety'>Law, Compliance, and Public Safety</option>
-      <option value='Performing Arts'>Performing Arts</option>
-      <option value='Hospitality, Food, and Tourism'>Hospitality, Food, and Tourism</option>
-      <option value='Marketing and Public Relations'>Marketing and Public Relations</option>
-      <option value='Design, Media, and Writing'>Design, Media, and Writing</option>
-      <option value='Transportation'>Transportation</option>
-      <option value='Personal Services'>Personal Services</option>
-      <option value='Maintenance, Repair, and Installation'>Maintenance, Repair, and Installation</option>
-      <option value='Business Management and Operations'>Business Management and Operations</option>
-      <option value='Manufacturing and Production'>Manufacturing and Production</option>
-      <option value='Construction, Extraction, and Architecture'>Construction, Extraction, and Architecture</option>
-      <option value='Community and Social Services'>Community and Social Services</option>
-      <option value='Clerical and Administrative'>Clerical and Administrative</option>
-      <option value='Human Resources'>Human Resources</option>
-      <option value='Planning and Analysis'>Planning and Analysis</option>
-      </select>
-
+      <div class="checkbox_select">
+        <div>  <input type="checkbox" id="checkbox1" name="checkbox_select" checked/> <label id="label1" for="checkbox1">Unrestricted</label></div>
+              <div>  <input type="checkbox" id="checkbox2" name="checkbox_select" /> <label id="label2" for="checkbox2">Engineering</label></div>
+              <div>  <input type="checkbox" id="checkbox3" name="checkbox_select" /> <label id="label3" for="checkbox3">Agriculture, Horticulture, & the Outdoors</label></div>
+              <div><input type="checkbox" id="checkbox4" name="checkbox_select"  /> <label id="label4" for="checkbox4">Customer and Client Support</label></div>
+              <div> <input type="checkbox" id="checkbox5" name="checkbox_select"  /> <label id="label5" for="checkbox5">Science and Research</label></div>
+              <div>  <input type="checkbox" id="checkbox6" name="checkbox_select"  /> <label id="label6" for="checkbox6">Sales</label></div>
+              <div>  <input type="checkbox" id="checkbox7" name="checkbox_select"  /> <label id="label7" for="checkbox7">Education and Training</label></div>
+              <div> <input type="checkbox" id="checkbox8" name="checkbox_select" /> <label id="label8" for="checkbox8">Health Care including Nursing</label></div>
+              <div>  <input type="checkbox" id="checkbox9" name="checkbox_select"  /> <label id="label9" for="checkbox9">Information Technology</label></div>
+              <div>  <input type="checkbox" id="checkbox10" name="checkbox_select"  /> <label id="label10" for="checkbox10">Finance</label></div>
+              <div>  <input type="checkbox" id="checkbox11" name="checkbox_select"  /> <label id="label11" for="checkbox11">Other</label></div>
+              <div>  <input type="checkbox" id="checkbox12" name="checkbox_select"  /> <label id="label12" for="checkbox12">Law, Compliance, and Public Safety</label></div>
+              <div> <input type="checkbox" id="checkbox13" name="checkbox_select"  /> <label id="label13" for="checkbox13">Performing Arts</label></div> 
+              <div>  <input type="checkbox" id="checkbox14" name="checkbox_select" /> <label id="label14" for="checkbox14">Hospitality, Food, and Tourism</label></div> 
+              <div> <input type="checkbox" id="checkbox15" name="checkbox_select" /> <label id="label15" for="checkbox15">Marketing and Public Relations</label></div> 
+              <div> <input type="checkbox" id="checkbox16" name="checkbox_select"  /> <label id="label16" for="checkbox16">Design, Media, and Writing</label></div> 
+              <div> <input type="checkbox" id="checkbox17" name="checkbox_select"  /> <label id="label17" for="checkbox17">Transportation</label></div>
+              <div> <input type="checkbox" id="checkbox18" name="checkbox_select"  /> <label id="label18" for="checkbox18">Personal Services</label></div> 
+              <div> <input type="checkbox" id="checkbox19" name="checkbox_select" /> <label id="label19" for="checkbox19">Maintenance, Repair, and Installation</label></div> 
+              <div> <input type="checkbox" id="checkbox20" name="checkbox_select" /> <label id="label20" for="checkbox20">Business Management and Operations</label></div> 
+              <div> <input type="checkbox" id="checkbox21" name="checkbox_select" /> <label id="label21" for="checkbox21">Manufacturing and Production</label></div> 
+              <div> <input type="checkbox" id="checkbox22" name="checkbox_select" /> <label id="label22" for="checkbox22">Construction, Extraction, and Architecture</label></div>
+              <div> <input type="checkbox" id="checkbox23" name="checkbox_select" /> <label id="label23" for="checkbox23">Community and Social Services</label></div> 
+              <div> <input type="checkbox" id="checkbox24" name="checkbox_select" /> <label id="label24" for="checkbox24">Clerical and Administrative</label></div> 
+              <div> <input type="checkbox" id="checkbox25" name="checkbox_select" /> <label id="label25" for="checkbox25">Human Resources</label></div> 
+              <div> <input type="checkbox" id="checkbox26" name="checkbox_select" /> <label id="label26" for="checkbox26">Planning and Analysis</label></div> 
+            </div>
       <select
         id="position_select_id"
         name="position_select"
@@ -104,7 +97,7 @@
       </div>
   
 
-      <button id="go" onclick="updateData()">Go</button>
+      <button id="go" onclick="multiSelectDropdownRunner()">Go</button>
   
       <!-- 
         Runs animation that moves slider over the chooseable years (2007, 2010-2017) and 

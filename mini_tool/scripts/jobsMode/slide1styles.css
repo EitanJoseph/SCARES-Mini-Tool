@@ -155,3 +155,24 @@ input[type='range'] {
   grid-column: 1;
   grid-row: 2;
 }
+
+input[type="checkbox"] {
+  display: none;
+}
+/* style this to your heart's content */
+input[type="checkbox"] + label {
+  display: none;
+}
+input[type="checkbox"]:checked + label {
+  background-color: black;
+  color: #28AADC;
+  display: inline-block;
+}
+.checkbox_select:hover label {
+  display: inline-block;
+}
+/* none functional styles.  just regular styling */
+.checkbox_select {
+  background-color: #28AADC;
+  display: inline-block;
+}

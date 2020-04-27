@@ -23,9 +23,108 @@
     <link rel="stylesheet" href="scripts/jobsMode/slide1styles.css" />
   </head>
   <body onload="updateMap()">
+    <body onload="updateData()">
+      <input
+        type="range"
+        name="marjanslider"
+        min="2007"
+        max="2017"
+        value="2017"
+        class="slider"
+        id="yearSlider"
+        onchange="updateData()"
+      />
+  
+      <select
+        id="division_select_id"
+        name="division_select"
+        onchange="updateData()"
+      >
+        <option value="soc_sci">Social Sciences</option>
+        <option value="sci">Sciences</option>
+        <option value="hum">Humanities</option>
+        <option value="other">Other</option>
+
+      </select>
+
+      <select
+        id="careerarea_select_id"
+        name="careerarea_select"
+        onchange="updateData()"
+        data-dropup-auto="false"
+        multiple overflow="hidden"
+      >
+      <option value='unrestricted'>Unrestricted</option>
+      <option value='Engineering'>Engineering</option>
+      <option value='Agriculture, Horticulture, & the Outdoors'>Agriculture, Horticulture, & the Outdoors</option>
+      <option value='Customer and Client Support'>Customer and Client Support</option>
+      <option value='Science and Research'>Science and Research</option>
+      <option value='Sales'>Sales</option>
+      <option value='Education and Training'>Education and Training</option>
+      <option value='Health Care including Nursing'>Health Care including Nursing</option>
+      <option value='Information Technology'>Information Technology</option>
+      <option value='Finance'>Finance</option>
+      <option value='na'>Other</option>
+      <option value='Law, Compliance, and Public Safety'>Law, Compliance, and Public Safety</option>
+      <option value='Performing Arts'>Performing Arts</option>
+      <option value='Hospitality, Food, and Tourism'>Hospitality, Food, and Tourism</option>
+      <option value='Marketing and Public Relations'>Marketing and Public Relations</option>
+      <option value='Design, Media, and Writing'>Design, Media, and Writing</option>
+      <option value='Transportation'>Transportation</option>
+      <option value='Personal Services'>Personal Services</option>
+      <option value='Maintenance, Repair, and Installation'>Maintenance, Repair, and Installation</option>
+      <option value='Business Management and Operations'>Business Management and Operations</option>
+      <option value='Manufacturing and Production'>Manufacturing and Production</option>
+      <option value='Construction, Extraction, and Architecture'>Construction, Extraction, and Architecture</option>
+      <option value='Community and Social Services'>Community and Social Services</option>
+      <option value='Clerical and Administrative'>Clerical and Administrative</option>
+      <option value='Human Resources'>Human Resources</option>
+      <option value='Planning and Analysis'>Planning and Analysis</option>
+      </select>
+
+      <select
+        id="position_select_id"
+        name="position_select"
+        onchange="updateData()"
+      >
+        <option value='unrestricted'>Unrestricted</option>
+        <option value="isr1">Research 1</option>
+        <option value="twoyear">Two Year</option>
+        <option value="fouryear">Four Year</option>
+        <option value="public">Public</option>
+        <option value="private">Private</option>
+      </select>
+
+      <div class='wrap' role='group' aria-labelledby='multi-lbl' style='--a: -30; --b: 20; --min: -50; --max: 50'>
+        <div id='multi-lbl'>Multi thumb slider:</div>
+        <label class='sr-only' for='a'>Value A:</label>
+        <input id='a' type='range' min='-50' value='-30' max='50'/>
+        <label class='sr-only' for='b'>Value B:</label>
+        <input id='b' type='range' min='-50' value='20' max='50'/>
+      </div>
+  
+
+      <button id="go" onclick="updateData()">Go</button>
+  
+      <!-- 
+        Runs animation that moves slider over the chooseable years (2007, 2010-2017) and 
+        updates the bar graph at each step. 
+      -->
+  
+      <button
+        id="animate"
+        value="0"
+        onclick="this.value = (this.value == '0' ? '1' : '0'); animateYears();"
+        onmouseover="updateColor(this, this.value)"
+        onmouseout="revertColor(this)"
+      >
+        Animate
+      </button>
+      <p></p>
     <div id="map-holder"></div>
     <script type="text/javascript" src="scripts/jobsMode/jobsMode.js"></script>
     <script type="text/javascript" src="scripts/jobsMode/map.js"></script>
+    <script src="views/jobsMode/jobsModeHtmlSettings.js"></script>
    
     <svg id="svg"></svg>
   </body>

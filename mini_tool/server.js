@@ -85,4 +85,4 @@ app.get("/jobsMode", function(req, res) {
 });
 
 // server running on port 8000
-app.listen(7000);
+app.listen(8000);

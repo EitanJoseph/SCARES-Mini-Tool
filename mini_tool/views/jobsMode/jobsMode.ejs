@@ -24,101 +24,138 @@
   </head>
   <body onload="updateMap()">
     <body onload="updateData()">
-      <input
-        type="range"
-        name="marjanslider"
-        min="2007"
-        max="2017"
-        value="2017"
-        class="slider"
-        id="yearSlider"
-        onchange="updateData()"
-      />
-  
-      <select
-        id="division_select_id"
-        name="division_select"
-        onchange="updateData()"
-      >
-        <option value="soc_sci">Social Sciences</option>
-        <option value="sci">Sciences</option>
-        <option value="hum">Humanities</option>
-        <option value="other">Other</option>
-
-      </select>
-
-      <div class="checkbox_select">
-        <div>  <input type="checkbox" id="checkbox1" name="checkbox_select" checked/> <label id="label1" for="checkbox1">Unrestricted</label></div>
-              <div>  <input type="checkbox" id="checkbox2" name="checkbox_select" /> <label id="label2" for="checkbox2">Engineering</label></div>
-              <div>  <input type="checkbox" id="checkbox3" name="checkbox_select" /> <label id="label3" for="checkbox3">Agriculture, Horticulture, & the Outdoors</label></div>
-              <div><input type="checkbox" id="checkbox4" name="checkbox_select"  /> <label id="label4" for="checkbox4">Customer and Client Support</label></div>
-              <div> <input type="checkbox" id="checkbox5" name="checkbox_select"  /> <label id="label5" for="checkbox5">Science and Research</label></div>
-              <div>  <input type="checkbox" id="checkbox6" name="checkbox_select"  /> <label id="label6" for="checkbox6">Sales</label></div>
-              <div>  <input type="checkbox" id="checkbox7" name="checkbox_select"  /> <label id="label7" for="checkbox7">Education and Training</label></div>
-              <div> <input type="checkbox" id="checkbox8" name="checkbox_select" /> <label id="label8" for="checkbox8">Health Care including Nursing</label></div>
-              <div>  <input type="checkbox" id="checkbox9" name="checkbox_select"  /> <label id="label9" for="checkbox9">Information Technology</label></div>
-              <div>  <input type="checkbox" id="checkbox10" name="checkbox_select"  /> <label id="label10" for="checkbox10">Finance</label></div>
-              <div>  <input type="checkbox" id="checkbox11" name="checkbox_select"  /> <label id="label11" for="checkbox11">Other</label></div>
-              <div>  <input type="checkbox" id="checkbox12" name="checkbox_select"  /> <label id="label12" for="checkbox12">Law, Compliance, and Public Safety</label></div>
-              <div> <input type="checkbox" id="checkbox13" name="checkbox_select"  /> <label id="label13" for="checkbox13">Performing Arts</label></div> 
-              <div>  <input type="checkbox" id="checkbox14" name="checkbox_select" /> <label id="label14" for="checkbox14">Hospitality, Food, and Tourism</label></div> 
-              <div> <input type="checkbox" id="checkbox15" name="checkbox_select" /> <label id="label15" for="checkbox15">Marketing and Public Relations</label></div> 
-              <div> <input type="checkbox" id="checkbox16" name="checkbox_select"  /> <label id="label16" for="checkbox16">Design, Media, and Writing</label></div> 
-              <div> <input type="checkbox" id="checkbox17" name="checkbox_select"  /> <label id="label17" for="checkbox17">Transportation</label></div>
-              <div> <input type="checkbox" id="checkbox18" name="checkbox_select"  /> <label id="label18" for="checkbox18">Personal Services</label></div> 
-              <div> <input type="checkbox" id="checkbox19" name="checkbox_select" /> <label id="label19" for="checkbox19">Maintenance, Repair, and Installation</label></div> 
-              <div> <input type="checkbox" id="checkbox20" name="checkbox_select" /> <label id="label20" for="checkbox20">Business Management and Operations</label></div> 
-              <div> <input type="checkbox" id="checkbox21" name="checkbox_select" /> <label id="label21" for="checkbox21">Manufacturing and Production</label></div> 
-              <div> <input type="checkbox" id="checkbox22" name="checkbox_select" /> <label id="label22" for="checkbox22">Construction, Extraction, and Architecture</label></div>
-              <div> <input type="checkbox" id="checkbox23" name="checkbox_select" /> <label id="label23" for="checkbox23">Community and Social Services</label></div> 
-              <div> <input type="checkbox" id="checkbox24" name="checkbox_select" /> <label id="label24" for="checkbox24">Clerical and Administrative</label></div> 
-              <div> <input type="checkbox" id="checkbox25" name="checkbox_select" /> <label id="label25" for="checkbox25">Human Resources</label></div> 
-              <div> <input type="checkbox" id="checkbox26" name="checkbox_select" /> <label id="label26" for="checkbox26">Planning and Analysis</label></div> 
-            </div>
-      <select
-        id="position_select_id"
-        name="position_select"
-        onchange="updateData()"
-      >
-        <option value='unrestricted'>Unrestricted</option>
-        <option value="isr1">Research 1</option>
-        <option value="twoyear">Two Year</option>
-        <option value="fouryear">Four Year</option>
-        <option value="public">Public</option>
-        <option value="private">Private</option>
-      </select>
-
-      <div class='wrap' role='group' aria-labelledby='multi-lbl' style='--a: -30; --b: 20; --min: -50; --max: 50'>
-        <div id='multi-lbl'>Multi thumb slider:</div>
-        <label class='sr-only' for='a'>Value A:</label>
-        <input id='a' type='range' min='-50' value='-30' max='50'/>
-        <label class='sr-only' for='b'>Value B:</label>
-        <input id='b' type='range' min='-50' value='20' max='50'/>
-      </div>
-  
-
-      <button id="go" onclick="multiSelectDropdownRunner()">Go</button>
-  
-      <!-- 
-        Runs animation that moves slider over the chooseable years (2007, 2010-2017) and 
-        updates the bar graph at each step. 
-      -->
-  
-      <button
-        id="animate"
-        value="0"
-        onclick="this.value = (this.value == '0' ? '1' : '0'); animateYears();"
-        onmouseover="updateColor(this, this.value)"
-        onmouseout="revertColor(this)"
-      >
-        Animate
-      </button>
+     
       <p></p>
-    <div id="map-holder"></div>
+      
+      <div class="grid-container">
+        <div  id="map-holder" class="grid-child purple">
+         
+        </div>
+        <div class="grid-child green">
+          
+            <label style="margin-left: 20px;">2007</label>
+          
+          <input
+          type="range"
+          name="marjanslider"
+          min="2007"
+          max="2017"
+          value="2017"
+          class="slider"
+          id="year1Slider"
+          onchange="updateData()"
+            />
+      
+            <label>2017</label>
+          
+            <p></p>
+
+            <label style="margin-left: 20px">2007</label>
+            <input
+            type="range"
+            name="marjanslider"
+            min="2007"
+            max="2017"
+            value="2017"
+            class="slider"
+            id="year2Slider"
+            onchange="updateData()"
+              />
+        
+              <label>2017</label>
+
+              <p></p>
+
+              <select
+              id="division_select_id"
+              name="division_select"
+              onchange="updateData()"
+              style="margin-left: 20px"
+            >
+              <option value="soc_sci">Social Sciences</option>
+              <option value="sci">Sciences</option>
+              <option value="hum">Humanities</option>
+              <option value="other">Other</option>
+          
+            </select>
+
+            
+
+            <select
+            id="position_select_id"
+            name="position_select"
+            onchange="updateData()"
+          >
+            <option value='unrestricted'>Unrestricted</option>
+            <option value="isr1">Research 1</option>
+            <option value="twoyear">Two Year</option>
+            <option value="fouryear">Four Year</option>
+            <option value="public">Public</option>
+            <option value="private">Private</option>
+          </select>
+
+          <p></p>
+
+          <button style="margin-left: 20px" id="go" onclick="multiSelectDropdownRunner()">Go</button>
+
+  <!-- 
+    Runs animation that moves slider over the chooseable years (2007, 2010-2017) and 
+    updates the bar graph at each step. 
+  -->
+
+  <button
+    id="animate"
+    value="0"
+    onclick="this.value = (this.value == '0' ? '1' : '0'); animateYears();"
+    onmouseover="updateColor(this, this.value)"
+    onmouseout="revertColor(this)"
+  >
+  
+    Animate
+  </button>
+
+  <p></p>
+
+  <div class="checkbox_select">
+    <div>  <input type="checkbox" id="checkbox1" name="checkbox_select" checked/> <label id="label1" for="checkbox1">Unrestricted</label></div>
+          <div>  <input type="checkbox" id="checkbox2" name="checkbox_select" /> <label id="label2" for="checkbox2">Engineering</label></div>
+          <div>  <input type="checkbox" id="checkbox3" name="checkbox_select" /> <label id="label3" for="checkbox3">Agriculture, Horticulture, & the Outdoors</label></div>
+          <div><input type="checkbox" id="checkbox4" name="checkbox_select"  /> <label id="label4" for="checkbox4">Customer and Client Support</label></div>
+          <div> <input type="checkbox" id="checkbox5" name="checkbox_select"  /> <label id="label5" for="checkbox5">Science and Research</label></div>
+          <div>  <input type="checkbox" id="checkbox6" name="checkbox_select"  /> <label id="label6" for="checkbox6">Sales</label></div>
+          <div>  <input type="checkbox" id="checkbox7" name="checkbox_select"  /> <label id="label7" for="checkbox7">Education and Training</label></div>
+          <div> <input type="checkbox" id="checkbox8" name="checkbox_select" /> <label id="label8" for="checkbox8">Health Care including Nursing</label></div>
+          <div>  <input type="checkbox" id="checkbox9" name="checkbox_select"  /> <label id="label9" for="checkbox9">Information Technology</label></div>
+          <div>  <input type="checkbox" id="checkbox10" name="checkbox_select"  /> <label id="label10" for="checkbox10">Finance</label></div>
+          <div>  <input type="checkbox" id="checkbox11" name="checkbox_select"  /> <label id="label11" for="checkbox11">Other</label></div>
+          <div>  <input type="checkbox" id="checkbox12" name="checkbox_select"  /> <label id="label12" for="checkbox12">Law, Compliance, and Public Safety</label></div>
+          <div> <input type="checkbox" id="checkbox13" name="checkbox_select"  /> <label id="label13" for="checkbox13">Performing Arts</label></div> 
+          <div>  <input type="checkbox" id="checkbox14" name="checkbox_select" /> <label id="label14" for="checkbox14">Hospitality, Food, and Tourism</label></div> 
+          <div> <input type="checkbox" id="checkbox15" name="checkbox_select" /> <label id="label15" for="checkbox15">Marketing and Public Relations</label></div> 
+          <div> <input type="checkbox" id="checkbox16" name="checkbox_select"  /> <label id="label16" for="checkbox16">Design, Media, and Writing</label></div> 
+          <div> <input type="checkbox" id="checkbox17" name="checkbox_select"  /> <label id="label17" for="checkbox17">Transportation</label></div>
+          <div> <input type="checkbox" id="checkbox18" name="checkbox_select"  /> <label id="label18" for="checkbox18">Personal Services</label></div> 
+          <div> <input type="checkbox" id="checkbox19" name="checkbox_select" /> <label id="label19" for="checkbox19">Maintenance, Repair, and Installation</label></div> 
+          <div> <input type="checkbox" id="checkbox20" name="checkbox_select" /> <label id="label20" for="checkbox20">Business Management and Operations</label></div> 
+          <div> <input type="checkbox" id="checkbox21" name="checkbox_select" /> <label id="label21" for="checkbox21">Manufacturing and Production</label></div> 
+          <div> <input type="checkbox" id="checkbox22" name="checkbox_select" /> <label id="label22" for="checkbox22">Construction, Extraction, and Architecture</label></div>
+          <div> <input type="checkbox" id="checkbox23" name="checkbox_select" /> <label id="label23" for="checkbox23">Community and Social Services</label></div> 
+          <div> <input type="checkbox" id="checkbox24" name="checkbox_select" /> <label id="label24" for="checkbox24">Clerical and Administrative</label></div> 
+          <div> <input type="checkbox" id="checkbox25" name="checkbox_select" /> <label id="label25" for="checkbox25">Human Resources</label></div> 
+          <div> <input type="checkbox" id="checkbox26" name="checkbox_select" /> <label id="label26" for="checkbox26">Planning and Analysis</label></div> 
+        </div>
+
+        </div>
+    </div>
+
     <script type="text/javascript" src="scripts/jobsMode/jobsMode.js"></script>
     <script type="text/javascript" src="scripts/jobsMode/map.js"></script>
-    <script src="views/jobsMode/jobsModeHtmlSettings.js"></script>
-   
-    <svg id="svg"></svg>
+    <script src="views/jobsMode/jobsModeHtmlSettings.js"></script>  
+
+
+  
+    
+
+         
   </body>
 </html>

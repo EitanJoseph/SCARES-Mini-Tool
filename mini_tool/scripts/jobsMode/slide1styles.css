@@ -44,7 +44,7 @@ input[type=range]::-webkit-slider-thumb {
 #map-holder {
   margin: 20px;
   max-width: 95vw;
-  width: 100vw;
+  width: 75vw;
   height: 100vh;
   border-style: solid;
   align-content: center;
@@ -85,20 +85,12 @@ svg rect {
   fill: white;
 }
 
-.slidecontainer {
-  width: 100%; /* Width of the outside container */
-  margin-left: 20px;
-}
 
 input[type=range]::-moz-focus-outer {
   border: 0;
 }
 
 
-/* Mouse-over effects */
-.slider:hover {
-  opacity: 1; /* Fully shown on mouse-over */
-}
 
 .textInput {
   width: 200px;
@@ -110,22 +102,8 @@ input[type=range]::-moz-focus-outer {
   outline: 0 !important;
 }
 
-/* Mouse-over effects */
-.slider:hover {
-  opacity: 1; /* Fully shown on mouse-over */
-}
 
-.slider {
-  margin-top: 20px;
-  -webkit-appearance: none;
-  width: 200px;
-  height: 4px;
-  outline: none;
-  opacity: 0.7;
-  -webkit-transition: 0.2s;
-  transition: opacity 0.2s;
-  border-style: groove;
-}
+
 
 button {
   background-color: white;
@@ -157,22 +135,30 @@ input[type='range'] {
 }
 
 input[type="checkbox"] {
-  display: none;
+  transform:scale(2, 2);
+  margin-left: 30px;
 }
-/* style this to your heart's content */
-input[type="checkbox"] + label {
-  display: none;
+
+
+/* Mouse-over effects */
+.slider:hover {
+  opacity: 1; /* Fully shown on mouse-over */
 }
-input[type="checkbox"]:checked + label {
-  background-color: black;
-  color: #28AADC;
-  display: inline-block;
+
+.slider {
+  margin-top: 20px;
+  width: 200px;
+  height: 4px; 
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+  border-style: groove;
 }
-.checkbox_select:hover label {
-  display: inline-block;
-}
-/* none functional styles.  just regular styling */
-.checkbox_select {
-  background-color: #28AADC;
-  display: inline-block;
+
+
+.grid-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 20px;
 }

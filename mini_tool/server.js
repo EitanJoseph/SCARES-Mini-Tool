@@ -131,20 +131,19 @@ function getQueryForPos(pos){
 }
 
 /**
- * @param {String} subj the subjfor which the query substring should be 
+ * @param {String} careerarea the array of career areas for which the query substring should be 
  * generated 
- * @return the SQL query substring pertaining to jobs in this subject
+ * @return the SQL query substring pertaining to jobs in these career areas
  * 
  * NOTE: The list of longNames does not match the positions list we have.
- * We have "career areas" not Subjects...
  */
-function getQueryForSubj(subj){
-  if (subj.length == 0){
+function getQueryForCareerArea(careerarea){
+  if (careerarea.length == 0){
     return ""
   }
 
   var tupleStr = "("
-  for (v of subj){
+  for (v of careerarea){
     tupleStr += "'" + v + "'" + ", "
   }
   tupleStr = tupleStr.substring(0, tupleStr.length - 2) + ")"
@@ -159,11 +158,10 @@ app.post("/jobsModeData", function(req, res) {
   var year2 = req.body.year2; 
   var div = req.body.div;
   var pos = req.body.pos;
-  var subj = req.body.subj;
-
+  var careerarea = req.body.careerarea;
 
   client
-    .query("SELECT inststate AS state, count(*) FROM post_doc_jobs WHERE year BETWEEN " + year1 + " AND " + year2 + getQueryForDiv(div) + getQueryForPos(pos) + getQueryForSubj(subj) + " GROUP BY inststate;")
+    .query("SELECT inststate AS state, count(*) FROM post_doc_jobs WHERE year BETWEEN " + year1 + " AND " + year2 + getQueryForDiv(div) + getQueryForPos(pos) + getQueryForCareerArea(careerarea) + " GROUP BY inststate;")
     .then((data) => {
       res.json(data.rows);
     })

@@ -18,8 +18,8 @@ var lastDivision = "unrestricted";
 // this tracks the last institution type (private, is research 1, etc.) that was input
 var lastInstitutionType = "unrestricted";
 
-// this tracks the last subjects that were checked
-var lastSubjs = new Set();
+// this tracks the last career areas that were checked
+var lastCareerAreas = new Set();
 
 // this is the current year that has been input on first slider
 var currYear1 = 2007;
@@ -34,7 +34,7 @@ var currDivision = "unrestricted";
 var currInstitutionType = "unrestricted";
 
 // this tracks which elements have been checked currently
-var currSubjs = new Set();
+var currCareerAreas = new Set();
 
 /*
 This function is run when either a slider is changed. This will update the
@@ -48,7 +48,7 @@ function updateYears() {
   // No data for years 2008, 2009
   // can't be comparing the same year
   if (
-    year1 >= year2 ||
+    year1 > year2 ||
     year1 == 2008 ||
     year1 == 2009 ||
     year2 == 2008 ||
@@ -56,8 +56,8 @@ function updateYears() {
   ) {
     // Update the sliders to be at the last valid year entries and then return
     // don't want to do any querying for invalid data inputs
-    $("#year1Slider").val(lastValidYear1);
-    $("#year2Slider").val(lastValidYear2);
+    $("#year1Slider").val(currYear1);
+    $("#year2Slider").val(currYear2);
   }
   // if user just keeps clicking on the same start and end years, don't want to keep re-running the queries..
   else if (year1 != lastValidYear1 || year2 != lastValidYear2) {
@@ -75,7 +75,7 @@ function updateDivisionSelection() {
 
 // This function updates the current institution type selected from the dropdown
 function updateInstitutionTypeSelection() {
-  currInstitutionType = $("#position_select_id").val();
+  currInstitutionType = $("#inst_type_select_id").val();
 }
 
 /*
@@ -92,9 +92,9 @@ function updateCheckBox(i) {
 
   // JQuery method of checking if checkbox is checked
   if ($("#checkbox" + i).is(":checked")) {
-    currSubjs.add(labelText);
+    currCareerAreas.add(labelText);
   } else {
-    currSubjs.delete(labelText);
+    currCareerAreas.delete(labelText);
   }
 }
 
@@ -108,15 +108,15 @@ function updateCheckBox(i) {
 function sameChecked() {
 
   // sets different size => sets different
-  if (currSubjs.size != lastSubjs.size) {
+  if (currCareerAreas.size != lastCareerAreas.size) {
     return false;
   }
 
   // for each value in currSubjs, check if its in lastSubjs
-  for (v of currSubjs.values()) {
+  for (v of currCareerAreas.values()) {
     // if its not there, then currSubjs must have some other
     // element => return false
-    if (!lastSubjs.has(v)) {
+    if (!lastCareerAreas.has(v)) {
       return false;
     }
   }
@@ -186,76 +186,10 @@ function shouldRunNewQuery() {
     lastInstitutionType = currInstitutionType;
     // we cannot simply set lastSubjs = currSubjs here because then they point
     // to the same set
-    lastSubjs.clear()
-    currSubjs.forEach(subj => lastSubjs.add(subj))
+    lastCareerAreas.clear()
+    currCareerAreas.forEach(careerarea => lastCareerAreas.add(careerarea))
     return true;
   }
   // no change, no need to update "last" versions
   return false;
 }
-
-////////////////////////////// THIS NEEDS FIXING -- DO WE WANT ANIMATE??? ////////////////////
-
-// Updates the animate button when clicked
-function updateButton(button, clicked) {
-  button.innerText = clicked ? "Pause" : "Animate";
-  updateColor(button, button.value);
-}
-
-// Updates the animate button color
-function updateColor(button, value) {
-  button.style.backgroundColor =
-    value == "1" ? "#b786f0" : "#525aff" /* blue */;
-}
-
-// Reverts the animate button color to original
-function revertColor(button) {
-  button.style.backgroundColor = "white";
-}
-
-// Resets the button
-function resetButton(button) {
-  button.value = this.value == "0" ? "1" : "0";
-  updateButton(button, false);
-  revertColor(button);
-}
-
-/*
- * disables go button
- */
-function disableGo() {
-  document.getElementById("go").disabled = true;
-}
-
-// enables go button
-function enableGo() {
-  document.getElementById("go").disabled = false;
-}
-
-// Runs animation
-const delay = (ms) => new Promise((res) => setTimeout(res, ms));
-
-//cycles through all possible years (2007, 2010-2017) and generates the bar graph for each year
-const animateYears = async () => {
-  disableGo();
-  var button = document.getElementById("animate");
-  updateButton(button, true);
-  for (var i = 2007; i <= 2017; i++) {
-    // Skip over 2008, 2009 in the outer loop
-    if (i == 2008 || i == 2009) {
-      continue;
-    }
-    $("#yearSlider").val(i);
-    // ALlows user to pause animation
-    if (button.value == "0") {
-      updateButton(button, false);
-      break;
-    }
-    // Re-generate the graph, display it for 2 seconds
-    updateData();
-    await delay(2000);
-  }
-  // Reset, allow user to manually generate graph
-  resetButton(button);
-  enableGo();
-};

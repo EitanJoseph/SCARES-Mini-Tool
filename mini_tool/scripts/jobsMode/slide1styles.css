@@ -107,7 +107,10 @@ input[type=range]::-moz-focus-outer {
 button {
   background-color: white;
   color: black;
+  font-size: large;
   border: 2px solid #000000; /* Black */
+  width: 90px;
+  height: 40px;
 }
 
 button {

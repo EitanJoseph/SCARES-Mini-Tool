@@ -28,7 +28,7 @@ function updateMap(starting) {
   console.log("SLIDER DATA: " + lastValidYear1 + " " + lastValidYear2)
   console.log("DIVISION SELECT DATA: " + lastDivision)
   console.log("INSTITUTION TYPE SELECT DATA: " + lastInstitutionType)
-  console.log("SELECTED SUBJECTS DATA: " + Array.from(lastSubjs).join(" "))
+  console.log("SELECTED SUBJECTS DATA: " + Array.from(lastCareerAreas).join(" "))
 
   disableResetButton();
 
@@ -45,7 +45,7 @@ function updateMap(starting) {
       "year2" : lastValidYear2,
       "div" : lastDivision,
       "pos" : lastInstitutionType,
-      "subj" : Array.from(lastSubjs),
+      "careerarea" : Array.from(lastCareerAreas),
     })
   })
     .then((response) => {

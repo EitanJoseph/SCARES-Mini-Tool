@@ -118,6 +118,11 @@ function getQueryForDiv(div) {
   return out + ")";
 }
 
+/**
+ * @param {String} pos the position for which the query substring should be 
+ * generated 
+ * @return the SQL query substring pertaining to jobs in this position 
+ */
 function getQueryForPos(pos){
   if (pos === "unrestricted"){
     return ""
@@ -125,6 +130,14 @@ function getQueryForPos(pos){
   return "AND " + pos + " = '1' "
 }
 
+/**
+ * @param {String} subj the subjfor which the query substring should be 
+ * generated 
+ * @return the SQL query substring pertaining to jobs in this subject
+ * 
+ * NOTE: The list of longNames does not match the positions list we have.
+ * We have "career areas" not Subjects...
+ */
 function getQueryForSubj(subj){
   // generated via Subject_List_Generator.java
   var longNames = [

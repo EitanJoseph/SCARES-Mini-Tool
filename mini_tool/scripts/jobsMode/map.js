@@ -199,7 +199,13 @@ d3.json(
         //  boxZoom(path.bounds(d), path.centroid(d), 20);
       });
 
-    function outOfStatePostingsGrayScale(d, i) {
+    function outOfStatePostingsGrayScale(d) {
+      if (d.properties.name == lastState){ 
+        return;
+      }
+
+      lastState = d.properties.name
+
       fetch("/jobsModeState", {
         method: "POST",
         headers: {
@@ -214,8 +220,9 @@ d3.json(
 
         .then((jsonFromServer) => {
             console.log(jsonFromServer)
-            console.log("i:" + d.properties.name)
-            drawData(jsonFromServer, d.properties.name)
+            serverData = jsonFromServer;
+            drawData(d.properties.name)
+            enableResetButton();
         });
     }
     // add the text to the label group showing country name

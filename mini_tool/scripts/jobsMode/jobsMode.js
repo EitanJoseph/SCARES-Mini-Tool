@@ -7,6 +7,9 @@ var VISIBILITY_FACTOR = 1.6
 // the custom coloration for a state that was clicked on
 var clickedRGB = "rgb(27, 224, 129)"
 
+// last state that was clicked on
+var lastState = null
+
 /**
  * This function updates the map that is currently displayed on the webpage as long as the
  * user has entered new data on the webpage HTML's elements or that (starting = true). 
@@ -27,6 +30,8 @@ function updateMap(starting) {
   console.log("DIVISION SELECT DATA: " + lastDivision)
   console.log("INSTITUTION TYPE SELECT DATA: " + lastInstitutionType)
   console.log("SELECTED SUBJECTS DATA: " + Array.from(lastSubjs).join(" "))
+
+  disableResetButton();
 
   // sending data at /jobsMode over POST as JSON
   fetch("/jobsModeData", {
@@ -53,9 +58,10 @@ function updateMap(starting) {
       // console.log("JOBS DATA PER STATE:");
       // console.log(jsonFromServer);
       oldServerData = jsonFromServer;
+      serverData = jsonFromServer;
       // runs d3 data visualization to generate the graph
       // -1 here indicates that there is no internal index for a "clicked" state yet
-      drawData(jsonFromServer, -1);
+      drawData(-1);
 
     
     });
@@ -105,14 +111,12 @@ function getQueryState(d3_state) {
   return null;
 }
 
-/*
+/**
  * This method is the main driver of the map creation
  * JSON Object jsonFromServer   - the current json data being returned by the server
- * int i                        - the index of the clicked sate (tentative... this index does not seem to line up properly)
+ * @param {String} clickedState - the state that is clicked on
  */
-function drawData(jsonFromServer, clickedState) {
-  // set the server data to the most recent query result
-  serverData = jsonFromServer;
+function drawData(clickedState) {
   // maxJobs integer represents the state with the most jobs - will detirmine our color scaling ratio
   var maxJobs = getMaxJobs();
 

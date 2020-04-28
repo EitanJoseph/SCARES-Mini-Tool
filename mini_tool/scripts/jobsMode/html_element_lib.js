@@ -1,4 +1,4 @@
-/*
+/**
 This file contains functions for reading data from the client interaction HTML elements on views/jobsMode.ejs 
 It should probably be renamed from just "slider.js". 
 
@@ -120,6 +120,42 @@ function sameChecked() {
 
   // lastSubjs has each element in currSubjs and no other elements
   return true;
+}
+
+/**
+ * This function resets the map to display the job counts for each state when the user wants
+ * to switch back from looking at out of state job postings for a given state. 
+ */
+function resetMap() {
+  // reset server data 
+  serverData = oldServerData;
+
+  // draw the data (no need to re-query)
+  drawData(-1)
+
+  // disable reset button
+  disableResetButton();
+}
+
+/**
+ * Disables the reset map button to be clicked and
+ * turns it white. This should be called after jobs
+ * data is pulled from the map in updateMap() in
+ * jobsMode.js and after the map is reset in resetMap().
+ */
+function disableResetButton() {
+  $("#reset").prop("disabled", true);
+  $("#reset").css("background-color", "white");
+}
+
+/**
+ * Enables the reset map button to be clicked and turns
+ * it red. This should be called after a state is clicked
+ * on in map.js.
+ */
+function enableResetButton() {
+  $("#reset").prop("disabled", false);
+  $("#reset").css("background-color", "red");
 }
 
 /**

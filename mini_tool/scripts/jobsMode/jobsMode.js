@@ -45,7 +45,7 @@ function updateMap(starting) {
       "year2" : lastValidYear2,
       "div" : lastDivision,
       "pos" : lastInstitutionType,
-      "subj" : lastSubjs,
+      "subj" : Array.from(lastSubjs),
     })
   })
     .then((response) => {

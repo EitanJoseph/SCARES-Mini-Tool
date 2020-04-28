@@ -118,6 +118,74 @@ function getQueryForDiv(div) {
   return out + ")";
 }
 
+function getQueryForPos(pos){
+  if (pos === "unrestricted"){
+    return ""
+  }
+  return "AND " + pos + " = '1' "
+}
+
+function getQueryForSubj(subj){
+  // generated via Subject_List_Generator.java
+  var longNames = [
+    "agriculturalsciencesandnaturalre",
+    "biologicalandbiomedicalsciences",
+    "healthsciences",
+    "chemistry",
+    "geosciencesatmosphericandoceansc",
+    "physicsandastronomy",
+    "computerandinformationsciences",
+    "mathematicsandstatistics",
+    "psychology",
+    "anthropology",
+    "economics",
+    "politicalscienceandgovernment",
+    "sociology",
+    "othersocialsciences",
+    "aerospaceaeronauticalandastronau",
+    "bioengineeringandbiomedicalengin",
+    "chemicalengineering",
+    "civilengineering",
+    "electricalelectronicsandcommunic",
+    "industrialandmanufacturingengine",
+    "materialsscienceengineering",
+    "mechanicalengineering",
+    "otherengineering",
+    "educationadministration",
+    "educationresearch",
+    "teachereducation",
+    "teachingfields",
+    "othereducation",
+    "foreignlanguagesandliterature",
+    "history",
+    "letters",
+    "otherhumanitiesandarts",
+    "businessmanagementandadministrat",
+    "communication",
+    "fs_lifesciences",
+    "fs_physicalsciencesandearthsciences",
+    "fs_mathematicsandcomputersciences",
+    "fs_psychologyandsocialsciences",
+    "fs_engineering",
+    "fs_education",
+    "fs_humanitiesandarts",
+    "fs_others"
+  ]
+  
+  var queryStr = ""
+
+  for (v of subj){
+    for (var i = 0; i < longNames.length; i++){
+      if (longNames[i] === subj){
+        queryStr += "AND substring(subjs, " + (i+1) + ", " + (i+1) + ") = '1' "
+      }
+    }
+  }
+
+  console.log(queryStr)
+  return queryStr
+}
+
 app.post("/jobsModeData", function(req, res) {
 
   // get the HTML elements' inputs on client-side via POST request body 
@@ -127,8 +195,9 @@ app.post("/jobsModeData", function(req, res) {
   var pos = req.body.pos;
   var subj = req.body.subj;
 
+
   client
-    .query("select inststate as state, count(*) from post_doc_jobs where year between " + year1 + " and " + year2 + getQueryForDiv(div) + " group by inststate;")
+    .query("select inststate as state, count(*) from post_doc_jobs where year between " + year1 + " and " + year2 + getQueryForDiv(div) + getQueryForPos(pos) + getQueryForSubj(subj) + " GROUP BY inststate;")
     .then((data) => {
       res.json(data.rows);
     })
@@ -170,4 +239,4 @@ app.get("/jobsMode", function(req, res) {
 });
 
 // server running on port 8000
-app.listen(7000);
+app.listen(8000);

@@ -106,6 +106,7 @@ function updateCheckBox(i) {
  * and false if checkboxes all remained in the same state
  */
 function sameChecked() {
+
   // sets different size => sets different
   if (currSubjs.size != lastSubjs.size) {
     return false;
@@ -183,7 +184,10 @@ function shouldRunNewQuery() {
     lastValidYear2 = currYear2;
     lastDivision = currDivision;
     lastInstitutionType = currInstitutionType;
-    lastSubjs = currSubjs;
+    // we cannot simply set lastSubjs = currSubjs here because then they point
+    // to the same set
+    lastSubjs.clear()
+    currSubjs.forEach(subj => lastSubjs.add(subj))
     return true;
   }
   // no change, no need to update "last" versions

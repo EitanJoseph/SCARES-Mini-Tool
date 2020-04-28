@@ -7,7 +7,27 @@ var VISIBILITY_FACTOR = 1.6
 // the custom coloration for a state that was clicked on
 var clickedRGB = "rgb(27, 224, 129)"
 
-function updateMap() {
+/**
+ * This function updates the map that is currently displayed on the webpage as long as the
+ * user has entered new data on the webpage HTML's elements or that (starting = true). 
+ * 
+ * @param {boolean} starting this variable should be true if running this onload and false 
+ * otherwise. This is to override the "should run new query" check that is otherwise done
+ * by this function.
+ */
+function updateMap(starting) {
+
+  // if not onload and the HTML data has not changed, return immediately 
+  if (!starting && !shouldRunNewQuery()){ 
+    return;
+  }
+
+  // Logging the HTML data from the webpage (either last or curr versions can be used)
+  console.log("SLIDER DATA: " + lastValidYear1 + " " + lastValidYear2)
+  console.log("DIVISION SELECT DATA: " + lastDivision)
+  console.log("INSTITUTION TYPE SELECT DATA: " + lastInstitutionType)
+  console.log("SELECTED SUBJECTS DATA: " + Array.from(lastSubjs).join(" "))
+
   // sending data at /jobsMode over POST as JSON
   fetch("/jobsModeData", {
     method: "POST",
@@ -16,7 +36,6 @@ function updateMap() {
     },
 
     // send request with empty body
-
     body: "{}",
   })
     .then((response) => {
@@ -30,13 +49,15 @@ function updateMap() {
 
     .then((jsonFromServer) => {
       // logging to client for debugging
-      console.log("client received from server @ /jobsModeData");
-      console.log("JOBS DATA PER STATE:");
-      console.log(jsonFromServer);
+      // console.log("client received from server @ /jobsModeData");
+      // console.log("JOBS DATA PER STATE:");
+      // console.log(jsonFromServer);
       oldServerData = jsonFromServer;
       // runs d3 data visualization to generate the graph
       // -1 here indicates that there is no internal index for a "clicked" state yet
       drawData(jsonFromServer, -1);
+
+    
     });
 }
 
@@ -154,4 +175,16 @@ function drawData(jsonFromServer, clickedState) {
     .attr("height", function(d) {
       return d.bbox.height;
     });
+}
+
+function multiSelectDropdownRunner() {
+  var ls = Array();
+  for (var i = 1; i <= 26; i++) {
+    var checked = document.getElementById("checkbox" + i).checked;
+    if (checked) {
+      var label = document.getElementById("label" + i).innerText;
+      ls.push(label);
+    }
+  }
+  console.log(ls);
 }

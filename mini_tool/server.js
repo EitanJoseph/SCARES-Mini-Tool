@@ -139,64 +139,17 @@ function getQueryForPos(pos){
  * We have "career areas" not Subjects...
  */
 function getQueryForSubj(subj){
-  // generated via Subject_List_Generator.java
-  var longNames = [
-    "agriculturalsciencesandnaturalre",
-    "biologicalandbiomedicalsciences",
-    "healthsciences",
-    "chemistry",
-    "geosciencesatmosphericandoceansc",
-    "physicsandastronomy",
-    "computerandinformationsciences",
-    "mathematicsandstatistics",
-    "psychology",
-    "anthropology",
-    "economics",
-    "politicalscienceandgovernment",
-    "sociology",
-    "othersocialsciences",
-    "aerospaceaeronauticalandastronau",
-    "bioengineeringandbiomedicalengin",
-    "chemicalengineering",
-    "civilengineering",
-    "electricalelectronicsandcommunic",
-    "industrialandmanufacturingengine",
-    "materialsscienceengineering",
-    "mechanicalengineering",
-    "otherengineering",
-    "educationadministration",
-    "educationresearch",
-    "teachereducation",
-    "teachingfields",
-    "othereducation",
-    "foreignlanguagesandliterature",
-    "history",
-    "letters",
-    "otherhumanitiesandarts",
-    "businessmanagementandadministrat",
-    "communication",
-    "fs_lifesciences",
-    "fs_physicalsciencesandearthsciences",
-    "fs_mathematicsandcomputersciences",
-    "fs_psychologyandsocialsciences",
-    "fs_engineering",
-    "fs_education",
-    "fs_humanitiesandarts",
-    "fs_others"
-  ]
-  
-  var queryStr = ""
-
-  for (v of subj){
-    for (var i = 0; i < longNames.length; i++){
-      if (longNames[i] === subj){
-        queryStr += "AND substring(subjs, " + (i+1) + ", " + (i+1) + ") = '1' "
-      }
-    }
+  if (subj.length == 0){
+    return ""
   }
 
-  console.log(queryStr)
-  return queryStr
+  var tupleStr = "("
+  for (v of subj){
+    tupleStr += "'" + v + "'" + ", "
+  }
+  tupleStr = tupleStr.substring(0, tupleStr.length - 2) + ")"
+  console.log(tupleStr)
+  return "AND careerarea IN " + tupleStr
 }
 
 app.post("/jobsModeData", function(req, res) {
@@ -210,7 +163,7 @@ app.post("/jobsModeData", function(req, res) {
 
 
   client
-    .query("select inststate as state, count(*) from post_doc_jobs where year between " + year1 + " and " + year2 + getQueryForDiv(div) + getQueryForPos(pos) + getQueryForSubj(subj) + " GROUP BY inststate;")
+    .query("SELECT inststate AS state, count(*) FROM post_doc_jobs WHERE year BETWEEN " + year1 + " AND " + year2 + getQueryForDiv(div) + getQueryForPos(pos) + getQueryForSubj(subj) + " GROUP BY inststate;")
     .then((data) => {
       res.json(data.rows);
     })

@@ -19,7 +19,6 @@ var lastState = null
  * by this function.
  */
 function updateMap(starting) {
-
   // if not onload and the HTML data has not changed, return immediately 
   if (!starting && !shouldRunNewQuery()){ 
     return;
@@ -40,8 +39,14 @@ function updateMap(starting) {
       "Content-Type": "application/json",
     },
 
-    // send request with empty body
-    body: "{}",
+    // stringify an array containing the inputs from the HTML elements
+    body: JSON.stringify({
+      "year1" : lastValidYear1,
+      "year2" : lastValidYear2,
+      "div" : lastDivision,
+      "pos" : lastInstitutionType,
+      "subj" : lastSubjs,
+    })
   })
     .then((response) => {
       return response.json();
@@ -53,10 +58,11 @@ function updateMap(starting) {
     // and the value being the number of jobs associated with that state.
 
     .then((jsonFromServer) => {
+
       // logging to client for debugging
       // console.log("client received from server @ /jobsModeData");
-      // console.log("JOBS DATA PER STATE:");
-      // console.log(jsonFromServer);
+      console.log("JOBS DATA PER STATE:");
+      console.log(jsonFromServer);
       oldServerData = jsonFromServer;
       serverData = jsonFromServer;
       // runs d3 data visualization to generate the graph

@@ -31,19 +31,23 @@
 
         </div>
         <div class="grid-child green">
-
+            <p></p>
+            Current Lower Year: <label id="year1Label" style="margin-left: 20px;">2007</label>
+            <p></p>
             <label style="margin-left: 20px;">2007</label>
 
-            <input type="range" name="marjanslider" min="2007" max="2017" value="2017" class="slider"
-                id="year1Slider" />
+            <input type="range" name="marjanslider" min="2007" max="2017" value="2007" class="slider"
+                id="year1Slider" onchange = "updateYears()"/>
 
             <label>2017</label>
 
             <p></p>
 
+            Current Higher Year: <label id="year2Label" style="margin-left: 20px;">2017</label>
+            <p></p>
             <label style="margin-left: 20px">2007</label>
             <input type="range" name="marjanslider" min="2007" max="2017" value="2017" class="slider"
-                id="year2Slider" />
+                id="year2Slider" onchange="updateYears()" />
 
             <label>2017</label>
 

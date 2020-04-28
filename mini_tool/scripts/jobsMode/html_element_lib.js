@@ -7,10 +7,10 @@ from jobsMode.js' updateMap() function.
 */
 
 // this tracks the last valid year 1 slider input
-var lastValidYear1 = -1;
+var lastValidYear1 = 2007;
 
 // this tracks the last valid year 2 slider input
-var lastValidYear2 = -1;
+var lastValidYear2 = 2017;
 
 // this tracks the last division (science, social science, etc.) that was input
 var lastDivision = "unrestricted";
@@ -22,10 +22,10 @@ var lastInstitutionType = "unrestricted";
 var lastSubjs = new Set();
 
 // this is the current year that has been input on first slider
-var currYear1 = -1;
+var currYear1 = 2007;
 
 // this is the current year that has been
-var currYear2 = -1;
+var currYear2 = 2017;
 
 // this tracks the current division (science, social science, etc.)
 var currDivision = "unrestricted";
@@ -42,13 +42,13 @@ lastValidYear1, lastValidYear2 global variables.
 */
 function updateYears() {
   // get the years from the range sliders
-  var year1 = $("#year1SliderID").val();
-  var year2 = $("#year2SliderID").val();
+  var year1 = $("#year1Slider").val();
+  var year2 = $("#year2Slider").val();
 
   // No data for years 2008, 2009
   // can't be comparing the same year
   if (
-    year1 == year2 ||
+    year1 >= year2 ||
     year1 == 2008 ||
     year1 == 2009 ||
     year2 == 2008 ||
@@ -56,13 +56,15 @@ function updateYears() {
   ) {
     // Update the sliders to be at the last valid year entries and then return
     // don't want to do any querying for invalid data inputs
-    $("#year1SliderID").val(lastValidYear1);
-    $("#year2SliderID").val(lastValidYear2);
+    $("#year1Slider").val(lastValidYear1);
+    $("#year2Slider").val(lastValidYear2);
   }
   // if user just keeps clicking on the same start and end years, don't want to keep re-running the queries..
   else if (year1 != lastValidYear1 || year2 != lastValidYear2) {
     currYear1 = year1;
     currYear2 = year2;
+    $("#year1Label").text(currYear1)
+    $("#year2Label").text(currYear2)
   }
 }
 

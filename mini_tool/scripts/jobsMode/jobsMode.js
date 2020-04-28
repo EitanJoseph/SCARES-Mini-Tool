@@ -198,3 +198,18 @@ function multiSelectDropdownRunner() {
   }
   console.log(ls);
 }
+
+function viewDiv(id) { 
+  var x = document.getElementById(id);
+    x.style.display = "block";
+}
+
+function hideDiv(id) {
+  var x = document.getElementById(id);
+  x.style.display = "none";
+
+}
+
+function updateView() {
+  //switch to map, bar, or line graph view
+}

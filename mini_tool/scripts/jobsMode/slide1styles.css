@@ -137,7 +137,7 @@ input[type='range'] {
 }
 
 input[type="checkbox"] {
-  transform:scale(2, 2);
+  transform:scale(1.5, 1.5);
   margin-left: 30px;
 }
 

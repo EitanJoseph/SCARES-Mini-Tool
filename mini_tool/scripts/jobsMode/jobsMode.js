@@ -10,6 +10,9 @@ var clickedRGB = "rgb(27, 224, 129)"
 // last state that was clicked on
 var lastState = null
 
+// global variable for display mode (state = true, beazone = false)
+var stateMode = true;
+
 /**
  * This function updates the map that is currently displayed on the webpage as long as the
  * user has entered new data on the webpage HTML's elements or that (starting = true). 
@@ -214,8 +217,4 @@ function hideDiv(id) {
   var x = document.getElementById(id);
   x.style.display = "none";
 
-}
-
-function updateView() {
-  //switch to map, bar, or line graph view
 }

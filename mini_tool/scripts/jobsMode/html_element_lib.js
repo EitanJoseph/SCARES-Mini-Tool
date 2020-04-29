@@ -132,6 +132,18 @@ function updateCheckBox(i) {
 }
 
 /**
+ * 
+ */
+function updateView() {
+  if ($("#view_mode_select_id").val()=="beazone") {
+    drawBeazones()
+  }
+  else {
+    updateMap()
+  }
+}
+
+/**
  * Tracks that the same checkboxes were checked before the "GO" button is clicked.
  * All this does is a set comparison between the sets "currSubjs" and "lastSubjs".
  *

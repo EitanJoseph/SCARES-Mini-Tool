@@ -53,14 +53,22 @@
       <option value="linegraph_view">Line Graph Mode</option>
     </select>
 
+    <select
+      style="float: right; margin-right:5px; margin-top: 35px; width: 160px; height: 40px; font-size: large; border: 2px solid #000000"
+      id="display_modes"
+    >
+      <option value="state">State Mode</option>
+      <option value="beazone">BEA Zone Mode</option>
+    </select>
+
     <div style="float: left; margin-left: 30px;">
       <h1>HEJP Postdoctoral Data</h1>
       <div style="width:1400">
         The map below displays HEJP Postdoctoral data per state based on the
         settings at right. Adjust some settings and then click "Go" to retrieve
-        new data. After clicking "Go", you can click on a state to see the out 
-        of state postings for that state. Use reset map to return to the previous 
-        country wide job display for your most recent settings.
+        new data. After clicking "Go", you can click on a state to see the out
+        of state postings for that state. Use reset map to return to the
+        previous country wide job display for your most recent settings.
       </div>
     </div>
 
@@ -394,10 +402,10 @@
 
           <h4>Division</h4>
           <p>
-            Use the dropdown menu below to restrict the job results to a specific
-            division.
+            Use the dropdown menu below to restrict the job results to a
+            specific division.
           </p>
-  
+
           <select
             id="division_select_id"
             name="division_select"
@@ -409,15 +417,15 @@
             <option value="hum">Humanities</option>
             <option value="other">Other</option>
           </select>
-  
+
           <h4>Job Type</h4>
           <p>
-            Use the dropdown menu below to restrict the job results to a specific
-            job type. Not selecting a specific job type will yield results from
-            all job types.
+            Use the dropdown menu below to restrict the job results to a
+            specific job type. Not selecting a specific job type will yield
+            results from all job types.
           </p>
-  
-          <select id="jobTypeSelect" onchange = "updateJobType()">
+
+          <select id="jobTypeSelect" onchange="updateJobType()">
             <option value="unrestricted">Any job type</option>
             <option value="tenured">Tenured</option>
             <option value="tenured_track">Tenured Track</option>
@@ -427,7 +435,7 @@
             <option value="tenureline">Tenure Line</option>
           </select>
 
-          <br>
+          <br />
 
           <h4>Institution Type</h4>
           <p>
@@ -440,13 +448,13 @@
           </p>
 
           <div>
-            <select id="inst_length" onchange = "updateInstitutionLength()">
+            <select id="inst_length" onchange="updateInstitutionLength()">
               <option value="unrestricted">2 or 4 Year</option>
               <option value="twoyear">2 Year</option>
               <option value="fouryear">4 Year</option>
             </select>
 
-            <select id="inst_ownership" onchange = "updateInstitutionOwnership()">
+            <select id="inst_ownership" onchange="updateInstitutionOwnership()">
               <option value="unrestricted">Public or Private</option>
               <option value="public">Public</option>
               <option value="private">Private</option>
@@ -456,7 +464,7 @@
               type="checkbox"
               id="isr1_checkbox"
               style="margin-left:10px"
-              onclick = "updateIsR1()"
+              onclick="updateIsR1()"
             />
             <label for="isr1_checkbox">R1 only</label>
           </div>

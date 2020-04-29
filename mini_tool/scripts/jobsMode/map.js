@@ -30,7 +30,7 @@ function zoomed() {
 // Define map zoom behaviour
 var zoom = d3.zoom().on("zoom", zoomed);
 function getTextBox(selection) {
-  selection.each(function(d) {
+  selection.each(function (d) {
     d.bbox = this.getBBox();
   });
 }
@@ -102,13 +102,20 @@ function boxZoom(box, centroid, paddingPerc) {
 }
 
 // on window resize
-$(window).resize(function() {
+$(window).resize(function () {
   // Resize SVG
   svg
     .attr("width", $("#map-holder").width())
     .attr("height", $("#map-holder").height());
   initiateZoom();
 });
+
+
+var selected = d3.set([
+  9, 10, 12, 13, 17, 18, 19, 21, 23, 24,
+  25, 26, 29, 31, 33, 34, 36, 37, 39, 42,
+  44, 45, 47, 50, 51, 55
+]);
 
 // create an SVG
 var svg = d3
@@ -123,169 +130,209 @@ var svg = d3
 d3.json(
   "https://raw.githubusercontent.com/shawnbot/topogram/master/data/us-states.geojson",
   //"state.geo.json",
-  function(json) {
+  function (error, json) {
     //Bind data and create one path per GeoJSON feature
     countriesGroup = svg.append("g").attr("id", "map");
-    // add a background rectangle
-    countriesGroup
-      .append("rect")
-      .attr("x", 0)
-      .attr("y", 0)
-      .attr("width", w)
-      .attr("height", h);
 
-    // draw a path for each feature/country
-    countries = countriesGroup
+    /*svg.append("g")
+      .attr("fill", "#000")
       .selectAll("path")
-      .data(json.features)
-      .enter()
-      .append("path")
-      .attr("id", "countriesG")
-
+      .data(topojson.feature(json, json.features).features)
+      .enter().append("path")
       .attr("d", path)
-      .attr("id", function(d) {
-        return "country" + d.properties.postal;
-      })
-      .attr("class", "country")
-      //      .attr("stroke-width", 10)
-      //      .attr("stroke", "#ff0000")
-      // add a mouseover action to show name label for feature/country
-      .on("mouseover", function(d, i) {
-        d3.select("#countryLabel" + d.properties.postal).style(
-          "visibility",
-          "visible"
-        );
-        //console.log(d.properties.name)
-      })
-      .on("mouseout", function(d, i) {
-        d3.select("#countryLabel" + d.properties.postal).style(
-          "visibility",
-          "hidden"
-        );
-      })
-      // add an onclick action to zoom into clicked country
+      .append("title")
+      .text(function (d) { return d.id; });*/
+    
+    svg.append("path")
+      .attr("stroke", "#fff")
+      .attr("stroke-width", 0.5)
+      .attr("d", path(topojson.mesh(json, json.features, function (a, b) { return a !== b; })));
+    
+    // California-Nevada border
+    svg.append("path")
+      .attr("stroke", "cyan")
+      .attr("stroke-width", 2.5)
+      .attr("d", path(topojson.mesh(json, json.features, border("06", "32"))));
+    
+    // California-Arizona border
+    svg.append("path")
+      .attr("stroke", "magenta")
+      .attr("stroke-width", 2.5)
+      .attr("d", path(topojson.mesh(json, json.features, border("06", "04"))));
 
-      .on("click", function(d, i) {
-        outOfStatePostingsGrayScale(d, i);
-        //boxZoom(path.bounds(d), path.centroid(d), 20);
-      });
-    // Add a label group to each feature/country. This will contain the country name and a background rectangle
-    // Use CSS to have class "countryLabel" initially hidden
-    countryLabels = countriesGroup
-      .selectAll("g")
-      .data(json.features)
-      .enter()
-      .append("g")
-      .attr("class", "countryLabel")
-      .attr("id", function(d) {
-        return "countryLabel" + d.properties.postal;
-      })
-      .attr("transform", function(d) {
-        return (
-          "translate(" + path.centroid(d)[0] + "," + path.centroid(d)[1] + ")"
-        );
-      })
-      // add mouseover functionality to the label
-      .on("mouseover", function(d, i) {
-        d3.select(this).style("visibility", "visible");
-      })
-      .on("mouseout", function(d, i) {
-        d3.select(this).style("visibility", "hidden");
-      })
-      // add an onlcick action to zoom into clicked country
+    // California-Oregon border
+    svg.append("path")
+      .attr("stroke", "yellow")
+      .attr("stroke-width", 2.5)
+      .attr("d", path(topojson.mesh(json, json.features, border("06", "41"))));
 
-      .on("click", function(d, i) {
-        outOfStatePostingsGrayScale(d, i);
-        //  boxZoom(path.bounds(d), path.centroid(d), 20);
-      });
+      // add a background rectangle
+      countriesGroup
+        .append("rect")
+        .attr("x", 0)
+        .attr("y", 0)
+        .attr("width", w)
+        .attr("height", h);
 
-    function outOfStatePostingsGrayScale(d) {
-      if (d.properties.name == lastState) {
-        return;
-      }
+      // draw a path for each feature/country
+      countries = countriesGroup
+        .selectAll("path")
+        .data(json.features)
+        .enter()
+        .append("path")
+        .attr("id", "countriesG")
 
-      lastState = d.properties.name;
-
-      fetch("/jobsModeState", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-
-        // stringify an array containing the inputs from the HTML elements in addition to the state
-        // that the user has clicked on
-        body: JSON.stringify({
-          year1: lastValidYear1,
-          year2: lastValidYear2,
-          div: lastDivision,
-          ownership: lastOwnership,
-          length: lastLength,
-          isr1: lastIsR1,
-          jobType: lastJobType,
-          careerareas: Array.from(lastCareerAreas),
-          clickedState: d.properties.name,
-        }),
-      })
-        .then((response) => {
-          return response.json();
+        .attr("d", path)
+        .attr("id", function (d) {
+          return "country" + d.properties.postal;
         })
+        .attr("class", "country")
+        //      .attr("stroke-width", 10)
+        //      .attr("stroke", "#ff0000")
+        // add a mouseover action to show name label for feature/country
+        .on("mouseover", function (d, i) {
+          d3.select("#countryLabel" + d.properties.postal).style(
+            "visibility",
+            "visible"
+          );
+          //console.log(d.properties.name)
+        })
+        .on("mouseout", function (d, i) {
+          d3.select("#countryLabel" + d.properties.postal).style(
+            "visibility",
+            "hidden"
+          );
+        })
+        // add an onclick action to zoom into clicked country
 
-        .then((jsonFromServer) => {
-          console.log(jsonFromServer);
-          serverData = jsonFromServer;
-          drawData(d.properties.name);
-          enableResetButton();
+        .on("click", function (d, i) {
+          outOfStatePostingsGrayScale(d, i);
+          //boxZoom(path.bounds(d), path.centroid(d), 20);
         });
+      // Add a label group to each feature/country. This will contain the country name and a background rectangle
+      // Use CSS to have class "countryLabel" initially hidden
+      countryLabels = countriesGroup
+        .selectAll("g")
+        .data(json.features)
+        .enter()
+        .append("g")
+        .attr("class", "countryLabel")
+        .attr("id", function (d) {
+          return "countryLabel" + d.properties.postal;
+        })
+        .attr("transform", function (d) {
+          return (
+            "translate(" + path.centroid(d)[0] + "," + path.centroid(d)[1] + ")"
+          );
+        })
+        // add mouseover functionality to the label
+        .on("mouseover", function (d, i) {
+          d3.select(this).style("visibility", "visible");
+        })
+        .on("mouseout", function (d, i) {
+          d3.select(this).style("visibility", "hidden");
+        })
+        // add an onlcick action to zoom into clicked country
+
+        .on("click", function (d, i) {
+          outOfStatePostingsGrayScale(d, i);
+          //  boxZoom(path.bounds(d), path.centroid(d), 20);
+        });
+
+      function outOfStatePostingsGrayScale(d) {
+        if (d.properties.name == lastState) {
+          return;
+        }
+
+        lastState = d.properties.name;
+
+        fetch("/jobsModeState", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+
+          // stringify an array containing the inputs from the HTML elements in addition to the state
+          // that the user has clicked on
+          body: JSON.stringify({
+            year1: lastValidYear1,
+            year2: lastValidYear2,
+            div: lastDivision,
+            ownership: lastOwnership,
+            length: lastLength,
+            isr1: lastIsR1,
+            jobType: lastJobType,
+            careerareas: Array.from(lastCareerAreas),
+            clickedState: d.properties.name,
+          }),
+        })
+          .then((response) => {
+            return response.json();
+          })
+
+          .then((jsonFromServer) => {
+            console.log(jsonFromServer);
+            serverData = jsonFromServer;
+            drawData(d.properties.name);
+            enableResetButton();
+          });
+      }
+      // add the text to the label group showing country name
+      // countryLabels
+      //   .append("text")
+      //   .attr("class", "countryName")
+      //   .style("text-anchor", "middle")
+      //   .attr("dx", 0)
+      //   .attr("dy", 0)
+      //   .text(function(d) {
+      //     return d.properties.name;
+      //   })
+      //   .call(getTextBox);
+      // // add a background rectangle the same size as the text
+      // countryLabels
+      //   .insert("rect", "text")
+      //   .attr("class", "countryLabelBg")
+      //   .attr("rx", 10)
+      //   .attr("ry", 10)
+      //   .attr("transform", function(d) {
+      //     return "translate(" + (d.bbox.x - 2) + "," + d.bbox.y + ")";
+      //   })
+      //   .attr("width", function(d) {
+      //     return d.bbox.width + 4;
+      //   })
+      //   .attr("height", function(d) {
+      //     return d.bbox.height;
+      //   });
+      // legendGroup = svg.append("g").attr("id", "legend");
+      // legendGroup.append("circle").attr("cx",30).attr("cy",30).attr("r", 6).style("fill", "#ff4f4f")
+      // legendGroup.append("circle").attr("cx",30).attr("cy",60).attr("r", 6).style("fill", "#525aff")
+      // legendGroup.append("circle").attr("cx",30).attr("cy",90).attr("r", 6).style("fill", "#52ff5b")
+      // legendGroup.append("text").attr("x", 50).attr("y", 30).text("Republican").style("font-size", "15px").attr("alignment-baseline","middle")
+      // legendGroup.append("text").attr("x", 50).attr("y", 60).text("Democrat").style("font-size", "15px").attr("alignment-baseline","middle")
+      // legendGroup.append("text").attr("x", 50).attr("y", 90).text("Other").style("font-size", "15px").attr("alignment-baseline","middle")
+
+      year = svg.append("g").attr("id", "bigYear");
+      year
+        .append("text")
+        .attr("x", 1500)
+        .attr("y", 120)
+        .text($("#myRange").val())
+        .style("font-size", "6vw")
+        .attr("alignment-baseline", "middle")
+        .attr("value", "1976");
+
+      infoTextGroup = svg
+        .append("g")
+        .attr("transform", "translate(0,120)")
+        .attr("id", "infoTextGroup");
+
+      initiateZoom();
     }
-    // add the text to the label group showing country name
-    // countryLabels
-    //   .append("text")
-    //   .attr("class", "countryName")
-    //   .style("text-anchor", "middle")
-    //   .attr("dx", 0)
-    //   .attr("dy", 0)
-    //   .text(function(d) {
-    //     return d.properties.name;
-    //   })
-    //   .call(getTextBox);
-    // // add a background rectangle the same size as the text
-    // countryLabels
-    //   .insert("rect", "text")
-    //   .attr("class", "countryLabelBg")
-    //   .attr("rx", 10)
-    //   .attr("ry", 10)
-    //   .attr("transform", function(d) {
-    //     return "translate(" + (d.bbox.x - 2) + "," + d.bbox.y + ")";
-    //   })
-    //   .attr("width", function(d) {
-    //     return d.bbox.width + 4;
-    //   })
-    //   .attr("height", function(d) {
-    //     return d.bbox.height;
-    //   });
-    // legendGroup = svg.append("g").attr("id", "legend");
-    // legendGroup.append("circle").attr("cx",30).attr("cy",30).attr("r", 6).style("fill", "#ff4f4f")
-    // legendGroup.append("circle").attr("cx",30).attr("cy",60).attr("r", 6).style("fill", "#525aff")
-    // legendGroup.append("circle").attr("cx",30).attr("cy",90).attr("r", 6).style("fill", "#52ff5b")
-    // legendGroup.append("text").attr("x", 50).attr("y", 30).text("Republican").style("font-size", "15px").attr("alignment-baseline","middle")
-    // legendGroup.append("text").attr("x", 50).attr("y", 60).text("Democrat").style("font-size", "15px").attr("alignment-baseline","middle")
-    // legendGroup.append("text").attr("x", 50).attr("y", 90).text("Other").style("font-size", "15px").attr("alignment-baseline","middle")
-
-    year = svg.append("g").attr("id", "bigYear");
-    year
-      .append("text")
-      .attr("x", 1500)
-      .attr("y", 120)
-      .text($("#myRange").val())
-      .style("font-size", "6vw")
-      .attr("alignment-baseline", "middle")
-      .attr("value", "1976");
-
-    infoTextGroup = svg
-      .append("g")
-      .attr("transform", "translate(0,120)")
-      .attr("id", "infoTextGroup");
-
-    initiateZoom();
-  }
 );
+
+function border(id0, id1) {
+  return function(a, b) {
+    return a.id === id0 && b.id === id1
+        || a.id === id1 && b.id === id0;
+  };
+}

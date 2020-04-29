@@ -57,6 +57,16 @@ svg rect {
   stroke: #2A2C39; /* country border colour */
   stroke-width: 1; /* country border width */
 }
+
+.country-boundary {
+  fill: none;
+  stroke: #fff;
+}
+
+.country.selected {
+  fill: orange;
+  stroke: #000;
+}
 .country-on{
   fill: #4B5358;   /* highlight colour for selected country */
 }
@@ -71,25 +81,10 @@ svg rect {
   fill: white;
 }
 
-.republican{
-  fill: #ff4f4f;
-}
-.democrat{
-  fill:#525aff;
-}
-.other{
-  fill: #52ff5b;
-}
-.white{
-  fill: white;
-}
-
 
 input[type=range]::-moz-focus-outer {
   border: 0;
 }
-
-
 
 .textInput {
   width: 200px;
@@ -100,9 +95,6 @@ input[type=range]::-moz-focus-outer {
 *:focus {
   outline: 0 !important;
 }
-
-
-
 
 button {
   background-color: white;

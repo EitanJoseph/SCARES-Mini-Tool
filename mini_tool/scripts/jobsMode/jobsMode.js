@@ -23,7 +23,7 @@ var stateMode = true;
  */
 function updateMap(starting) {
   // if not onload and the HTML data has not changed, return immediately 
-  if (!starting && !shouldRunNewQuery()){ 
+  if (!starting && !shouldRunNewQuery()) {
     return;
   }
 
@@ -47,14 +47,14 @@ function updateMap(starting) {
 
     // stringify an array containing the inputs from the HTML elements
     body: JSON.stringify({
-      "year1" : lastValidYear1,
-      "year2" : lastValidYear2,
-      "div" : lastDivision,
-      "ownership" : lastOwnership,
-      "length" : lastLength,
-      "isr1" : lastIsR1,
-      "jobType" : lastJobType,
-      "careerareas" : Array.from(lastCareerAreas),
+      "year1": lastValidYear1,
+      "year2": lastValidYear2,
+      "div": lastDivision,
+      "ownership": lastOwnership,
+      "length": lastLength,
+      "isr1": lastIsR1,
+      "jobType": lastJobType,
+      "careerareas": Array.from(lastCareerAreas),
     })
   })
     .then((response) => {
@@ -78,7 +78,7 @@ function updateMap(starting) {
       // -1 here indicates that there is no internal index for a "clicked" state yet
       drawData(-1);
 
-    
+
     });
 }
 
@@ -126,6 +126,88 @@ function getQueryState(d3_state) {
   return null;
 }
 
+function drawBeazones() {
+  // change the color of each state here
+  d3.selectAll(".country").style("fill", function (d) {
+    return getColor(getBEAZone(d.properties.name));
+  });
+
+  /*d3.selectAll(".country").style("fill", function (d) {
+     getColor(getBEAZone(d.properties.name));
+  });*/
+}
+
+function getColor(beazone) {
+  var colors = {
+    'NewEngland':'#1f0d98',
+    'Mideast':'#7e164b',
+    'GreatLakes':'#60c583',
+    'Plains':'#514490',
+    'Southeast':'#c19147',
+    'Southwest':'#26b1c5',
+    'RockyMountain':'#7188d4',
+    'FarWest':'#ab7455'
+  }
+  return colors[beazone];
+}
+
+function getBEAZone(state) {
+  var beazones = {
+    'Connecticut': 'NewEngland',
+    'Maine': 'NewEngland',
+    'Massachusetts': 'NewEngland',
+    'New Hampshire': 'NewEngland',
+    'Rhode Island': 'NewEngland',
+    'Vermont': 'NewEngland',
+    'Delaware': 'Mideast',
+    'District of Columbia': 'Mideast',
+    'Maryland': 'Mideast',
+    'New Jersey': 'Mideast',
+    'New York': 'Mideast',
+    'Pennsylvania': 'Mideast',
+    'Illinois': 'GreatLakes',
+    'Indiana': 'GreatLakes',
+    'Michigan': 'GreatLakes',
+    'Ohio': 'GreatLakes',
+    'Wisconsin': 'GreatLakes',
+    'Iowa': 'Plains',
+    'Kansas': 'Plains',
+    'Minnesota': 'Plains',
+    'Missouri': 'Plains',
+    'Nebraska': 'Plains',
+    'North Dakota': 'Plains',
+    'South Dakota': 'Plains',
+    'Alabama': 'Southeast',
+    'Arkansas': 'Southeast',
+    'Florida': 'Southeast',
+    'Georgia': 'Southeast',
+    'Kentucky': 'Southeast',
+    'Louisiana': 'Southeast',
+    'Mississippi': 'Southeast',
+    'North Carolina': 'Southeast',
+    'South Carolina': 'Southeast',
+    'Tennessee': 'Southeast',
+    'Virginia': 'Southeast',
+    'West Virginia': 'Southeast',
+    'Arizona': 'Southwest',
+    'New Mexico': 'Southwest',
+    'Oklahoma': 'Southwest',
+    'Texas': 'Southwest',
+    'Colorado': 'RockyMountain',
+    'Idaho': 'RockyMountain',
+    'Montana': 'RockyMountain',
+    'Utah': 'RockyMountain',
+    'Wyoming': 'RockyMountain',
+    'Alaska': 'FarWest',
+    'California': 'FarWest',
+    'Hawaii': 'FarWest',
+    'Nevada': 'FarWest',
+    'Oregon': 'FarWest',
+    'Washington': 'FarWest'
+  }
+  return beazones[state];
+}
+
 /**
  * This method is the main driver of the map creation
  * JSON Object jsonFromServer   - the current json data being returned by the server
@@ -137,14 +219,14 @@ function drawData(clickedState) {
 
   d3.selectAll(".country").classed("country-on", false)
   // change the color of each state here
-  d3.selectAll(".country").style("fill", function(d) {
+  d3.selectAll(".country").style("fill", function (d) {
     let s = getQueryState(d);
     // some states that have no job postings do not populate in the jsonFromServer (this should be fixe)
     if (s == null) {
       return "rgb(255,255,255)";
     }
     // assign a special color for the clicked-on state
-    if (s.state === clickedState){
+    if (s.state === clickedState) {
       return clickedRGB
     }
     // otherwise scale the RGB and return it to be assigned to the states color
@@ -161,7 +243,7 @@ function drawData(clickedState) {
     .style("text-anchor", "middle")
     .attr("dx", 0)
     .attr("dy", 0)
-    .text(function(d) {
+    .text(function (d) {
       // get the tuple of the current state in d
       let s = getQueryState(d)
       let jobs = 0
@@ -171,7 +253,7 @@ function drawData(clickedState) {
         jobs = s.count
       }
       // if the state is the one we clicked, we return a custom string
-      if (s != null && s.state === clickedState){
+      if (s != null && s.state === clickedState) {
         return clickedState
       }
       // otherwise return the string State: int Jobs
@@ -185,13 +267,13 @@ function drawData(clickedState) {
     .attr("class", "countryLabelBg")
     .attr("rx", 10)
     .attr("ry", 10)
-    .attr("transform", function(d) {
+    .attr("transform", function (d) {
       return "translate(" + (d.bbox.x - 2) + "," + d.bbox.y + ")";
     })
-    .attr("width", function(d) {
+    .attr("width", function (d) {
       return d.bbox.width + 4;
     })
-    .attr("height", function(d) {
+    .attr("height", function (d) {
       return d.bbox.height;
     });
 }
@@ -208,9 +290,9 @@ function multiSelectDropdownRunner() {
   console.log(ls);
 }
 
-function viewDiv(id) { 
+function viewDiv(id) {
   var x = document.getElementById(id);
-    x.style.display = "block";
+  x.style.display = "block";
 }
 
 function hideDiv(id) {

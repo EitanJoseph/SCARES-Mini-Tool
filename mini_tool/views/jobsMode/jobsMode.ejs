@@ -16,6 +16,7 @@
       src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"
     ></script>
     <script src="http://d3js.org/d3.v4.min.js"></script>
+    <script src="https://d3js.org/topojson.v1.min.js"></script>
     <script type="text/javascript" src="scripts/jobsMode/jobsMode.js"></script>
     <script
       type="text/javascript"
@@ -56,6 +57,7 @@
     <select
       style="float: right; margin-right:5px; margin-top: 35px; width: 160px; height: 40px; font-size: large; border: 2px solid #000000"
       id="display_modes"
+      onchange="updateView()"
     >
       <option value="state">State Mode</option>
       <option value="beazone">BEA Zone Mode</option>

@@ -5,6 +5,7 @@
 
 // get the exported functions from the library
 const lib = require("./server_lib");
+const BEAZone_lib = require("./scripts/jobsMode/BEAZone_Server_lib.js");
 
 // set up the postgres client, express
 var express = require("express");
@@ -56,11 +57,13 @@ app.post("/jobsModeData", function(req, res) {
   var isr1 = req.body.isr1;
   var jobType = req.body.jobType;
   var careerareas = req.body.careerareas;
-
-  // Build query for postgres DB using library helper functions.
-  client
-    .query(
-      "SELECT inststate AS state, count(*) FROM post_doc_jobs WHERE year BETWEEN " +
+  var stateMode = req.body.stateMode;
+  console.log(stateMode)
+  if (!stateMode){
+    client
+      .query(
+        "SELECT instbeazone, count(*) FROM post_doc_jobs WHERE " + 
+        "year BETWEEN " +
         year1 +
         " AND " +
         year2 +
@@ -70,12 +73,34 @@ app.post("/jobsModeData", function(req, res) {
         lib.getIsR1(isr1) +
         lib.getLength(length) +
         lib.getJobType(jobType) +
-        " GROUP BY inststate;"
-    )
-    .then((data) => {
-      res.json(data.rows);
-    })
-    .catch((e) => console.error(e.stack));
+        " GROUP BY instbeazone"
+      )
+      .then((data) => {
+        res.json(data.rows);
+      })
+      .catch((e) => console.error(e.stack));
+  }
+  else {
+    // Build query for postgres DB using library helper functions.
+    client
+      .query(
+        "SELECT inststate AS state, count(*) FROM post_doc_jobs WHERE year BETWEEN " +
+          year1 +
+          " AND " +
+          year2 +
+          lib.getQueryForDiv(div) +
+          lib.getQueryForCareerArea(careerareas) +
+          lib.getOwnership(ownership) +
+          lib.getIsR1(isr1) +
+          lib.getLength(length) +
+          lib.getJobType(jobType) +
+          " GROUP BY inststate;"
+      )
+      .then((data) => {
+        res.json(data.rows);
+      })
+      .catch((e) => console.error(e.stack));
+  }
 });
 
 /*

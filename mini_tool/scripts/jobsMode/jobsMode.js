@@ -55,6 +55,7 @@ function updateMap(starting) {
       "isr1": lastIsR1,
       "jobType": lastJobType,
       "careerareas": Array.from(lastCareerAreas),
+      "stateMode": stateMode 
     })
   })
     .then((response) => {
@@ -76,7 +77,12 @@ function updateMap(starting) {
       serverData = jsonFromServer;
       // runs d3 data visualization to generate the graph
       // -1 here indicates that there is no internal index for a "clicked" state yet
-      drawData(-1);
+      if (stateMode){
+        drawData(-1);
+      } else {
+        console.log(jsonFromServer)
+        drawBeazones(jsonFromServer)
+      }
 
 
     });
@@ -126,86 +132,54 @@ function getQueryState(d3_state) {
   return null;
 }
 
-function drawBeazones() {
+function drawBeazones(jsonFromServer) {
   // change the color of each state here
   d3.selectAll(".country").style("fill", function (d) {
-    return getColor(getBEAZone(d.properties.name));
+    return getBEAZoneColor(getBEAZone(d.properties.name));
   });
 
-  /*d3.selectAll(".country").style("fill", function (d) {
-     getColor(getBEAZone(d.properties.name));
-  });*/
-}
 
-function getColor(beazone) {
-  var colors = {
-    'NewEngland':'#1f0d98',
-    'Mideast':'#7e164b',
-    'GreatLakes':'#60c583',
-    'Plains':'#514490',
-    'Southeast':'#c19147',
-    'Southwest':'#26b1c5',
-    'RockyMountain':'#7188d4',
-    'FarWest':'#ab7455'
-  }
-  return colors[beazone];
-}
+  // remove all the text values
+  d3.selectAll(".countryLabel").text("")
 
-function getBEAZone(state) {
-  var beazones = {
-    'Connecticut': 'NewEngland',
-    'Maine': 'NewEngland',
-    'Massachusetts': 'NewEngland',
-    'New Hampshire': 'NewEngland',
-    'Rhode Island': 'NewEngland',
-    'Vermont': 'NewEngland',
-    'Delaware': 'Mideast',
-    'District of Columbia': 'Mideast',
-    'Maryland': 'Mideast',
-    'New Jersey': 'Mideast',
-    'New York': 'Mideast',
-    'Pennsylvania': 'Mideast',
-    'Illinois': 'GreatLakes',
-    'Indiana': 'GreatLakes',
-    'Michigan': 'GreatLakes',
-    'Ohio': 'GreatLakes',
-    'Wisconsin': 'GreatLakes',
-    'Iowa': 'Plains',
-    'Kansas': 'Plains',
-    'Minnesota': 'Plains',
-    'Missouri': 'Plains',
-    'Nebraska': 'Plains',
-    'North Dakota': 'Plains',
-    'South Dakota': 'Plains',
-    'Alabama': 'Southeast',
-    'Arkansas': 'Southeast',
-    'Florida': 'Southeast',
-    'Georgia': 'Southeast',
-    'Kentucky': 'Southeast',
-    'Louisiana': 'Southeast',
-    'Mississippi': 'Southeast',
-    'North Carolina': 'Southeast',
-    'South Carolina': 'Southeast',
-    'Tennessee': 'Southeast',
-    'Virginia': 'Southeast',
-    'West Virginia': 'Southeast',
-    'Arizona': 'Southwest',
-    'New Mexico': 'Southwest',
-    'Oklahoma': 'Southwest',
-    'Texas': 'Southwest',
-    'Colorado': 'RockyMountain',
-    'Idaho': 'RockyMountain',
-    'Montana': 'RockyMountain',
-    'Utah': 'RockyMountain',
-    'Wyoming': 'RockyMountain',
-    'Alaska': 'FarWest',
-    'California': 'FarWest',
-    'Hawaii': 'FarWest',
-    'Nevada': 'FarWest',
-    'Oregon': 'FarWest',
-    'Washington': 'FarWest'
-  }
-  return beazones[state];
+  // append a new text value with the updated values we want
+  d3.selectAll(".countryLabel")
+    .append("text")
+    .attr("class", "countryName")
+    .style("text-anchor", "middle")
+    .attr("dx", 0)
+    .attr("dy", 0)
+    .text(function (d) {
+      // get the tuple of the current state in d
+      let s = getBEAZone(d.properties.name)
+      let jobs = 0
+      // some states dont populate in the sql query, in this case we ignore it
+      if (s != null) {
+        // otherwise we grab the count of jobs
+        jobs = getCountForBEAZone(jsonFromServer, s)
+      }
+      // otherwise return the string State: int Jobs
+      return s + ": " + jobs + " Jobs";
+    })
+    .call(getTextBox);
+
+  // rescale the country label here
+  d3.selectAll(".countryLabel")
+    .insert("rect", "text")
+    .attr("class", "countryLabelBg")
+    .attr("rx", 10)
+    .attr("ry", 10)
+    .attr("transform", function (d) {
+      return "translate(" + (d.bbox.x - 2) + "," + d.bbox.y + ")";
+    })
+    .attr("width", function (d) {
+      return d.bbox.width + 4;
+    })
+    .attr("height", function (d) {
+      return d.bbox.height;
+    });
+
+
 }
 
 /**
@@ -299,4 +273,13 @@ function hideDiv(id) {
   var x = document.getElementById(id);
   x.style.display = "none";
 
+}
+
+function getCountForBEAZone(jsonFromServer, s){
+  for (var i = 0; i < jsonFromServer.length; i++){
+    if (jsonFromServer[i].instbeazone === s){
+      return jsonFromServer[i].count
+    }
+  }
+  return 0
 }

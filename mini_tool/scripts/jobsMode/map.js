@@ -240,7 +240,9 @@ d3.json(
         });
 
       function outOfStatePostingsGrayScale(d) {
-        if (d.properties.name == lastState) {
+        
+
+        if (d.properties.name == lastState || !stateMode) {
           return;
         }
 

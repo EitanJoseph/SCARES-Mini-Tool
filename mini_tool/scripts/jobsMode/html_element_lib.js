@@ -136,11 +136,12 @@ function updateCheckBox(i) {
  */
 function updateView() {
   if ($("#display_modes").val()=="beazone") {
-    drawBeazones()
+    stateMode = false
   }
   else {
-    updateMap()
+    stateMode = true
   }
+  updateMap(true)
 }
 
 /**

@@ -200,11 +200,11 @@ d3.json(
       });
 
     function outOfStatePostingsGrayScale(d) {
-      if (d.properties.name == lastState){ 
+      if (d.properties.name == lastState) {
         return;
       }
 
-      lastState = d.properties.name
+      lastState = d.properties.name;
 
       fetch("/jobsModeState", {
         method: "POST",
@@ -212,17 +212,29 @@ d3.json(
           "Content-Type": "application/json",
         },
 
-        body: JSON.stringify({"value": d.properties.name})
+        // stringify an array containing the inputs from the HTML elements in addition to the state
+        // that the user has clicked on
+        body: JSON.stringify({
+          year1: lastValidYear1,
+          year2: lastValidYear2,
+          div: lastDivision,
+          ownership: lastOwnership,
+          length: lastLength,
+          isr1: lastIsR1,
+          jobType: lastJobType,
+          careerareas: Array.from(lastCareerAreas),
+          clickedState: d.properties.name,
+        }),
       })
         .then((response) => {
           return response.json();
         })
 
         .then((jsonFromServer) => {
-            console.log(jsonFromServer)
-            serverData = jsonFromServer;
-            drawData(d.properties.name)
-            enableResetButton();
+          console.log(jsonFromServer);
+          serverData = jsonFromServer;
+          drawData(d.properties.name);
+          enableResetButton();
         });
     }
     // add the text to the label group showing country name

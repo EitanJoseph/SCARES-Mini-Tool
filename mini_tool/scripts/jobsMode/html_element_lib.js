@@ -15,8 +15,17 @@ var lastValidYear2 = 2017;
 // this tracks the last division (science, social science, etc.) that was input
 var lastDivision = "unrestricted";
 
-// this tracks the last institution type (private, is research 1, etc.) that was input
-var lastInstitutionType = "unrestricted";
+// this tracks the last ownership type (i.e. public v private)
+var lastOwnership = "unrestricted";
+
+// this tracks the last length type (i.e. 2 year v 4 year)
+var lastLength = "unrestricted";
+
+// this tracks whether the R1 box was checked or not
+var lastIsR1 = false;
+
+// this tracks the last job type (i.e. fulltime, parttime, etc.)
+var lastJobType = "unrestricted";
 
 // this tracks the last career areas that were checked
 var lastCareerAreas = new Set();
@@ -30,11 +39,20 @@ var currYear2 = 2017;
 // this tracks the current division (science, social science, etc.)
 var currDivision = "unrestricted";
 
-// this tracks the current institution type (private, research1, etc.)
-var currInstitutionType = "unrestricted";
+// this tracks the current ownership type (i.e. public v private)
+var currOwnership = "unrestricted";
+
+// this tracks the current length type (i.e. 2 year v 4 year)
+var currLength = "unrestricted";
+
+// this tracks whether the R1 box is checked or not
+var currIsR1 = false;
 
 // this tracks which elements have been checked currently
 var currCareerAreas = new Set();
+
+// this tracks the current job type
+var currJobType = "unrestricted";
 
 /*
 This function is run when either a slider is changed. This will update the
@@ -63,8 +81,8 @@ function updateYears() {
   else if (year1 != lastValidYear1 || year2 != lastValidYear2) {
     currYear1 = year1;
     currYear2 = year2;
-    $("#year1Label").text(currYear1)
-    $("#year2Label").text(currYear2)
+    $("#year1Label").text(currYear1);
+    $("#year2Label").text(currYear2);
   }
 }
 
@@ -73,9 +91,24 @@ function updateDivisionSelection() {
   currDivision = $("#division_select_id").val();
 }
 
-// This function updates the current institution type selected from the dropdown
-function updateInstitutionTypeSelection() {
-  currInstitutionType = $("#inst_type_select_id").val();
+// This function updates the global variable tracking institution ownership
+function updateInstitutionOwnership() {
+  currOwnership = $("#inst_ownership").val();
+}
+
+// this function updates the global variable tracking institution length
+function updateInstitutionLength() {
+  currLength = $("#inst_length").val();
+}
+
+// this function updates the current job type that was selected
+function updateJobType() {
+  currJobType = $("#jobTypeSelect").val();
+}
+
+// this function updates the isR1 global variable
+function updateIsR1() {
+  currIsR1 = $("#isr1_checkbox").is(":checked");
 }
 
 /*
@@ -106,7 +139,6 @@ function updateCheckBox(i) {
  * and false if checkboxes all remained in the same state
  */
 function sameChecked() {
-
   // sets different size => sets different
   if (currCareerAreas.size != lastCareerAreas.size) {
     return false;
@@ -127,17 +159,19 @@ function sameChecked() {
 
 /**
  * This function resets the map to display the job counts for each state when the user wants
- * to switch back from looking at out of state job postings for a given state. 
+ * to switch back from looking at out of state job postings for a given state.
  */
 function resetMap() {
-  // reset server data 
+  // reset server data
   serverData = oldServerData;
 
   // draw the data (no need to re-query)
-  drawData(-1)
+  drawData(-1);
 
   // disable reset button
   disableResetButton();
+
+  lastState = null;
 }
 
 /**
@@ -172,22 +206,27 @@ function shouldRunNewQuery() {
     // if year1 / year 2 (sliders) were changed
     currYear1 != lastValidYear1 ||
     currYear2 != lastValidYear2 ||
-    // if division / inst type (dropdowns) were changed
+    // if division / inst type (dropdowns, checkboxes) were changed
     currDivision != lastDivision ||
-    currInstitutionType != lastInstitutionType ||
-    // if checkboxes changed state 
+    currOwnership != lastOwnership ||
+    currLength != lastLength ||
+    currIsR1 != lastIsR1 ||
+    currJobType != lastJobType ||
+    // if checkboxes changed state
     !sameChecked()
   ) {
-
     // if something was changed, update "last" versions of the attributes
     lastValidYear1 = currYear1;
     lastValidYear2 = currYear2;
     lastDivision = currDivision;
-    lastInstitutionType = currInstitutionType;
+    lastOwnership = currOwnership;
+    lastLength = currLength;
+    lastIsR1 = currIsR1;
+    lastJobType = currJobType;
     // we cannot simply set lastSubjs = currSubjs here because then they point
     // to the same set
-    lastCareerAreas.clear()
-    currCareerAreas.forEach(careerarea => lastCareerAreas.add(careerarea))
+    lastCareerAreas.clear();
+    currCareerAreas.forEach((careerarea) => lastCareerAreas.add(careerarea));
     return true;
   }
   // no change, no need to update "last" versions

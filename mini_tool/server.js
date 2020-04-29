@@ -1,5 +1,12 @@
-// This is the main file that sends data to the client and accesses the postgres database on turing
+/**
+ * This file runs the back-end server and has the primary purpose of handling POST requests from the client
+ * webpage and querying the postgres DB on turing.
+ */
 
+// get the exported functions from the library
+const lib = require("./server_lib");
+
+// set up the postgres client, express
 var express = require("express");
 const { Client } = require("pg");
 
@@ -39,129 +46,32 @@ app.use(express.static(__dirname + "/"));
 // Marks that we will be using ejs templating
 app.set("view engine", "ejs");
 
-/**
- * Helper function that gets an array of indices of the subjects' location in the 43 character binary
- * string located in the SQL table for the subjects that are in this field division. For instance, 
- * social sciences occupy indices 1 through 8 in the SQL table 43 character string. This function is
- * used by getQueryForDiv() to identify which substring characters in the SQL table attribute should
- * be '1' for a query on this division. If the division is 'unrestricted' an empty array is returned. 
- * 
- * @param {String} div a field division (e.g. social science, science, etc. or unrestricted)
- * @return the array of the indices in the division or an empty array if div = unrestricted
- */
-function getSubjectIndicesInDiv(div) {
-  var indices = new Array();
-
-  // get indices for social science division 
-  if (div == 'soc_sci') {
-    for (var i = 1; i <= 8; i++) {
-      indices.push(i)
-    }
-  }
-  // get indices for science division 
-  else if (div == 'sci') {
-    for (var i = 9; i <= 14; i++) {
-      indices.push(i)
-    }
-  }
-  // get indices for humanities division
-  else if (div == 'hum') {
-    for (var i = 29; i <= 32; i++) {
-      indices.push(i)
-    }
-  }
-  // for now, putting everything not categorized by their 
-  // "faculty exploration and addendum slides" into the other
-  // division -> should probably make an "engineering" division
-  // at some point
-  else if (div == 'other') {
-    for (var i = 15; i <= 28; i++) {
-      indices.push(i);
-    }
-    for (var i = 33; i <= 42; i++) {
-      indices.push(i);
-    }
-  }
-  return indices;
-}
-
-/**
- * Helper function that utilizes getSubjectIndicesInDiv() to generate the component
- * of the SQL query that identifies all jobs that are marked as having subjects
- * in the given division. The query will be of the form: 
- * 
- * "and (substring(subjs, 1, 1) = '1' OR substring(subjs, 2, 1) = '1') ... )"
- * 
- * @param {String} div the division for which the query substring should be 
- * generated 
- * @return the SQL query substring pertaining to jobs in this division 
- */
-function getQueryForDiv(div) {
-  // get the indices for the division using helper 
-  var divIndices = getSubjectIndicesInDiv(div)
-
-  // if indices.length = 0, return "" (unrestricted)
-  if (divIndices.length == 0) {
-    return "";
-  }
-
-  // create SQL string starting with and (
-  var out = " and (";
-
-  // for n-1 of n indices, append "OR" after substring(subjs, i, 1) = '1'
-  for (var i = 0; i < divIndices.length - 1; i++) {
-    out += "substring(subjs, " + divIndices[i] + ", 1) = '1' OR "
-  }
-
-  // don't add OR after the last one, just )
-  out += "substring(subjs, " + divIndices[divIndices.length - 1] + ", 1) = '1'";
-  return out + ")";
-}
-
-/**
- * @param {String} pos the position for which the query substring should be 
- * generated 
- * @return the SQL query substring pertaining to jobs in this position 
- */
-function getQueryForPos(pos){
-  if (pos === "unrestricted"){
-    return ""
-  }
-  return "AND " + pos + " = '1' "
-}
-
-/**
- * @param {String} careerarea the array of career areas for which the query substring should be 
- * generated 
- * @return the SQL query substring pertaining to jobs in these career areas
- * 
- * NOTE: The list of longNames does not match the positions list we have.
- */
-function getQueryForCareerArea(careerarea){
-  if (careerarea.length == 0){
-    return ""
-  }
-
-  var tupleStr = "("
-  for (v of careerarea){
-    tupleStr += "'" + v + "'" + ", "
-  }
-  tupleStr = tupleStr.substring(0, tupleStr.length - 2) + ")"
-  console.log(tupleStr)
-  return "AND careerarea IN " + tupleStr
-}
-
 app.post("/jobsModeData", function(req, res) {
-
-  // get the HTML elements' inputs on client-side via POST request body 
+  // get the HTML elements' inputs on client-side via POST request body
   var year1 = req.body.year1;
-  var year2 = req.body.year2; 
+  var year2 = req.body.year2;
   var div = req.body.div;
-  var pos = req.body.pos;
-  var careerarea = req.body.careerarea;
+  var ownership = req.body.ownership;
+  var length = req.body.length;
+  var isr1 = req.body.isr1;
+  var jobType = req.body.jobType;
+  var careerareas = req.body.careerareas;
 
+  // Build query for postgres DB using library helper functions.
   client
-    .query("SELECT inststate AS state, count(*) FROM post_doc_jobs WHERE year BETWEEN " + year1 + " AND " + year2 + getQueryForDiv(div) + getQueryForPos(pos) + getQueryForCareerArea(careerarea) + " GROUP BY inststate;")
+    .query(
+      "SELECT inststate AS state, count(*) FROM post_doc_jobs WHERE year BETWEEN " +
+        year1 +
+        " AND " +
+        year2 +
+        lib.getQueryForDiv(div) +
+        lib.getQueryForCareerArea(careerareas) +
+        lib.getOwnership(ownership) +
+        lib.getIsR1(isr1) +
+        lib.getLength(length) +
+        lib.getJobType(jobType) +
+        " GROUP BY inststate;"
+    )
     .then((data) => {
       res.json(data.rows);
     })
@@ -179,11 +89,32 @@ app.post("/skillsModeData", function(req, res) {
 });
 
 app.post("/jobsModeState", function(req, res) {
+  // get the HTML elements' inputs on client-side via POST request body
+  var year1 = req.body.year1;
+  var year2 = req.body.year2;
+  var div = req.body.div;
+  var ownership = req.body.ownership;
+  var length = req.body.length;
+  var isr1 = req.body.isr1;
+  var jobType = req.body.jobType;
+  var careerareas = req.body.careerareas;
+  var clickedState = req.body.clickedState;
+
   client
     .query(
-      "SELECT state, CASE WHEN institutionstate LIKE state THEN 0 ELSE count(jobid) END FROM job_state WHERE institutionstate like '" 
-       + req.body.value +
-       "' GROUP BY institutionstate, state"
+      "SELECT state, CASE WHEN inststate LIKE state THEN 0 ELSE count(jobid) END FROM post_doc_jobs WHERE inststate like '" +
+        clickedState +
+        "' AND year BETWEEN " +
+        year1 +
+        " AND " +
+        year2 +
+        lib.getQueryForDiv(div) +
+        lib.getQueryForCareerArea(careerareas) +
+        lib.getOwnership(ownership) +
+        lib.getIsR1(isr1) +
+        lib.getLength(length) +
+        lib.getJobType(jobType) +
+        " GROUP BY inststate, state"
     )
     .then((data) => {
       res.json(data.rows);
@@ -203,4 +134,4 @@ app.get("/jobsMode", function(req, res) {
 });
 
 // server running on port 8000
-app.listen(8000);
+app.listen(7000);

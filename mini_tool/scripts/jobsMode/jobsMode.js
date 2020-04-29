@@ -27,7 +27,10 @@ function updateMap(starting) {
   // Logging the HTML data from the webpage (either last or curr versions can be used)
   console.log("SLIDER DATA: " + lastValidYear1 + " " + lastValidYear2)
   console.log("DIVISION SELECT DATA: " + lastDivision)
-  console.log("INSTITUTION TYPE SELECT DATA: " + lastInstitutionType)
+  console.log("INST OWNERSHIP " + lastOwnership)
+  console.log("INST LENGTH " + lastLength)
+  console.log("INST R1 " + lastIsR1)
+  console.log("JOB TYPE : " + lastJobType)
   console.log("SELECTED SUBJECTS DATA: " + Array.from(lastCareerAreas).join(" "))
 
   disableResetButton();
@@ -44,8 +47,11 @@ function updateMap(starting) {
       "year1" : lastValidYear1,
       "year2" : lastValidYear2,
       "div" : lastDivision,
-      "pos" : lastInstitutionType,
-      "careerarea" : Array.from(lastCareerAreas),
+      "ownership" : lastOwnership,
+      "length" : lastLength,
+      "isr1" : lastIsR1,
+      "jobType" : lastJobType,
+      "careerareas" : Array.from(lastCareerAreas),
     })
   })
     .then((response) => {

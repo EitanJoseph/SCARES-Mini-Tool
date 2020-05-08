@@ -39,7 +39,7 @@ function updateMap(starting) {
   disableResetButton();
 
   // sending data at /jobsMode over POST as JSON
-  fetch("/jobsModeData", {
+  fetch("/mapsModeData", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

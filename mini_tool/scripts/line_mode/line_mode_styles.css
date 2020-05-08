@@ -1,0 +1,72 @@
+body {
+  margin: 0;
+  background-color: white;
+  font-family: "Arial", sans-serif;
+  font-weight: 200;
+  font-size: 15px;
+}
+button {
+  background-color: white;
+  color: black;
+  border: 2px solid #000000; /* Black */
+}
+
+button {
+  -webkit-transition-duration: 0.4s;
+  transition-duration: 0.4s;
+}
+
+button:hover {
+  background-color: #38d11a; /* green */
+  color: white;
+}
+
+input[type="range"]::-moz-focus-outer {
+  border: 0;
+}
+
+.textInput {
+  width: 200px;
+  height: 50px;
+  font-size: 40;
+}
+
+*:focus {
+  outline: 0 !important;
+}
+
+button {
+  background-color: white;
+  color: black;
+  font-size: large;
+  border: 2px solid #000000; /* Black */
+  width: 90px;
+  height: 40px;
+}
+
+button {
+  -webkit-transition-duration: 0.4s;
+  transition-duration: 0.4s;
+}
+
+button:hover {
+  background-color: #38d11a; /* green */
+  color: white;
+}
+
+.wrap {
+  display: grid;
+  grid-template-rows: max-content 1em;
+  margin: 1em auto;
+  width: 20em;
+}
+
+input[type="range"] {
+  grid-column: 1;
+  grid-row: 2;
+}
+
+input[type="checkbox"] {
+  transform: scale(1.5, 1.5);
+  margin-left: 30px;
+}

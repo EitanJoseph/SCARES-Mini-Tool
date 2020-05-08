@@ -47,7 +47,7 @@ app.use(express.static(__dirname + "/"));
 // Marks that we will be using ejs templating
 app.set("view engine", "ejs");
 
-app.post("/jobsModeData", function(req, res) {
+app.post("/mapsModeData", function(req, res) {
   // get the HTML elements' inputs on client-side via POST request body
   var year1 = req.body.year1;
   var year2 = req.body.year2;
@@ -103,15 +103,6 @@ app.post("/jobsModeData", function(req, res) {
   }
 });
 
-/*
- This data posts the result of a SQL query on the database to /slide4data to be picked
- up by the client. Specifically, this code will query the database based on the year
- and subject selections on the client side. 
- */
-app.post("/skillsModeData", function(req, res) {
-  // logging the request info for debugging
-  console.log(req.body);
-});
 
 app.post("/jobsModeState", function(req, res) {
   // get the HTML elements' inputs on client-side via POST request body
@@ -147,15 +138,16 @@ app.post("/jobsModeState", function(req, res) {
     .catch((e) => console.error(e.stack));
 });
 
-// Different Visualization Page are rendered at these URLS
-// That is, when the links on index.html are clicked, those URLs are requested, and the ejs pages in the views
-// subfolders are rendered.
-app.get("/skillsMode", function(req, res) {
-  res.render("skillsMode/skillsMode");
+app.get("/map_mode", function(req, res) {
+  res.render("map_mode/map_mode");
 });
 
-app.get("/jobsMode", function(req, res) {
-  res.render("jobsMode/jobsMode");
+app.get("/bar_mode", function(req, res) {
+  res.render("bar_mode/bar_mode");
+});
+
+app.get("/line_mode", function(req, res) {
+  res.render("line_mode/line_mode");
 });
 
 // server running on port 8000

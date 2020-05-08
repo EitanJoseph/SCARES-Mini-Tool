@@ -5,7 +5,7 @@
     <!-- 
       Use this to change the text that appears on the tab in the browser when you're on a page
     -->
-    <title>Jobs Mode</title>
+    <title>Map Mode</title>
 
     <!-- 
       Link JQuery, D3 and necessary script + CSS for this template.
@@ -17,14 +17,14 @@
     ></script>
     <script src="http://d3js.org/d3.v4.min.js"></script>
     <script src="https://d3js.org/topojson.v1.min.js"></script>
-    <script type="text/javascript" src="scripts/jobsMode/jobsMode.js"></script>
+    <script type="text/javascript" src="scripts/map_mode/map_mode.js"></script>
     <script
       type="text/javascript"
-      src="scripts/jobsMode/html_element_lib.js"
+      src="scripts/map_mode/map_mode_lib.js"
     ></script>
-    <script type="text/javascript" src="scripts/jobsMode/BEAZone_lib.js"></script>
+    <script type="text/javascript" src="scripts/map_mode/BEAZone_lib.js"></script>
 
-    <link rel="stylesheet" href="scripts/jobsMode/slide1styles.css" />
+    <link rel="stylesheet" href="scripts/map_mode/map_mode.css" />
   </head>
 
   <body onload="updateMap(true); $(this).scrollTop(0);">
@@ -48,17 +48,17 @@
       style="float: right; margin-right: 5px; margin-top: 35px; width: 160px; height: 40px; font-size: large; border: 2px solid #000000"
       id="view_mode_select_id"
       name="view_mode_select"
-      onchange="updateView()"
+      onchange="location=this.value";
     >
-      <option value="map_view">Map Mode</option>
-      <option value="bargraph_view">Bar Graph Mode</option>
-      <option value="linegraph_view">Line Graph Mode</option>
+      <option value="map_mode">Map Mode</option>
+      <option value="bar_mode">Bar Graph Mode</option>
+      <option value="line_mode">Line Graph Mode</option>
     </select>
 
     <select
       style="float: right; margin-right:5px; margin-top: 35px; width: 160px; height: 40px; font-size: large; border: 2px solid #000000"
       id="display_modes"
-      onchange="updateView()"
+      onchange="updateLocationView()"
     >
       <option value="state">State Mode</option>
       <option value="beazone">BEA Zone Mode</option>
@@ -77,7 +77,7 @@
 
     <div class="grid-container" style="float:right;">
       <div id="map-holder" class="grid-child purple" style="margin-right:0px">
-        <script type="text/javascript" src="scripts/jobsMode/map.js"></script>
+        <script type="text/javascript" src="scripts/map_mode/map.js"></script>
       </div>
 
       <div class="grid-child green" style="margin-left:0px; margin-right: 10px">

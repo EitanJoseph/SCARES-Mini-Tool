@@ -29,10 +29,10 @@ Include a Bar Mode as well; add more information to line mode.
 
 Resources: 
 
-jQuery: https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js
-d3: https://d3js.org/d3.v4.min.js
-topojson: https://d3js.org/topojson.v1.min.js
-US states geo JSON: https://raw.githubusercontent.com/shawnbot/topogram/master/data/us-states.geojson
+* jQuery: https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js
+* d3: https://d3js.org/d3.v4.min.js
+* topojson: https://d3js.org/topojson.v1.min.js
+* US states geo JSON: https://raw.githubusercontent.com/shawnbot/topogram/master/data/us-states.geojson
 
 
 

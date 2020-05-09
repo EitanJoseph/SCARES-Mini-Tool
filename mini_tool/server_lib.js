@@ -95,16 +95,18 @@ module.exports = {
 
   /**
    * This function returns the String to be added to a SQL query based on an
-   * isr1 boolean. That is, if isr1 = true then a SQL query string " AND isr1 = '1'"
-   * is returned and otherwise an empty string is returned
+   * isr1 boolean.
+   *
+   * Note that the boolean
    * @param {boolean} isr1 indicating whether restricting to R1 institutions
+   * @param {boolean} and indicating whether or not we need to append AND before the clause
    * @return SQL substring applying the restriction
    */
-  getIsR1: function(isr1) {
+  getIsR1: function(isr1, and) {
     if (isr1) {
-      return " AND isr1 = '1'";
+      return " isr1 = '1'";
     } else {
-      return "";
+      return (and ? " AND " : "") + " (isr1 = '1' OR isr1 = '0') "; // Eitan Joseph is responsible for this monstrosity
     }
   },
 

@@ -152,7 +152,7 @@ function multiSelectDropdownRunner() {
 
 function viewDiv(id) {
   var x = document.getElementById(id);
-  x.style.display = "block";
+  x.style.display = "inline-block";
 }
 
 function hideDiv(id) {

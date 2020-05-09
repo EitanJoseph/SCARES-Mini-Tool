@@ -1,64 +1,42 @@
-
 function getDataFromServer() {
-  // sending data at /slide3data over GET as JSON
-  // using GET because client doesn't need to send specific paramters to the server
-  fetch("/slide3data", {
-    method: "GET",
+  fetch("/lineModeData", {
+    method: "POST",
     headers: {
-      "Content-Type": "application/json"
-    }
+      "Content-Type": "application/json",
+    },
+
+    // stringify an array containing the inputs from the HTML elements
+    body: JSON.stringify({
+      div: currDivision,
+      ownership: currOwnership,
+      length: currLength,
+      isr1: currIsR1,
+      jobType: currJobType,
+      careerareas: Array.from(currCareerAreas),
+    }),
   })
-    .then(response => {
+    .then((response) => {
       return response.json();
     })
     // data received from server is still dumped into console (but can easily be visualized using jsonFromServer)
-    .then(jsonFromServer => {
-      console.log("client received from server @ /slide3data");
-      //console.log(jsonFromServer);
+    .then((jsonFromServer) => {
+      console.log("client received from server @ /LineModeData");
+      console.log(jsonFromServer);
       drawLineGraph(jsonFromServer);
     });
 }
 
-function drawLineGraph(data) {
-  //creating a JSON object with a field for each beazone, and the value for the field is an array of year-count pairs
-  var beazones = [
-    "Southeast",
-    "Southwest",
-    "Rocky Mountains",
-    "Great Lakes",
-    "New England",
-    "Plains",
-    "Mideast",
-    "Far West"
-  ];
-  var beazoneCounts = {
-    Southeast: [],
-    Southwest: [],
-    "Rocky Mountains": [],
-    "Great Lakes": [],
-    "New England": [],
-    Plains: [],
-    Mideast: [],
-    "Far West": []
-  };
-  var max = 0;
-  for (i in beazones) {
-    for (j in data) {
-      if (data[j].count * 1 > max * 1) {
-        max = data[j].count;
-      }
-      if (data[j].beazone === beazones[i]) {
-        beazoneCounts[beazones[i]].push({
-          year: data[j].year,
-          count: data[j].count
-        });
-      }
-    }
-  }
+function clear() {
+  d3.select("#graph-holder")
+    .selectAll("*")
+    .remove();
+}
 
+function drawLineGraph(data) {
+  clear();
   // set the dimensions and margins of the graph
   var margin = { top: 40, right: 20, bottom: 30, left: 50 },
-    width = 960 - margin.left - margin.right,
+    width = 950 - margin.left - margin.right,
     height = 600 - margin.top - margin.bottom;
 
   // set the ranges
@@ -79,7 +57,7 @@ function drawLineGraph(data) {
   // appends a 'group' element to 'svg'
   // moves the 'group' element to the top left margin
   var svg = d3
-    .select("body")
+    .select("#graph-holder")
     .append("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
@@ -92,60 +70,60 @@ function drawLineGraph(data) {
       return d.year;
     })
   );
-  y.domain([0, max]);
+  max = 0;
+  for (var i = 0; i < data.length; i++) {
+    max = Math.max(max, data[i].count);
+  }
+  y.domain([0, Math.ceil(1.2 * max)]);
 
   //add the title
   svg
     .append("text")
-    .text("Total Post-Doc Counts by Home Region")
+    .text("Post-Doc Jobs By Year")
     .attr("transform", "translate(250,0)")
     .style("font-size", "1.5vw");
 
-  for (i in beazones) {
-    console.log(beazoneCounts[beazones[i]]);
-    data = beazoneCounts[beazones[i]];
-    // Add the line/path
-    svg
-      .append("path")
-      .data([data])
-      .attr("class", "line_" + beazones[i].split(" ").join(""))
-      .attr("id", "line_" + beazones[i].split(" ").join(""))
-      .attr("d", valueline)
-      .attr("fill", "none")
-      .attr("stroke-width", "4px")
-      .on("mouseover", function() {
-        d3.select(this).attr("stroke-width", "8px");
-        console.log("#" + d3.select(this).attr("id") + "_text");
-        d3.select("#" + d3.select(this).attr("id") + "_text").attr(
-          "font-size",
-          "14pt"
-        );
-        d3.select("#" + d3.select(this).attr("id") + "_text").attr(
-          "font-variant",
-          "small-caps"
-        );
-        d3.select("#" + d3.select(this).attr("id") + "_legend").attr(
-          "height",
-          "4"
-        );
-      })
-      .on("mouseout", function() {
-        d3.select(this).attr("stroke-width", "4px");
-        d3.select("#" + d3.select(this).attr("id") + "_text").attr(
-          "font-size",
-          "12pt"
-        );
-        d3.select("#" + d3.select(this).attr("id") + "_text").attr(
-          "font-variant",
-          "normal"
-        );
-        d3.select("#" + d3.select(this).attr("id") + "_legend").attr(
-          "height",
-          "2.4"
-        );
-      });
-    console.log("line_" + beazones[i].split(" ").join(""));
-  }
+  // Add the line/path
+  svg
+    .append("path")
+    .data([data])
+    .attr("class", "line")
+    .attr("id", "line")
+    .attr("d", valueline)
+    .attr("fill", "none")
+    .attr("stroke", "black")
+    .attr("stroke-width", "4px")
+    .on("mouseover", function() {
+      d3.select(this).attr("stroke-width", "8px");
+      console.log("#" + d3.select(this).attr("id") + "_text");
+      d3.select("#" + d3.select(this).attr("id") + "_text").attr(
+        "font-size",
+        "14pt"
+      );
+      d3.select("#" + d3.select(this).attr("id") + "_text").attr(
+        "font-variant",
+        "small-caps"
+      );
+      d3.select("#" + d3.select(this).attr("id") + "_legend").attr(
+        "height",
+        "4"
+      );
+    })
+    .on("mouseout", function() {
+      d3.select(this).attr("stroke-width", "4px");
+      d3.select("#" + d3.select(this).attr("id") + "_text").attr(
+        "font-size",
+        "12pt"
+      );
+      d3.select("#" + d3.select(this).attr("id") + "_text").attr(
+        "font-variant",
+        "normal"
+      );
+      d3.select("#" + d3.select(this).attr("id") + "_legend").attr(
+        "height",
+        "2.4"
+      );
+    });
   // Add the X Axis
   svg
     .append("g")
@@ -159,14 +137,14 @@ function drawLineGraph(data) {
 
   var lineLegend = svg
     .selectAll(".lineLegend")
-    .data(beazones)
+    .data(data)
     .enter()
     .append("g")
     .attr("class", "lineLegend")
     .attr("transform", function(d, i) {
       return "translate(30," + (i * 20 + 20) + ")";
     });
-
+  /*
   lineLegend
     .append("text")
     .attr("id", function(d) {
@@ -187,4 +165,5 @@ function drawLineGraph(data) {
     })
     .attr("width", 20)
     .attr("height", 2.4);
+    */
 }

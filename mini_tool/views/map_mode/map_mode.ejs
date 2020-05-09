@@ -22,9 +22,12 @@
       type="text/javascript"
       src="scripts/map_mode/map_mode_lib.js"
     ></script>
-    <script type="text/javascript" src="scripts/map_mode/BEAZone_lib.js"></script>
+    <script
+      type="text/javascript"
+      src="scripts/map_mode/BEAZone_lib.js"
+    ></script>
 
-    <link rel="stylesheet" href="scripts/map_mode/map_mode.css" />
+    <link rel="stylesheet" href="scripts/map_mode/map_mode_styles.css" />
   </head>
 
   <body onload="updateMap(true); $(this).scrollTop(0);">
@@ -48,7 +51,8 @@
       style="float: right; margin-right: 5px; margin-top: 35px; width: 160px; height: 40px; font-size: large; border: 2px solid #000000"
       id="view_mode_select_id"
       name="view_mode_select"
-      onchange="location=this.value";
+      onchange="location=this.value"
+      ;
     >
       <option value="map_mode">Map Mode</option>
       <option value="bar_mode">Bar Graph Mode</option>

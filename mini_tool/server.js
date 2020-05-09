@@ -5,7 +5,7 @@
 
 // get the exported functions from the library
 const lib = require("./server_lib");
-const BEAZone_lib = require("./scripts/jobsMode/BEAZone_Server_lib.js");
+const BEAZone_lib = require("./scripts/map_mode/BEAZone_Server_lib.js");
 
 // set up the postgres client, express
 var express = require("express");
@@ -58,29 +58,41 @@ app.post("/mapsModeData", function(req, res) {
   var jobType = req.body.jobType;
   var careerareas = req.body.careerareas;
   var stateMode = req.body.stateMode;
-  console.log(stateMode)
-  if (!stateMode){
+  console.log(
+    "SELECT instbeazone, count(*) FROM post_doc_jobs WHERE " +
+      "year BETWEEN " +
+      year1 +
+      " AND " +
+      year2 +
+      lib.getQueryForDiv(div) +
+      lib.getQueryForCareerArea(careerareas) +
+      lib.getOwnership(ownership) +
+      lib.getIsR1(isr1, true) +
+      lib.getLength(length) +
+      lib.getJobType(jobType) +
+      " GROUP BY instbeazone"
+  );
+  if (!stateMode) {
     client
       .query(
-        "SELECT instbeazone, count(*) FROM post_doc_jobs WHERE " + 
-        "year BETWEEN " +
-        year1 +
-        " AND " +
-        year2 +
-        lib.getQueryForDiv(div) +
-        lib.getQueryForCareerArea(careerareas) +
-        lib.getOwnership(ownership) +
-        lib.getIsR1(isr1) +
-        lib.getLength(length) +
-        lib.getJobType(jobType) +
-        " GROUP BY instbeazone"
+        "SELECT instbeazone, count(*) FROM post_doc_jobs WHERE " +
+          "year BETWEEN " +
+          year1 +
+          " AND " +
+          year2 +
+          lib.getQueryForDiv(div) +
+          lib.getQueryForCareerArea(careerareas) +
+          lib.getOwnership(ownership) +
+          lib.getIsR1(isr1, true) +
+          lib.getLength(length) +
+          lib.getJobType(jobType) +
+          " GROUP BY instbeazone"
       )
       .then((data) => {
         res.json(data.rows);
       })
       .catch((e) => console.error(e.stack));
-  }
-  else {
+  } else {
     // Build query for postgres DB using library helper functions.
     client
       .query(
@@ -91,7 +103,7 @@ app.post("/mapsModeData", function(req, res) {
           lib.getQueryForDiv(div) +
           lib.getQueryForCareerArea(careerareas) +
           lib.getOwnership(ownership) +
-          lib.getIsR1(isr1) +
+          lib.getIsR1(isr1, true) +
           lib.getLength(length) +
           lib.getJobType(jobType) +
           " GROUP BY inststate;"
@@ -102,7 +114,6 @@ app.post("/mapsModeData", function(req, res) {
       .catch((e) => console.error(e.stack));
   }
 });
-
 
 app.post("/jobsModeState", function(req, res) {
   // get the HTML elements' inputs on client-side via POST request body
@@ -127,10 +138,45 @@ app.post("/jobsModeState", function(req, res) {
         lib.getQueryForDiv(div) +
         lib.getQueryForCareerArea(careerareas) +
         lib.getOwnership(ownership) +
-        lib.getIsR1(isr1) +
+        lib.getIsR1(isr1, true) +
         lib.getLength(length) +
         lib.getJobType(jobType) +
         " GROUP BY inststate, state"
+    )
+    .then((data) => {
+      res.json(data.rows);
+    })
+    .catch((e) => console.error(e.stack));
+});
+
+app.post("/lineModeData", function(req, res) {
+  // get the HTML elements' inputs on client-side via POST request body
+  var div = req.body.div;
+  var ownership = req.body.ownership;
+  var length = req.body.length;
+  var isr1 = req.body.isr1;
+  var jobType = req.body.jobType;
+  var careerareas = req.body.careerareas;
+  console.log(
+    "SELECT d.year, SUM(d.count) FROM ((SELECT year, count(*) as count FROM post_doc_jobs WHERE " +
+      lib.getIsR1(isr1, false) +
+      lib.getQueryForDiv(div) +
+      lib.getQueryForCareerArea(careerareas) +
+      lib.getOwnership(ownership) +
+      lib.getLength(length) +
+      lib.getJobType(jobType) +
+      "GROUP BY year) UNION (SELECT year, 0 as count FROM post_doc_jobs)) as d GROUP BY d.year ORDER BY d.year;"
+  );
+  client
+    .query(
+      "SELECT d.year, SUM(d.count) as count FROM ((SELECT year, count(*) as count FROM post_doc_jobs WHERE " +
+        lib.getIsR1(isr1, false) +
+        lib.getQueryForDiv(div) +
+        lib.getQueryForCareerArea(careerareas) +
+        lib.getOwnership(ownership) +
+        lib.getLength(length) +
+        lib.getJobType(jobType) +
+        "GROUP BY year) UNION (SELECT year, 0 as count FROM post_doc_jobs)) as d GROUP BY d.year ORDER BY d.year;"
     )
     .then((data) => {
       res.json(data.rows);
@@ -151,4 +197,4 @@ app.get("/line_mode", function(req, res) {
 });
 
 // server running on port 8000
-app.listen(7000);
+app.listen(8000);

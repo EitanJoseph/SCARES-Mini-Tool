@@ -16,6 +16,9 @@ var lastJobType = "unrestricted";
 // this tracks the last career areas that were checked
 var lastCareerAreas = new Set();
 
+// this tracks the last BEA zones that were checked
+var lastBEAZones = new Set();
+
 // this tracks the current division (science, social science, etc.)
 var currDivision = "unrestricted";
 
@@ -28,8 +31,11 @@ var currLength = "unrestricted";
 // this tracks whether the R1 box is checked or not
 var currIsR1 = false;
 
-// this tracks which elements have been checked currently
+// this tracks which career areas have been checked currently
 var currCareerAreas = new Set();
+
+// this tracks which BEA zones have been checked currently
+var currBEAZones = new Set();
 
 // this tracks the current job type
 var currJobType = "unrestricted";
@@ -70,12 +76,22 @@ function updateIsR1() {
 function updateCheckBox(i) {
   // JQuery method of retrieving label text
   var labelText = $("#label" + i).text();
-
-  // JQuery method of checking if checkbox is checked
-  if ($("#checkbox" + i).is(":checked")) {
-    currCareerAreas.add(labelText);
-  } else {
-    currCareerAreas.delete(labelText);
+  if (i < 26) {
+    // JQuery method of checking if checkbox is checked
+    if ($("#checkbox" + i).is(":checked")) {
+      currCareerAreas.add(labelText);
+    } else {
+      currCareerAreas.delete(labelText);
+    }
+  }
+  else {
+    // JQuery method of checking if checkbox is checked
+    if ($("#checkbox" + i).is(":checked")) {
+      currBEAZones.add(labelText);
+    } else {
+      currBEAZones.delete(labelText);
+    }
+    console.log(currBEAZones);
   }
 }
 
@@ -86,7 +102,7 @@ function updateCheckBox(i) {
  * @return true if a checkbox was checked/unchecked or a new checkbox was checked
  * and false if checkboxes all remained in the same state
  */
-function sameChecked() {
+function sameCareerAreasChecked() {
   // sets different size => sets different
   if (currCareerAreas.size != lastCareerAreas.size) {
     return false;
@@ -97,6 +113,25 @@ function sameChecked() {
     // if its not there, then currSubjs must have some other
     // element => return false
     if (!lastCareerAreas.has(v)) {
+      return false;
+    }
+  }
+
+  // lastSubjs has each element in currSubjs and no other elements
+  return true;
+}
+
+function sameBEAZonesChecked() {
+  // sets different size => sets different
+  if (currBEAZones.size != lastBEAZones.size) {
+    return false;
+  }
+
+  // for each value in currSubjs, check if its in lastSubjs
+  for (v of currBEAZones.values()) {
+    // if its not there, then currSubjs must have some other
+    // element => return false
+    if (!lastBEAZones.has(v)) {
       return false;
     }
   }
@@ -120,7 +155,8 @@ function shouldRunNewQuery() {
     currIsR1 != lastIsR1 ||
     currJobType != lastJobType ||
     // if checkboxes changed state
-    !sameChecked()
+    !sameCareerAreasChecked() ||
+    !sameBEAZonesChecked()
   ) {
     // if something was changed, update "last" versions of the attributes
     lastDivision = currDivision;
@@ -132,6 +168,8 @@ function shouldRunNewQuery() {
     // to the same set
     lastCareerAreas.clear();
     currCareerAreas.forEach((careerarea) => lastCareerAreas.add(careerarea));
+    lastBEAZones.clear();
+    currBEAZones.forEach((beazone) => lastBEAZones.add(beazone));
     return true;
   }
   // no change, no need to update "last" versions

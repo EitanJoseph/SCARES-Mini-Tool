@@ -157,11 +157,14 @@ app.post("/lineModeData", function(req, res) {
   var isr1 = req.body.isr1;
   var jobType = req.body.jobType;
   var careerareas = req.body.careerareas;
+  var beazones = req.body.beazones;
+  console.log(beazones);
   console.log(
     "SELECT d.year, SUM(d.count) FROM ((SELECT year, count(*) as count FROM post_doc_jobs WHERE " +
       lib.getIsR1(isr1, false) +
       lib.getQueryForDiv(div) +
       lib.getQueryForCareerArea(careerareas) +
+      lib.getQueryForBEAZones(beazones) + 
       lib.getOwnership(ownership) +
       lib.getLength(length) +
       lib.getJobType(jobType) +
@@ -173,6 +176,7 @@ app.post("/lineModeData", function(req, res) {
         lib.getIsR1(isr1, false) +
         lib.getQueryForDiv(div) +
         lib.getQueryForCareerArea(careerareas) +
+        lib.getQueryForBEAZones(beazones) + 
         lib.getOwnership(ownership) +
         lib.getLength(length) +
         lib.getJobType(jobType) +
@@ -197,4 +201,4 @@ app.get("/line_mode", function(req, res) {
 });
 
 // server running on port 8000
-app.listen(8000);
+app.listen(7000);

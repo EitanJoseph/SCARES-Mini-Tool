@@ -61,6 +61,20 @@ module.exports = {
     return "AND careerarea IN " + tupleStr;
   },
 
+  getQueryForBEAZones: function(beazones) { 
+    if (beazones.length == 0) {
+      return "";
+    }
+
+    var tupleStr = "(";
+    for (v of beazones) {
+      tupleStr += "'" + v + "'" + ", ";
+    }
+    tupleStr = tupleStr.substring(0, tupleStr.length - 2) + ")";
+    console.log(tupleStr);
+    return "AND instbeazone IN " + tupleStr;
+  },
+
   /**
    * This function returns the String to be added to a SQL query based on an
    * ownership String. That is, if ownership is 'public' then a SQL query string

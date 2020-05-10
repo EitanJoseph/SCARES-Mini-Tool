@@ -90,8 +90,7 @@ function updateCheckBox(i) {
     } else {
       currCareerAreas.delete(labelText);
     }
-  }
-  else {
+  } else {
     // JQuery method of checking if checkbox is checked
     if ($("#checkbox" + i).is(":checked")) {
       currBEAZones.add(labelText);
@@ -187,10 +186,9 @@ function shouldRunNewQuery() {
   return false;
 }
 
-
 /**
  * This function is used to view the fake selection dropdown div when the user clicks on the button "career areas".
- * @param {String} id id of div 
+ * @param {String} id id of div
  */
 function viewDiv(id) {
   var x = document.getElementById(id);
@@ -198,7 +196,7 @@ function viewDiv(id) {
 }
 
 /**
- * This function is used to hide the fake selection dropdown div when the user mouses out of all the career areas 
+ * This function is used to hide the fake selection dropdown div when the user mouses out of all the career areas
  * checkboxes.
  * @param {String} id id of div
  */

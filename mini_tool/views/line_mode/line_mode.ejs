@@ -7,7 +7,6 @@
     Head of the file. Here the necessary scripts (with the exception of line_mode.js) are imported.
   -->
   <head>
-
     <title>Line Graph Mode</title>
 
     <!-- 
@@ -117,18 +116,24 @@
         class="grid-child green"
         style="margin-left:0px; margin-right: 10px; display: inline-block;"
       >
-        <br />
-        <br />
+        <!-- Description to be placed above career areas input area -->
+        <h4>Graphs Description</h4>
+
         <!--
           This text area will be used for the display of the data for the graph that the user is currently hovering over. It is disabled
           to be read only.
         -->
         <textarea
-          disabled
-          style="font-size: 18px; border-color:white"
+          placeholder="Hover over a line to get a description of the graphed data."
+          rows="20"
           id="description"
-          rows="5"
-          cols="50"
+          cols="40"
+          class="ui-autocomplete-input"
+          autocomplete="off"
+          role="textbox"
+          aria-autocomplete="list"
+          aria-haspopup="true"
+          disabled
         ></textarea>
 
         <!-- Description to be placed above career areas input area -->

@@ -41,6 +41,8 @@ module.exports = {
   },
 
   /**
+   * Gets the queries for selection for data belonging to a collection of career areas. 
+   * 
    * @param {String} careerarea the array of career areas for which the query substring should be
    * generated
    * @return the SQL query substring pertaining to jobs in these career areas
@@ -61,6 +63,13 @@ module.exports = {
     return "AND careerarea IN " + tupleStr;
   },
 
+   /**
+   * Gets the queries for selection for data belonging to a collection of beazones.
+   * 
+   * @param {String} beazones the array of beazones for which the query substring should be
+   * generated
+   * @return the SQL query substring pertaining to jobs in these beazones
+   */
   getQueryForBEAZones: function(beazones) { 
     if (beazones.length == 0) {
       return "";

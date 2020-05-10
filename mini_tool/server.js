@@ -62,7 +62,7 @@ app.post("/mapsModeData", function(req, res) {
   var jobType = req.body.jobType; // job type (full time, part time)
   var careerareas = req.body.careerareas; // career areas (engineering, planning and analysis, etc.)
 
-  // Check if you are viewing in map mode or in state mode 
+  // Check if you are viewing in map mode or in state mode
   var stateMode = req.body.stateMode;
 
   // If you are in beazone mode
@@ -86,10 +86,10 @@ app.post("/mapsModeData", function(req, res) {
         res.json(data.rows);
       })
       .catch((e) => console.error(e.stack));
-  } 
-  
+  }
+
   // If you are in state mode
-  else {  
+  else {
     client
       .query(
         "SELECT inststate AS state, count(*) FROM post_doc_jobs WHERE year BETWEEN " +
@@ -146,6 +146,44 @@ app.post("/mapModeState", function(req, res) {
         lib.getLength(length) +
         lib.getJobType(jobType) +
         " GROUP BY inststate, state"
+    )
+    .then((data) => {
+      res.json(data.rows);
+    })
+    .catch((e) => console.error(e.stack));
+});
+
+/**
+ * When the client posts a request on the resource "barModeData", run the function below given parameters
+ * req (contains request's/client data) and res (response to send back to the client).
+ */
+app.post("/barModeData", function(req, res) {
+  // get the HTML elements' inputs on client-side via POST request body
+  var year1 = req.body.year1; // year 1 (lower year) from client
+  var year2 = req.body.year2; // year 2 (upper year) from client
+  var div = req.body.div; // division (social science, science)
+  var ownership = req.body.ownership; // ownership (public, private)
+  var length = req.body.length; // length (2 year v. 4 year)
+  var isr1 = req.body.isr1; // research type (R1 or not)
+  var jobType = req.body.jobType; // job type (full time, part time)
+  var careerareas = req.body.careerareas; // career areas (engineering, planning and analysis, etc.)
+  var beazones = req.body.beazones; // beazones (New England, Great Lakes, etc.)
+
+  // Build query using client inputs and helper functions in lib
+  client
+    .query(
+      "SELECT skillname, COUNT(skillname) FROM post_doc_skills WHERE jobid IN (SELECT jobid FROM post_doc_jobs WHERE year BETWEEN " +
+        year1 +
+        " AND " +
+        year2 +
+        lib.getIsR1(isr1, true) +
+        lib.getQueryForDiv(div) +
+        lib.getQueryForCareerArea(careerareas) +
+        lib.getQueryForBEAZones(beazones) +
+        lib.getOwnership(ownership) +
+        lib.getLength(length) +
+        lib.getJobType(jobType) +
+        ") GROUP BY skillname ORDER BY COUNT(skillname) DESC LIMIT 10;"
     )
     .then((data) => {
       res.json(data.rows);

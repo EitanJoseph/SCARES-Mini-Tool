@@ -47,31 +47,25 @@ app.use(express.static(__dirname + "/"));
 // Marks that we will be using ejs templating
 app.set("view engine", "ejs");
 
+/**
+ * When the client posts a request on the resource "mapsModeData", run the function below given parameters
+ * req (contains request's/client data) and res (response to send back to the client).
+ */
 app.post("/mapsModeData", function(req, res) {
   // get the HTML elements' inputs on client-side via POST request body
-  var year1 = req.body.year1;
-  var year2 = req.body.year2;
-  var div = req.body.div;
-  var ownership = req.body.ownership;
-  var length = req.body.length;
-  var isr1 = req.body.isr1;
-  var jobType = req.body.jobType;
-  var careerareas = req.body.careerareas;
+  var year1 = req.body.year1; // year 1 (lower year) from client
+  var year2 = req.body.year2; // year 2 (upper year) from client
+  var div = req.body.div; // division (social science, science)
+  var ownership = req.body.ownership; // ownership (public, private)
+  var length = req.body.length; // length (2 year v. 4 year)
+  var isr1 = req.body.isr1; // research type (R1 or not)
+  var jobType = req.body.jobType; // job type (full time, part time)
+  var careerareas = req.body.careerareas; // career areas (engineering, planning and analysis, etc.)
+
+  // Check if you are viewing in map mode or in state mode 
   var stateMode = req.body.stateMode;
-  console.log(
-    "SELECT instbeazone, count(*) FROM post_doc_jobs WHERE " +
-      "year BETWEEN " +
-      year1 +
-      " AND " +
-      year2 +
-      lib.getQueryForDiv(div) +
-      lib.getQueryForCareerArea(careerareas) +
-      lib.getOwnership(ownership) +
-      lib.getIsR1(isr1, true) +
-      lib.getLength(length) +
-      lib.getJobType(jobType) +
-      " GROUP BY instbeazone"
-  );
+
+  // If you are in beazone mode
   if (!stateMode) {
     client
       .query(
@@ -92,8 +86,10 @@ app.post("/mapsModeData", function(req, res) {
         res.json(data.rows);
       })
       .catch((e) => console.error(e.stack));
-  } else {
-    // Build query for postgres DB using library helper functions.
+  } 
+  
+  // If you are in state mode
+  else {  
     client
       .query(
         "SELECT inststate AS state, count(*) FROM post_doc_jobs WHERE year BETWEEN " +
@@ -115,18 +111,26 @@ app.post("/mapsModeData", function(req, res) {
   }
 });
 
-app.post("/jobsModeState", function(req, res) {
+/**
+ * When the client posts a request on the resource "mapModeState", run the function below given parameters
+ * req (contains request's/client data) and res (response to send back to the client).
+ */
+app.post("/mapModeState", function(req, res) {
   // get the HTML elements' inputs on client-side via POST request body
-  var year1 = req.body.year1;
-  var year2 = req.body.year2;
-  var div = req.body.div;
-  var ownership = req.body.ownership;
-  var length = req.body.length;
-  var isr1 = req.body.isr1;
-  var jobType = req.body.jobType;
-  var careerareas = req.body.careerareas;
+  var year1 = req.body.year1; // year 1 (lower year) from client
+  var year2 = req.body.year2; // year 2 (upper year) from client
+  var div = req.body.div; // division (social science, science)
+  var ownership = req.body.ownership; // ownership (public, private)
+  var length = req.body.length; // length (2 year v. 4 year)
+  var isr1 = req.body.isr1; // research type (R1 or not)
+  var jobType = req.body.jobType; // job type (full time, part time)
+  var careerareas = req.body.careerareas; // career areas (engineering, planning and analysis, etc.)
+
+  // Also, get the state that was clicked that is what triggers the post request to this resource
   var clickedState = req.body.clickedState;
 
+  // Build query using client inputs and helper functions in lib
+  // Have to make sure that WHERE actually has something to select on
   client
     .query(
       "SELECT state, CASE WHEN inststate LIKE state THEN 0 ELSE count(jobid) END FROM post_doc_jobs WHERE inststate like '" +
@@ -149,34 +153,29 @@ app.post("/jobsModeState", function(req, res) {
     .catch((e) => console.error(e.stack));
 });
 
+/**
+ * When the client posts a request on the resource "lineModeData", run the function below given parameters
+ * req (contains request's/client data) and res (response to send back to the client).
+ */
 app.post("/lineModeData", function(req, res) {
-  // get the HTML elements' inputs on client-side via POST request body
-  var div = req.body.div;
-  var ownership = req.body.ownership;
-  var length = req.body.length;
-  var isr1 = req.body.isr1;
-  var jobType = req.body.jobType;
-  var careerareas = req.body.careerareas;
-  var beazones = req.body.beazones;
-  console.log(beazones);
-  console.log(
-    "SELECT d.year, SUM(d.count) FROM ((SELECT year, count(*) as count FROM post_doc_jobs WHERE " +
-      lib.getIsR1(isr1, false) +
-      lib.getQueryForDiv(div) +
-      lib.getQueryForCareerArea(careerareas) +
-      lib.getQueryForBEAZones(beazones) + 
-      lib.getOwnership(ownership) +
-      lib.getLength(length) +
-      lib.getJobType(jobType) +
-      "GROUP BY year) UNION (SELECT year, 0 as count FROM post_doc_jobs)) as d GROUP BY d.year ORDER BY d.year;"
-  );
+  // get the HTML elements' inputs on client-side via POST request
+  var div = req.body.div; // division (science, social science, etc.)
+  var ownership = req.body.ownership; // ownership (public, private)
+  var length = req.body.length; // length (2 year v. 4 year)
+  var isr1 = req.body.isr1; // research (R1 or not)
+  var jobType = req.body.jobType; //  job type (full time, part time)
+  var careerareas = req.body.careerareas; // career areas (engineering, planning and analysis, etc.)
+  var beazones = req.body.beazones; // beazones (New England, Great Lakes, etc.)
+
+  // Build query using client inputs and helper functions in lib
+  // Have to make sure that WHERE actually has something to select on
   client
     .query(
       "SELECT d.year, SUM(d.count) as count FROM ((SELECT year, count(*) as count FROM post_doc_jobs WHERE " +
         lib.getIsR1(isr1, false) +
         lib.getQueryForDiv(div) +
         lib.getQueryForCareerArea(careerareas) +
-        lib.getQueryForBEAZones(beazones) + 
+        lib.getQueryForBEAZones(beazones) +
         lib.getOwnership(ownership) +
         lib.getLength(length) +
         lib.getJobType(jobType) +
@@ -188,17 +187,19 @@ app.post("/lineModeData", function(req, res) {
     .catch((e) => console.error(e.stack));
 });
 
+// For the resource map_mode, render it at map_mode/map_mode.ejs
 app.get("/map_mode", function(req, res) {
   res.render("map_mode/map_mode");
 });
 
+// For the resource bar_mode, render it at bar_mode/bar_mode.ejs
 app.get("/bar_mode", function(req, res) {
   res.render("bar_mode/bar_mode");
 });
 
+// For the resource line_mode, render it at line_mode/line_mode.ejs
 app.get("/line_mode", function(req, res) {
   res.render("line_mode/line_mode");
 });
 
-// server running on port 8000
 app.listen(7000);

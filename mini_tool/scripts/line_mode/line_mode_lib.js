@@ -1,3 +1,10 @@
+/**
+This file contains functions for reading data from the client interaction HTML elements on views/line_mode.ejs 
+
+The file has separate functions for each HTML element which updates a global variable that can then be accessed 
+from line_mode.js' graph drawing function. 
+*/
+
 // this tracks the last division (science, social science, etc.) that was input
 var lastDivision = "unrestricted";
 
@@ -121,6 +128,10 @@ function sameCareerAreasChecked() {
   return true;
 }
 
+/**
+ * This function determines if the same beazones have been checked since the last query was run on the server
+ * @return true if all the same beazones were checked, else false
+ */
 function sameBEAZonesChecked() {
   // sets different size => sets different
   if (currBEAZones.size != lastBEAZones.size) {
@@ -176,23 +187,21 @@ function shouldRunNewQuery() {
   return false;
 }
 
-function multiSelectDropdownRunner() {
-  var ls = Array();
-  for (var i = 1; i <= 26; i++) {
-    var checked = document.getElementById("checkbox" + i).checked;
-    if (checked) {
-      var label = document.getElementById("label" + i).innerText;
-      ls.push(label);
-    }
-  }
-  console.log(ls);
-}
 
+/**
+ * This function is used to view the fake selection dropdown div when the user clicks on the button "career areas".
+ * @param {String} id id of div 
+ */
 function viewDiv(id) {
   var x = document.getElementById(id);
   x.style.display = "inline-block";
 }
 
+/**
+ * This function is used to hide the fake selection dropdown div when the user mouses out of all the career areas 
+ * checkboxes.
+ * @param {String} id id of div
+ */
 function hideDiv(id) {
   var x = document.getElementById(id);
   x.style.display = "none";

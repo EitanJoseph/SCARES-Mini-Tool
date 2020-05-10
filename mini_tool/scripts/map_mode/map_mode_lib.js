@@ -1,9 +1,8 @@
 /**
-This file contains functions for reading data from the client interaction HTML elements on views/jobsMode.ejs 
-It should probably be renamed from just "slider.js". 
+This file contains functions for reading data from the client interaction HTML elements on views/map_mode.ejs 
 
 The file has separate functions for each HTML element which updates a global variable that can then be accessed 
-from jobsMode.js' updateMap() function. 
+from map_mode.js' updateMap() function. 
 */
 
 // this tracks the last valid year 1 slider input
@@ -132,7 +131,8 @@ function updateCheckBox(i) {
 }
 
 /**
- * 
+ * Updates whether or not you are viewing the map and its data as states or as beazones based on the value of
+ * the associated dropdown in the EJS file.
  */
 function updateLocationView() {
   if ($("#display_modes").val()=="beazone") {
@@ -246,4 +246,23 @@ function shouldRunNewQuery() {
   return false;
 }
 
+/**
+ * This function is used to view the fake selection dropdown div when the user clicks on the button "career areas".
+ * @param {String} id id of div 
+ */
+function viewDiv(id) {
+  var x = document.getElementById(id);
+  x.style.display = "block";
+}
+
+/**
+ * This function is used to hide the fake selection dropdown div when the user mouses out of all the career areas 
+ * checkboxes.
+ * @param {String} id id of div
+ */
+function hideDiv(id) {
+  var x = document.getElementById(id);
+  x.style.display = "none";
+
+}
 

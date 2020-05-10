@@ -248,7 +248,7 @@ d3.json(
 
         lastState = d.properties.name;
 
-        fetch("/jobsModeState", {
+        fetch("/mapModeState", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

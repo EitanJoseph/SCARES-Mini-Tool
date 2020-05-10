@@ -1,3 +1,8 @@
+/**
+ * This file is primarily used for sending a specific SQL query to the server to then be used to populate the map. 
+ * It utilizes the functions in map_mode_lib which work with the HTML element input elements in map_mode.ejs.
+ */
+
 // newest json data - out of state - (this does not include states with no results)
 var serverData;
 // json data onload (contains all jobs of all states)
@@ -252,29 +257,13 @@ function drawData(clickedState) {
     });
 }
 
-function multiSelectDropdownRunner() {
-  var ls = Array();
-  for (var i = 1; i <= 26; i++) {
-    var checked = document.getElementById("checkbox" + i).checked;
-    if (checked) {
-      var label = document.getElementById("label" + i).innerText;
-      ls.push(label);
-    }
-  }
-  console.log(ls);
-}
-
-function viewDiv(id) {
-  var x = document.getElementById(id);
-  x.style.display = "block";
-}
-
-function hideDiv(id) {
-  var x = document.getElementById(id);
-  x.style.display = "none";
-
-}
-
+/**
+ * Sums the counts from the rows of the SQL query data sent from the server for a specific beazone. Note that this is
+ * not total job counts, but the counts based on whatever inputs the user entered and are reflected by the query
+ * @param {SQL Query Result} jsonFromServer query result from server
+ * @param {String} s a beazone 
+ * @return sum of counts in SQL return result 
+ */
 function getCountForBEAZone(jsonFromServer, s){
   for (var i = 0; i < jsonFromServer.length; i++){
     if (jsonFromServer[i].instbeazone === s){

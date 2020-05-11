@@ -46,9 +46,12 @@ function updateGraph(starting) {
  query on the server.
 */
 function drawFrequencyBarGraph(data) {
+  var graphHolderWidth = parseFloat(((d3.select("#graph-holder")).style("width")).substring(0, ((d3.select("#graph-holder")).style("width")).length));
+  var graphHolderHeight = parseFloat(((d3.select("#graph-holder")).style("height")).substring(0, ((d3.select("#graph-holder")).style("height")).length));
+
   var margin = { top: 60, right: 180, bottom: 80, left: 100 },
-    width = 1500 - margin.left - margin.right,
-    height = 500 - margin.top - margin.bottom;
+    width = graphHolderWidth - margin.left - margin.right,
+    height = graphHolderHeight - margin.top - margin.bottom;
 
   var x = d3
     .scaleBand()
@@ -103,14 +106,19 @@ function drawFrequencyBarGraph(data) {
     .on("mouseover", function(d) {
       d3.select("#" + d.skillname.split(" ").join("") + "_bar").style(
         "font-size",
-        "30px"
-      );
+        (0.4*x.bandwidth())
+      ).
+      attr("font-weight",500).
+      attr("x",x(d.skillname)+(x.bandwidth()/2));
     })
     .on("mouseout", function(d) {
       d3.select("#" + d.skillname.split(" ").join("") + "_bar").style(
         "font-size",
-        "24px"
-      );
+        (0.3*x.bandwidth())
+      ).
+      attr("font-weight",200).
+      attr("x",x(d.skillname)+(x.bandwidth()/2));
+      console.log(x(d.skillname));
     });
 
   svg
@@ -125,8 +133,10 @@ function drawFrequencyBarGraph(data) {
     .style("fill", "black")
     .attr("class", "bar")
     .attr("text-anchor", "middle")
+    .attr("font-size",(0.3*x.bandwidth()))
+    .attr("font-weight",200)
     .attr("x", function(d) {
-      return x(d.skillname) + 50;
+      return x(d.skillname)+(x.bandwidth()/2);
     })
     .attr("y", function(d) {
       return y(d.count) - 10;

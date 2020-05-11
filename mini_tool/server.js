@@ -51,7 +51,7 @@ app.set("view engine", "ejs");
  * When the client posts a request on the resource "mapsModeData", run the function below given parameters
  * req (contains request's/client data) and res (response to send back to the client).
  */
-app.post("/mapsModeData", function(req, res) {
+app.post("/mapsModeData", function (req, res) {
   // get the HTML elements' inputs on client-side via POST request body
   var year1 = req.body.year1; // year 1 (lower year) from client
   var year2 = req.body.year2; // year 2 (upper year) from client
@@ -70,17 +70,17 @@ app.post("/mapsModeData", function(req, res) {
     client
       .query(
         "SELECT instbeazone, count(*) FROM post_doc_jobs WHERE " +
-          "year BETWEEN " +
-          year1 +
-          " AND " +
-          year2 +
-          lib.getQueryForDiv(div) +
-          lib.getQueryForCareerArea(careerareas) +
-          lib.getOwnership(ownership) +
-          lib.getIsR1(isr1, true) +
-          lib.getLength(length) +
-          lib.getJobType(jobType) +
-          " GROUP BY instbeazone"
+        "year BETWEEN " +
+        year1 +
+        " AND " +
+        year2 +
+        lib.getQueryForDiv(div) +
+        lib.getQueryForCareerArea(careerareas) +
+        lib.getOwnership(ownership) +
+        lib.getIsR1(isr1, true) +
+        lib.getLength(length) +
+        lib.getJobType(jobType) +
+        " GROUP BY instbeazone"
       )
       .then((data) => {
         res.json(data.rows);
@@ -93,16 +93,16 @@ app.post("/mapsModeData", function(req, res) {
     client
       .query(
         "SELECT inststate AS state, count(*) FROM post_doc_jobs WHERE year BETWEEN " +
-          year1 +
-          " AND " +
-          year2 +
-          lib.getQueryForDiv(div) +
-          lib.getQueryForCareerArea(careerareas) +
-          lib.getOwnership(ownership) +
-          lib.getIsR1(isr1, true) +
-          lib.getLength(length) +
-          lib.getJobType(jobType) +
-          " GROUP BY inststate;"
+        year1 +
+        " AND " +
+        year2 +
+        lib.getQueryForDiv(div) +
+        lib.getQueryForCareerArea(careerareas) +
+        lib.getOwnership(ownership) +
+        lib.getIsR1(isr1, true) +
+        lib.getLength(length) +
+        lib.getJobType(jobType) +
+        " GROUP BY inststate;"
       )
       .then((data) => {
         res.json(data.rows);
@@ -115,7 +115,7 @@ app.post("/mapsModeData", function(req, res) {
  * When the client posts a request on the resource "mapModeState", run the function below given parameters
  * req (contains request's/client data) and res (response to send back to the client).
  */
-app.post("/mapModeState", function(req, res) {
+app.post("/mapModeState", function (req, res) {
   // get the HTML elements' inputs on client-side via POST request body
   var year1 = req.body.year1; // year 1 (lower year) from client
   var year2 = req.body.year2; // year 2 (upper year) from client
@@ -134,18 +134,18 @@ app.post("/mapModeState", function(req, res) {
   client
     .query(
       "SELECT state, CASE WHEN inststate LIKE state THEN 0 ELSE count(jobid) END FROM post_doc_jobs WHERE inststate like '" +
-        clickedState +
-        "' AND year BETWEEN " +
-        year1 +
-        " AND " +
-        year2 +
-        lib.getQueryForDiv(div) +
-        lib.getQueryForCareerArea(careerareas) +
-        lib.getOwnership(ownership) +
-        lib.getIsR1(isr1, true) +
-        lib.getLength(length) +
-        lib.getJobType(jobType) +
-        " GROUP BY inststate, state"
+      clickedState +
+      "' AND year BETWEEN " +
+      year1 +
+      " AND " +
+      year2 +
+      lib.getQueryForDiv(div) +
+      lib.getQueryForCareerArea(careerareas) +
+      lib.getOwnership(ownership) +
+      lib.getIsR1(isr1, true) +
+      lib.getLength(length) +
+      lib.getJobType(jobType) +
+      " GROUP BY inststate, state"
     )
     .then((data) => {
       res.json(data.rows);
@@ -157,7 +157,7 @@ app.post("/mapModeState", function(req, res) {
  * When the client posts a request on the resource "barModeData", run the function below given parameters
  * req (contains request's/client data) and res (response to send back to the client).
  */
-app.post("/barModeData", function(req, res) {
+app.post("/barModeData", function (req, res) {
   // get the HTML elements' inputs on client-side via POST request body
   var year1 = req.body.year1; // year 1 (lower year) from client
   var year2 = req.body.year2; // year 2 (upper year) from client
@@ -169,21 +169,34 @@ app.post("/barModeData", function(req, res) {
   var careerareas = req.body.careerareas; // career areas (engineering, planning and analysis, etc.)
   var beazones = req.body.beazones; // beazones (New England, Great Lakes, etc.)
 
+
+  console.log("SELECT skillname, COUNT(skillname) FROM post_doc_skills WHERE jobid IN (SELECT jobid FROM post_doc_jobs WHERE year BETWEEN " +
+    year1 +
+    " AND " +
+    year2 +
+    lib.getIsR1(isr1, true) +
+    lib.getQueryForDiv(div) +
+    lib.getQueryForCareerArea(careerareas) +
+    lib.getQueryForBEAZones(beazones) +
+    lib.getOwnership(ownership) +
+    lib.getLength(length) +
+    lib.getJobType(jobType) +
+    ") GROUP BY skillname ORDER BY COUNT(skillname) DESC LIMIT 10;")
   // Build query using client inputs and helper functions in lib
   client
     .query(
       "SELECT skillname, COUNT(skillname) FROM post_doc_skills WHERE jobid IN (SELECT jobid FROM post_doc_jobs WHERE year BETWEEN " +
-        year1 +
-        " AND " +
-        year2 +
-        lib.getIsR1(isr1, true) +
-        lib.getQueryForDiv(div) +
-        lib.getQueryForCareerArea(careerareas) +
-        lib.getQueryForBEAZones(beazones) +
-        lib.getOwnership(ownership) +
-        lib.getLength(length) +
-        lib.getJobType(jobType) +
-        ") GROUP BY skillname ORDER BY COUNT(skillname) DESC LIMIT 10;"
+      year1 +
+      " AND " +
+      year2 +
+      lib.getIsR1(isr1, true) +
+      lib.getQueryForDiv(div) +
+      lib.getQueryForCareerArea(careerareas) +
+      lib.getQueryForBEAZones(beazones) +
+      lib.getOwnership(ownership) +
+      lib.getLength(length) +
+      lib.getJobType(jobType) +
+      ") GROUP BY skillname ORDER BY COUNT(skillname) DESC LIMIT 10;"
     )
     .then((data) => {
       res.json(data.rows);
@@ -195,7 +208,7 @@ app.post("/barModeData", function(req, res) {
  * When the client posts a request on the resource "lineModeData", run the function below given parameters
  * req (contains request's/client data) and res (response to send back to the client).
  */
-app.post("/lineModeData", function(req, res) {
+app.post("/lineModeData", function (req, res) {
   // get the HTML elements' inputs on client-side via POST request
   var div = req.body.div; // division (science, social science, etc.)
   var ownership = req.body.ownership; // ownership (public, private)
@@ -210,14 +223,14 @@ app.post("/lineModeData", function(req, res) {
   client
     .query(
       "SELECT d.year, SUM(d.count) as count FROM ((SELECT year, count(*) as count FROM post_doc_jobs WHERE " +
-        lib.getIsR1(isr1, false) +
-        lib.getQueryForDiv(div) +
-        lib.getQueryForCareerArea(careerareas) +
-        lib.getQueryForBEAZones(beazones) +
-        lib.getOwnership(ownership) +
-        lib.getLength(length) +
-        lib.getJobType(jobType) +
-        "GROUP BY year) UNION (SELECT year, 0 as count FROM post_doc_jobs)) as d GROUP BY d.year ORDER BY d.year;"
+      lib.getIsR1(isr1, false) +
+      lib.getQueryForDiv(div) +
+      lib.getQueryForCareerArea(careerareas) +
+      lib.getQueryForBEAZones(beazones) +
+      lib.getOwnership(ownership) +
+      lib.getLength(length) +
+      lib.getJobType(jobType) +
+      "GROUP BY year) UNION (SELECT year, 0 as count FROM post_doc_jobs)) as d GROUP BY d.year ORDER BY d.year;"
     )
     .then((data) => {
       res.json(data.rows);
@@ -226,17 +239,17 @@ app.post("/lineModeData", function(req, res) {
 });
 
 // For the resource map_mode, render it at map_mode/map_mode.ejs
-app.get("/map_mode", function(req, res) {
+app.get("/map_mode", function (req, res) {
   res.render("map_mode/map_mode");
 });
 
 // For the resource bar_mode, render it at bar_mode/bar_mode.ejs
-app.get("/bar_mode", function(req, res) {
+app.get("/bar_mode", function (req, res) {
   res.render("bar_mode/bar_mode");
 });
 
 // For the resource line_mode, render it at line_mode/line_mode.ejs
-app.get("/line_mode", function(req, res) {
+app.get("/line_mode", function (req, res) {
   res.render("line_mode/line_mode");
 });
 

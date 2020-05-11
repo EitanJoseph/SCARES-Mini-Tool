@@ -51,7 +51,7 @@ input[type="range"]::-webkit-slider-thumb {
 
 .bar {
   fill: #b8bbff;
-  font: bold 24px "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 
@@ -60,15 +60,15 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 .title {
-  font: bold 24px "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font: bold 1.6vw "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 .ytext {
-  font: bold 24px "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font: bold 1.6vw "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 .axis {
-  font: 10px sans-serif;
+  font: 0.6vw sans-serif;
 }
 
 .axis path,

@@ -127,7 +127,7 @@ module.exports = {
    */
   getIsR1: function(isr1, and) {
     if (isr1) {
-      return " isr1 = '1'";
+      return " AND isr1 = '1'";
     } else {
       return (and ? " AND " : "") + " (isr1 = '1' OR isr1 = '0') "; // Eitan Joseph is responsible for this monstrosity
     }

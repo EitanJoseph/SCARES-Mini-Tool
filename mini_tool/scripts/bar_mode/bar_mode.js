@@ -33,7 +33,7 @@ function updateGraph(starting) {
     // data received from server is still dumped into console (but can easily be visualized using jsonFromServer)
     .then((jsonFromServer) => {
       console.log(jsonFromServer);
-      drawFrequencyBarGraph(jsonFromServer)
+      drawFrequencyBarGraph(jsonFromServer);
     });
 }
 
@@ -82,6 +82,8 @@ function drawFrequencyBarGraph(data) {
     .attr("class", "x axis")
     .attr("transform", "translate(0, " + height + ")")
     .call(xAxis)
+    .selectAll(".tick text")
+    .call(wrap, x.bandwidth());
 
   svg
     .append("g")
@@ -97,5 +99,76 @@ function drawFrequencyBarGraph(data) {
     .attr("x", (d) => x(d.skillname))
     .attr("width", x.bandwidth())
     .attr("y", (d) => y(d.count))
-    .attr("height", (d) => height - y(d.count));
+    .attr("height", (d) => height - y(d.count))
+    .on("mouseover", function(d) {
+      d3.select("#" + d.skillname.split(" ").join("") + "_bar").style(
+        "font-size",
+        "30px"
+      );
+    })
+    .on("mouseout", function(d) {
+      d3.select("#" + d.skillname.split(" ").join("") + "_bar").style(
+        "font-size",
+        "24px"
+      );
+    });
+
+  svg
+    .selectAll("text.bar")
+    .data(data)
+    .enter()
+    .append("text")
+    .attr("id", function(d) {
+      console.log(d.skillname.split(" ").join("") + "_bar");
+      return d.skillname.split(" ").join("") + "_bar";
+    })
+    .style("fill", "black")
+    .attr("class", "bar")
+    .attr("text-anchor", "middle")
+    .attr("x", function(d) {
+      return x(d.skillname) + 50;
+    })
+    .attr("y", function(d) {
+      return y(d.count) - 10;
+    })
+    .text(function(d) {
+      return d.count;
+    });
+}
+
+function wrap(text, width) {
+  text.each(function() {
+    var text = d3.select(this),
+      words = text
+        .text()
+        .split(/\s+/)
+        .reverse(),
+      word,
+      line = [],
+      lineNumber = 0,
+      lineHeight = 1.1, // ems
+      y = text.attr("y"),
+      dy = parseFloat(text.attr("dy")),
+      tspan = text
+        .text(null)
+        .append("tspan")
+        .attr("x", 0)
+        .attr("y", y)
+        .attr("dy", dy + "em");
+    while ((word = words.pop())) {
+      line.push(word);
+      tspan.text(line.join(" "));
+      if (tspan.node().getComputedTextLength() > width) {
+        line.pop();
+        tspan.text(line.join(" "));
+        line = [word];
+        tspan = text
+          .append("tspan")
+          .attr("x", 0)
+          .attr("y", y)
+          .attr("dy", ++lineNumber * lineHeight + dy + "em")
+          .text(word);
+      }
+    }
+  });
 }

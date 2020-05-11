@@ -11,6 +11,9 @@ var oldServerData
 var VISIBILITY_FACTOR = 1.6
 // the custom coloration for a state that was clicked on
 var clickedRGB = "rgb(27, 224, 129)"
+var Rscale = 235
+var Gscale = 186
+var Bscale = 52
 
 // last state that was clicked on
 var lastState = null
@@ -115,11 +118,11 @@ function getScaledRGB(state, maxJobs) {
   var scalingFactor = 1 - state.count / (1.0 * maxJobs);
   return (
     "rgb(" +
-    scalingFactor * 255 +
+    scalingFactor * Rscale +
     ", " +
-    scalingFactor * 255 +
+    scalingFactor * Gscale +
     ", " +
-    scalingFactor * 255 +
+    scalingFactor * Bscale +
     ")"
   );
 }

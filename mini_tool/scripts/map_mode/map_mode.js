@@ -10,10 +10,10 @@ var oldServerData
 // current visibility factor is decided at 1.6
 var VISIBILITY_FACTOR = 1.6
 // the custom coloration for a state that was clicked on
-var clickedRGB = "rgb(27, 224, 129)"
-var Rscale = 235
-var Gscale = 186
-var Bscale = 52
+var clickedRGB = "rgb(186, 25, 0)"
+var Rscale = 253
+var Gscale = 164
+var Bscale = 43
 
 // last state that was clicked on
 var lastState = null
@@ -118,11 +118,11 @@ function getScaledRGB(state, maxJobs) {
   var scalingFactor = 1 - state.count / (1.0 * maxJobs);
   return (
     "rgb(" +
-    scalingFactor * Rscale +
+    (scalingFactor * Rscale) +
     ", " +
-    scalingFactor * Gscale +
+    (scalingFactor * Gscale)+
     ", " +
-    scalingFactor * Bscale +
+    (scalingFactor * Bscale)+
     ")"
   );
 }
@@ -205,7 +205,7 @@ function drawData(clickedState) {
     let s = getQueryState(d);
     // some states that have no job postings do not populate in the jsonFromServer (this should be fixe)
     if (s == null) {
-      return "rgb(255,255,255)";
+      return "rgb(195,195,195)";
     }
     // assign a special color for the clicked-on state
     if (s.state === clickedState) {

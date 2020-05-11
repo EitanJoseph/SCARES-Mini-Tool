@@ -11,9 +11,9 @@ var oldServerData
 var VISIBILITY_FACTOR = 1.6
 // the custom coloration for a state that was clicked on
 var clickedRGB = "rgb(186, 25, 0)"
-var Rscale = 253
-var Gscale = 164
-var Bscale = 43
+var Rscale = 71
+var Gscale = 186
+var Bscale = 83
 
 // last state that was clicked on
 var lastState = null

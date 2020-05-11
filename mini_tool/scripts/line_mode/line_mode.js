@@ -45,7 +45,11 @@ var descriptionTextBox;
  * @param {boolean} starting tells us whether wwe are starting the webpage
  */
 function getDataFromServer(starting) {
-  if (d3.select("#line").size() != 0 && !starting && !shouldRunNewQuery()) {
+  console.log(d3.select("#line").size() != 0);
+  console.log(starting);
+  var xxx = shouldRunNewQuery();
+  console.log(xxx);
+  if (d3.select("#line").size() != 0 && !starting && !xxx) {
     return;
   }
   fetch("/lineModeData", {
@@ -122,10 +126,13 @@ function convertSelectionToText() {
  */
 function drawLineGraph(data) {
   // Now the same graph won't be drawn twice
-  if (descriptions.has(JSON.stringify(data))) {
-    return;
-  }
+  //if (descriptions.has(JSON.stringify(data))) {
+  //  return;
+  //}
+  console.log("DATA:");
+  console.log(data);
   currLines.add(data);
+  console.log(currLines);
   clearAxes();
   lastColor = (lastColor - (currLines.size - 1)) % colors.length;
   if (lastColor < 0) {
@@ -134,9 +141,15 @@ function drawLineGraph(data) {
   d3.selectAll("#line").remove();
   max = 0;
   // set the dimensions and margins of the graph
+  var graphHolderWidth = parseFloat(((d3.select("#graph-holder")).style("width")).substring(0,((d3.select("#graph-holder")).style("width")).length));
+  var graphHolderHeight = parseFloat(((d3.select("#graph-holder")).style("height")).substring(0,((d3.select("#graph-holder")).style("height")).length));
+
   var margin = { top: 40, right: 20, bottom: 30, left: 50 },
-    width = 950 - margin.left - margin.right,
-    height = 600 - margin.top - margin.bottom;
+    width = graphHolderWidth - margin.left - margin.right,
+    height = graphHolderHeight - margin.top - margin.bottom;
+
+  console.log(graphHolderWidth);
+  console.log(graphHolderHeight);
 
   // set the ranges
   var x = d3.scaleLinear().range([0, width]);
@@ -186,6 +199,9 @@ function drawLineGraph(data) {
       max = Math.max(max, d[i].count);
     }
   });
+
+  console.log(max);
+
   y.domain([0, Math.ceil(1.2 * max)]);
 
   //add the title

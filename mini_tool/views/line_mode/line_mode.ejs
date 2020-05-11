@@ -35,7 +35,11 @@
   <!-- 
   Body of the file, on load use getDataFromServer() to draw the graph.
 -->
-  <body onload="getDataFromServer(true)">
+  <body onload="getDataFromServer(true)"
+        onresize = "lastColor = (lastColor-1)%colors.length;
+        if(lastColor < 0) {lastColor += colors.length};
+        clearGraph();
+        getDataFromServer(false);">
     <!--
     This button is utilized by the user to clear the page of all the generated
     graphs as opposed to the user having to click on each one of them.

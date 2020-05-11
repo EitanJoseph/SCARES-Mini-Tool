@@ -41,8 +41,8 @@ module.exports = {
   },
 
   /**
-   * Gets the queries for selection for data belonging to a collection of career areas. 
-   * 
+   * Gets the queries for selection for data belonging to a collection of career areas.
+   *
    * @param {String} careerarea the array of career areas for which the query substring should be
    * generated
    * @return the SQL query substring pertaining to jobs in these career areas
@@ -59,18 +59,17 @@ module.exports = {
       tupleStr += "'" + v + "'" + ", ";
     }
     tupleStr = tupleStr.substring(0, tupleStr.length - 2) + ")";
-    console.log(tupleStr);
     return "AND careerarea IN " + tupleStr;
   },
 
-   /**
+  /**
    * Gets the queries for selection for data belonging to a collection of beazones.
-   * 
+   *
    * @param {String} beazones the array of beazones for which the query substring should be
    * generated
    * @return the SQL query substring pertaining to jobs in these beazones
    */
-  getQueryForBEAZones: function(beazones) { 
+  getQueryForBEAZones: function(beazones) {
     if (beazones.length == 0) {
       return "";
     }
@@ -80,7 +79,6 @@ module.exports = {
       tupleStr += "'" + v + "'" + ", ";
     }
     tupleStr = tupleStr.substring(0, tupleStr.length - 2) + ")";
-    console.log(tupleStr);
     return "AND instbeazone IN " + tupleStr;
   },
 
@@ -127,7 +125,7 @@ module.exports = {
    */
   getIsR1: function(isr1, and) {
     if (isr1) {
-      return " AND isr1 = '1'";
+      return (and ? " AND " : "") + " isr1 = '1'";
     } else {
       return (and ? " AND " : "") + " (isr1 = '1' OR isr1 = '0') "; // Eitan Joseph is responsible for this monstrosity
     }

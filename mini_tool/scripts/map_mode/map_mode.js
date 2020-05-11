@@ -36,13 +36,13 @@ function updateMap(starting) {
   }
 
   // Logging the HTML data from the webpage (either last or curr versions can be used)
-  console.log("SLIDER DATA: " + lastValidYear1 + " " + lastValidYear2)
-  console.log("DIVISION SELECT DATA: " + lastDivision)
-  console.log("INST OWNERSHIP " + lastOwnership)
-  console.log("INST LENGTH " + lastLength)
-  console.log("INST R1 " + lastIsR1)
-  console.log("JOB TYPE : " + lastJobType)
-  console.log("SELECTED SUBJECTS DATA: " + Array.from(lastCareerAreas).join(" "))
+  // console.log("SLIDER DATA: " + lastValidYear1 + " " + lastValidYear2)
+  // console.log("DIVISION SELECT DATA: " + lastDivision)
+  // console.log("INST OWNERSHIP " + lastOwnership)
+  // console.log("INST LENGTH " + lastLength)
+  // console.log("INST R1 " + lastIsR1)
+  // console.log("JOB TYPE : " + lastJobType)
+  // console.log("SELECTED SUBJECTS DATA: " + Array.from(lastCareerAreas).join(" "))
 
   disableResetButton();
 
@@ -79,8 +79,8 @@ function updateMap(starting) {
 
       // logging to client for debugging
       // console.log("client received from server @ /jobsModeData");
-      console.log("JOBS DATA PER STATE:");
-      console.log(jsonFromServer);
+      // console.log("JOBS DATA PER STATE:");
+      // console.log(jsonFromServer);
       oldServerData = jsonFromServer;
       serverData = jsonFromServer;
       // runs d3 data visualization to generate the graph
@@ -88,7 +88,6 @@ function updateMap(starting) {
       if (stateMode){
         drawData(-1);
       } else {
-        console.log(jsonFromServer)
         drawBeazones(jsonFromServer)
       }
 

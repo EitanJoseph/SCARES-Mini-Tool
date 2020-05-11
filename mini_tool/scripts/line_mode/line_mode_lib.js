@@ -97,7 +97,6 @@ function updateCheckBox(i) {
     } else {
       currBEAZones.delete(labelText);
     }
-    console.log(currBEAZones);
   }
 }
 

@@ -273,7 +273,7 @@ d3.json(
           })
 
           .then((jsonFromServer) => {
-            console.log(jsonFromServer);
+            // console.log(jsonFromServer);
             serverData = jsonFromServer;
             drawData(d.properties.name);
             enableResetButton();

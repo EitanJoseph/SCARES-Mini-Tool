@@ -32,7 +32,6 @@ function updateGraph(starting) {
     })
     // data received from server is still dumped into console (but can easily be visualized using jsonFromServer)
     .then((jsonFromServer) => {
-      console.log(jsonFromServer);
       drawFrequencyBarGraph(jsonFromServer);
     });
 }
@@ -118,7 +117,6 @@ function drawFrequencyBarGraph(data) {
       ).
       attr("font-weight",200).
       attr("x",x(d.skillname)+(x.bandwidth()/2));
-      console.log(x(d.skillname));
     });
 
   svg
@@ -127,7 +125,6 @@ function drawFrequencyBarGraph(data) {
     .enter()
     .append("text")
     .attr("id", function(d) {
-      console.log(d.skillname.split(" ").join("") + "_bar");
       return d.skillname.split(" ").join("") + "_bar";
     })
     .style("fill", "black")

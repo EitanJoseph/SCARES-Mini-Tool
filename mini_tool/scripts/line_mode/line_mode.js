@@ -45,11 +45,7 @@ var descriptionTextBox;
  * @param {boolean} starting tells us whether wwe are starting the webpage
  */
 function getDataFromServer(starting) {
-  console.log(d3.select("#line").size() != 0);
-  console.log(starting);
-  var xxx = shouldRunNewQuery();
-  console.log(xxx);
-  if (d3.select("#line").size() != 0 && !starting && !xxx) {
+  if (d3.select("#line").size() != 0 && !starting && !shouldRunNewQuery()) {
     return;
   }
   fetch("/lineModeData", {
@@ -129,10 +125,15 @@ function drawLineGraph(data) {
   //if (descriptions.has(JSON.stringify(data))) {
   //  return;
   //}
-  console.log("DATA:");
-  console.log(data);
-  currLines.add(data);
-  console.log(currLines);
+  var lineDrawn = false;
+  currLines.forEach(function (v) {
+    if (JSON.stringify(data) == JSON.stringify(v)) {
+      lineDrawn = true;
+    }
+  });
+  if (!lineDrawn) {
+    currLines.add(data);
+  }
   clearAxes();
   lastColor = (lastColor - (currLines.size - 1)) % colors.length;
   if (lastColor < 0) {
@@ -141,15 +142,12 @@ function drawLineGraph(data) {
   d3.selectAll("#line").remove();
   max = 0;
   // set the dimensions and margins of the graph
-  var graphHolderWidth = parseFloat(((d3.select("#graph-holder")).style("width")).substring(0,((d3.select("#graph-holder")).style("width")).length));
-  var graphHolderHeight = parseFloat(((d3.select("#graph-holder")).style("height")).substring(0,((d3.select("#graph-holder")).style("height")).length));
+  var graphHolderWidth = parseFloat(((d3.select("#graph-holder")).style("width")).substring(0, ((d3.select("#graph-holder")).style("width")).length));
+  var graphHolderHeight = parseFloat(((d3.select("#graph-holder")).style("height")).substring(0, ((d3.select("#graph-holder")).style("height")).length));
 
   var margin = { top: 40, right: 20, bottom: 30, left: 50 },
     width = graphHolderWidth - margin.left - margin.right,
     height = graphHolderHeight - margin.top - margin.bottom;
-
-  console.log(graphHolderWidth);
-  console.log(graphHolderHeight);
 
   // set the ranges
   var x = d3.scaleLinear().range([0, width]);
@@ -158,10 +156,10 @@ function drawLineGraph(data) {
   // define the line
   valueline = d3
     .line()
-    .x(function(d) {
+    .x(function (d) {
       return x(d.year);
     })
-    .y(function(d) {
+    .y(function (d) {
       return y(d.count);
     });
 
@@ -189,18 +187,16 @@ function drawLineGraph(data) {
 
   // Scale the range of the data
   x.domain(
-    d3.extent(data, function(d) {
+    d3.extent(data, function (d) {
       return d.year;
     })
   );
 
-  currLines.forEach(function(d) {
+  currLines.forEach(function (d) {
     for (var i = 0; i < d.length; i++) {
       max = Math.max(max, d[i].count);
     }
   });
-
-  console.log(max);
 
   y.domain([0, Math.ceil(1.2 * max)]);
 
@@ -211,7 +207,7 @@ function drawLineGraph(data) {
     .attr("transform", "translate(250,0)")
     .style("font-size", "1.5vw");
 
-  currLines.forEach(function(d) {
+  currLines.forEach(function (d) {
     addPath(d, svg, valueline);
   });
 
@@ -247,17 +243,17 @@ function addPath(data, svg, valueline) {
     .attr("fill", "none")
     .attr("stroke", colors[lastColor])
     .attr("stroke-width", "4px")
-    .on("click", function() {
+    .on("click", function () {
       max = 0;
       var d1 = JSON.parse(this.attributes[2].value);
-      currLines.forEach(function(d) {
+      currLines.forEach(function (d) {
         if (JSON.stringify(d) == JSON.stringify(d1)) {
           currLines.delete(d);
         }
       });
       d3.select(this).remove();
     })
-    .on("mouseover", function() {
+    .on("mouseover", function () {
       d3.select(this).attr("stroke-width", "8px");
       d3.select("#description").html(
         descriptions.get(this.attributes[2].value)
@@ -275,7 +271,7 @@ function addPath(data, svg, valueline) {
         "4"
       );
     })
-    .on("mouseout", function() {
+    .on("mouseout", function () {
       d3.select("#description").html("");
       d3.select(this).attr("stroke-width", "4px");
       d3.select("#" + d3.select(this).attr("id") + "_text").attr(

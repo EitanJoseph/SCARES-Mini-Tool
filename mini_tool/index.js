@@ -21,6 +21,21 @@ the example mode the user hovers over stays for as long as they hover over the s
 @param imageID an image ID (1-3)
 */
 function displayHoveredImage(imageID) {
+  // Sets the description of the text area of mode description
+  if (imageID == 1) {
+    $("#mode_description").text(
+      "In the bar graph mode, you can view the top 0 to 10 skills for the various input selections you make on areas such as year range, career area, institution type, and others."
+    );
+  } else if (imageID == 2) {
+    $("#mode_description").text(
+      "In the line graph mode, you can view job postings from 2007 to 2017 for the various input selections you make on areas such as year range, career area, institution type, and others. The selections you make will generate new graphs that appear alongside existing graphs."
+    );
+  } else {
+    $("#mode_description").text(
+      "In the map mode, you can view job postings by both state and beazone for the various input selections you make on areas such as year range, career area, institution type, and others."
+    );
+  }
+
   //Stop the image cyclin using the global variable interval
   clearInterval(interval);
 
@@ -44,6 +59,15 @@ function displaySampleImage(imageID) {
     "sample_mode_images/sample_mode_image" + imageID + ".png"
   );
 
+  // Sets the alternate text for the currently displayed image
+  if (imageID % 3 == 0) {
+    $("#sampleImageID").attr("alt", "Sample Image for Bar Graph Mode");
+  } else if (imageID % 3 == 1) {
+    $("#sampleImageID").attr("alt", "Sample Image for Line Graph Mode");
+  } else {
+    $("#sampleImageID").attr("alt", "Sample Image for Map Mode");
+  }
+
   // Update the global variable currently displayed image ID.
   // This way, when image cycling starts again, we will start from where the user left off
   // If we didn't do this, cycling would continue from where the cycling stopped!
@@ -55,7 +79,7 @@ function displaySampleImage(imageID) {
  image to display and then uses displaySampleImage() to display it.
 */
 function displayNextImage() {
-  currDisplayID = (currDisplayID + 1) % 9 + 1;
+  currDisplayID = ((currDisplayID + 1) % 9) + 1;
 
   // Determined next image to display, so we display it
   displaySampleImage(currDisplayID);
@@ -66,6 +90,9 @@ function displayNextImage() {
  with the helper function displayNextImage(). Images are cycled every 3 seconds.
 */
 function loopSamples() {
+  $("#mode_description").text(
+    "Hover over a mode to see a description of the mode."
+  );
   $("#previewBtnID").prop("disabled", true);
   interval = setInterval(displayNextImage, 3000);
 }

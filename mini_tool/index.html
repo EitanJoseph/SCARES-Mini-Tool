@@ -57,10 +57,11 @@
 
   <body onload="loopSamples()">
     <div style="margin-left: 15px;">
-      <h3>Sample Mode Images</h3>
+      <h3>HEJP Post-doc Mini Tool</h3>
 
       <p>
-        Below are sample images from the various modes of this tool. This
+        Below are sample images from the various modes of this tool that allows
+        for data analysis of Higher Education Postdoctoral Job postings. This
         includes 3 images of the map mode, 3 images of the bar graph mode, and 3
         images of the line graph mode. If you hover over a mode, you will see 1
         of the sample images for the mode. Click on a mode to be redirected to
@@ -77,26 +78,33 @@
       Keep Previewing
     </button>
     <p></p>
-    <!--
+
+    <div>
+      <!--
       This holds the image of a sample from each of the slide websites.
       This styling keeps all 6 images in the same height/width division. 
       This way we don't get the page moving the links/image around for different images. 
     -->
-    <img
-      style="height: 70%; width: 70%; object-fit: contain; margin-left: 15px;"
-      src="sample_mode_images/sample_mode_image1.png"
-      id="sampleImageID"
-    />
+      <img
+        style="height: 70%; width: 70%; object-fit: contain; margin-left: 15px;"
+        src="sample_mode_images/sample_mode_image1.png"
+        id="sampleImageID"
+        alt="Sample Image for Bar Graph Mode"
+      />
 
-    <br /><br />
+      <a
+        href="bar_mode"
+        onmouseover="displayHoveredImage(1)"
+        style="margin-left: 15px;"
+        >Bar Mode</a
+      >
 
-    <a
-      href="bar_mode"
-      onmouseover="displayHoveredImage(1)"
-      style="margin-left: 15px;"
-      >Bar Mode</a
-    >
-    <a href="line_mode" onmouseover="displayHoveredImage(2)">Line Mode</a>
-    <a href="map_mode" onmouseover="displayHoveredImage(3)">Map Mode</a>
+      <a href="line_mode" onmouseover="displayHoveredImage(2)">Line Mode</a>
+      <a href="map_mode" onmouseover="displayHoveredImage(3)">Map Mode</a>
+
+      <label style="margin-left: 15px;" id="mode_description">
+        Hover over a mode to see a description of the mode.
+      </label>
+    </div>
   </body>
 </html>

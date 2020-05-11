@@ -252,6 +252,7 @@ function addPath(data, svg, valueline) {
         }
       });
       d3.select(this).remove();
+      d3.select("#description").html("")
     })
     .on("mouseover", function () {
       d3.select(this).attr("stroke-width", "8px");

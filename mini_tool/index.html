@@ -10,7 +10,7 @@
     <!-- 
       Use this to change the text that appears on the tab in the browser when you're on a page
     -->
-    <title>HEJP Mini Tool</title>
+    <title>HEJP Preliminary Tool</title>
 
     <!-- 
       Link necessary scripts (index.js, jquery) and stylesheet (index.css)
@@ -57,7 +57,7 @@
 
   <body onload="loopSamples()">
     <div style="margin-left: 15px;">
-      <h3>HEJP Post-doc Mini Tool</h3>
+      <h3>HEJP Post-doc Preliminary Tool</h3>
 
       <p>
         Below are sample images from the various modes of this tool that allows
@@ -70,14 +70,30 @@
         mode, click "Keep Previewing".
       </p>
     </div>
-    <button
-      id="previewBtnID"
-      onclick="loopSamples()"
-      style="margin-left: 15px;"
-    >
-      Keep Previewing
-    </button>
-    <p></p>
+    
+    <a
+    href="bar_mode"
+    onmouseover="displayHoveredImage(1)"
+    style="margin-left: 15px;"
+    >Bar Mode</a
+  >
+
+  <a href="line_mode" onmouseover="displayHoveredImage(2)">Line Mode</a>
+  <a href="map_mode" onmouseover="displayHoveredImage(3)">Map Mode</a>
+
+  <button
+  id="previewBtnID"
+  onclick="loopSamples()"
+  style="margin-left: 15px;"
+>
+  Keep Previewing
+</button>
+
+<br>
+
+  <label style="margin-left: 15px;" id="mode_description">
+    Hover over a mode to see a description of the mode.
+  </label>
 
     <div>
       <!--
@@ -92,19 +108,6 @@
         alt="Sample Image for Bar Graph Mode"
       />
 
-      <a
-        href="bar_mode"
-        onmouseover="displayHoveredImage(1)"
-        style="margin-left: 15px;"
-        >Bar Mode</a
-      >
-
-      <a href="line_mode" onmouseover="displayHoveredImage(2)">Line Mode</a>
-      <a href="map_mode" onmouseover="displayHoveredImage(3)">Map Mode</a>
-
-      <label style="margin-left: 15px;" id="mode_description">
-        Hover over a mode to see a description of the mode.
-      </label>
     </div>
   </body>
 </html>

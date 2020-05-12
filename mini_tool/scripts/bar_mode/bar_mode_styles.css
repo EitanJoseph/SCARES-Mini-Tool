@@ -1,6 +1,6 @@
 body {
   margin: 0;
-  background-color: white;
+  /*background-color: white;*/
   font-family: "Arial", sans-serif;
   font-weight: 200;
   font-size: 15px;
@@ -47,16 +47,22 @@ input[type="range"]::-webkit-slider-thumb {
   height: 100vh;
   border-style: solid;
   align-content: center;
+  /*fill: rgb(200,200,200);*/
+  background-color: rgb(225,225,225); 
 }
 
 .bar {
-  fill: #b8bbff;
-  font: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  /*fill: rgb(186, 25, 0);*/
+  /*fill: rgb(255, 184, 87);*/
+  fill: rgb(71,186,83);
+  /*font: "Helvetica Neue", Helvetica, Arial, sans-serif;*/
 }
 
 
 .bar:hover {
-  fill: rgb(36, 0, 243);
+  fill: rgb(121,235,133);
+  /*fill: rgb(255, 95, 70);*/
+  /*fill: rgb(255, 214, 83);*/
 }
 
 .title {
@@ -83,7 +89,7 @@ input[type="range"]::-moz-focus-outer {
 }
 
 svg rect {
-  fill: rgb(211, 238, 255); /* map background colour*/
+  fill: rgb(200, 200, 200); /* map background colour*/
 }
 
 input[type="range"]::-moz-focus-outer {

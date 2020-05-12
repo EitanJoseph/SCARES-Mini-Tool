@@ -74,6 +74,8 @@ function drawFrequencyBarGraph(data) {
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
     .append("g")
+    .attr("fill", "rgb(200,200,200)")
+    .attr("background-color","rgb(200,200,200)")
     .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
   x.domain(data.map((d) => d.skillname));
@@ -108,6 +110,9 @@ function drawFrequencyBarGraph(data) {
         (0.4*x.bandwidth())
       ).
       attr("font-weight",500).
+      //attr("fill",function(d) {
+      //  "rgb(" + 186 + ", " + 25 + ", " + 0 + ")";
+      //}).
       attr("x",x(d.skillname)+(x.bandwidth()/2));
     })
     .on("mouseout", function(d) {

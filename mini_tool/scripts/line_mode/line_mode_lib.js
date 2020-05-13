@@ -1,8 +1,12 @@
 /**
-This file contains functions for reading data from the client interaction HTML elements on views/line_mode.ejs 
-
-The file has separate functions for each HTML element which updates a global variable that can then be accessed 
-from line_mode.js' graph drawing function. 
+ * @author Ruth Rosenblum, Chami Lamelas, Eitan Joseph
+ * @since  1.0.0
+ * @link   https://github.com/EitanJoseph/SCARES-Mini-Tool
+ * 
+ * This file contains functions for reading data from the client interaction HTML elements on views/line_mode.ejs 
+ * 
+ * The file has separate functions for each HTML element which updates a global variable that can then be accessed 
+ * from line_mode.js' graph drawing function. 
 */
 
 // this tracks the last division (science, social science, etc.) that was input

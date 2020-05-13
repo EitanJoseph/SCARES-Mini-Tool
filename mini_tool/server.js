@@ -1,4 +1,8 @@
 /**
+ * @author Ruth Rosenblum, Chami Lamelas, Eitan Joseph
+ * @since  1.0.0
+ * @link   https://github.com/EitanJoseph/SCARES-Mini-Tool
+ * 
  * This file runs the back-end server and has the primary purpose of handling POST requests from the client
  * webpage and querying the postgres DB on turing.
  */
@@ -240,4 +244,4 @@ app.get("/line_mode", function(req, res) {
   res.render("line_mode/line_mode");
 });
 
-app.listen(7500);
+app.listen(7000);

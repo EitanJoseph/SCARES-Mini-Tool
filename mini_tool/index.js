@@ -1,6 +1,10 @@
-/*
-This file holds the JS functions that are used by index.html for hovering on links and cycling images.
-*/
+/**
+ * @author Ruth Rosenblum, Chami Lamelas, Eitan Joseph
+ * @since  1.0.0
+ * @link   https://github.com/EitanJoseph/SCARES-Mini-Tool
+ * 
+ * This file holds the JS functions that are used by index.html for hovering on links and cycling images.
+ */
 
 // This global variable tracks the currently displayed image. It starts at 8
 // so that the first call to displayNextImage() will show image no. 0

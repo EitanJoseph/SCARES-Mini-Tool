@@ -1,4 +1,8 @@
 /**
+ * @author Ruth Rosenblum, Chami Lamelas, Eitan Joseph
+ * @since  1.0.0
+ * @link   https://github.com/EitanJoseph/SCARES-Mini-Tool
+ * 
  * This file implements the line graph functionality for line_mode.ejs including the process of both requesting data
  * from the server as well as utilizing that data to draw the line graphs the user chooses. User input is processed in
  * line_mode_lib.js.

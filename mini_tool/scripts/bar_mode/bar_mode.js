@@ -1,4 +1,10 @@
 /**
+ * @author Ruth Rosenblum, Chami Lamelas, Eitan Joseph
+ * @since  1.0.0
+ * @link   https://github.com/EitanJoseph/SCARES-Mini-Tool 
+ */
+
+/**
  * Updates the graph with the user's current input selections on the webpage.
  *
  * @param {boolean} starting whether or not the webpage is first starting

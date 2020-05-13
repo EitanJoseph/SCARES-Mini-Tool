@@ -1,8 +1,11 @@
 /**
-This file contains functions for reading data from the client interaction HTML elements on views/map_mode.ejs 
-
-The file has separate functions for each HTML element which updates a global variable that can then be accessed 
-from map_mode.js' updateMap() function. 
+ * @author Ruth Rosenblum, Chami Lamelas, Eitan Joseph
+ * @since  1.0.0
+ * @link   https://github.com/EitanJoseph/SCARES-Mini-Tool
+ * 
+ * This file contains functions for reading data from the client interaction HTML elements on views/map_mode.ejs 
+ * The file has separate functions for each HTML element which updates a global variable that can then be accessed 
+ * from map_mode.js' updateMap() function. 
 */
 
 // this tracks the last valid year 1 slider input

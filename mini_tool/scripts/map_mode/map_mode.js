@@ -1,4 +1,8 @@
 /**
+ * @author Ruth Rosenblum, Chami Lamelas, Eitan Joseph
+ * @since  1.0.0
+ * @link   https://github.com/EitanJoseph/SCARES-Mini-Tool
+ * 
  * This file is primarily used for sending a specific SQL query to the server to then be used to populate the map. 
  * It utilizes the functions in map_mode_lib which work with the HTML element input elements in map_mode.ejs.
  */

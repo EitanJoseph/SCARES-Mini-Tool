@@ -1,3 +1,8 @@
+/**
+ * @author Ruth Rosenblum, Chami Lamelas, Eitan Joseph
+ * @since  1.0.0
+ * @link   https://github.com/EitanJoseph/SCARES-Mini-Tool
+ */
 module.exports = {
     getBEAZone_Server: function(state){
         var beazones = {

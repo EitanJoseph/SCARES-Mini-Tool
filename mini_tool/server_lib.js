@@ -1,4 +1,8 @@
 /**
+ * @author Ruth Rosenblum, Chami Lamelas, Eitan Joseph
+ * @since  1.0.0
+ * @link   https://github.com/EitanJoseph/SCARES-Mini-Tool
+ * 
  * This file contains a library of the helper functions utilized by server.js to generate SQL queries to
  * run on the postgres DB.
  */

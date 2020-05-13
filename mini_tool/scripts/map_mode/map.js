@@ -1,3 +1,9 @@
+/**
+ * @author Ruth Rosenblum, Chami Lamelas, Eitan Joseph
+ * @since  1.0.0
+ * @link   https://github.com/EitanJoseph/SCARES-Mini-Tool
+*/
+
 // DEFINE VARIABLES
 // Define size of map group
 // Full world map is 2:1 ratio
@@ -133,15 +139,6 @@ d3.json(
   function (error, json) {
     //Bind data and create one path per GeoJSON feature
     countriesGroup = svg.append("g").attr("id", "map");
-
-    /*svg.append("g")
-      .attr("fill", "#000")
-      .selectAll("path")
-      .data(topojson.feature(json, json.features).features)
-      .enter().append("path")
-      .attr("d", path)
-      .append("title")
-      .text(function (d) { return d.id; });*/
     
     svg.append("path")
       .attr("stroke", "#fff")
@@ -279,39 +276,6 @@ d3.json(
             enableResetButton();
           });
       }
-      // add the text to the label group showing country name
-      // countryLabels
-      //   .append("text")
-      //   .attr("class", "countryName")
-      //   .style("text-anchor", "middle")
-      //   .attr("dx", 0)
-      //   .attr("dy", 0)
-      //   .text(function(d) {
-      //     return d.properties.name;
-      //   })
-      //   .call(getTextBox);
-      // // add a background rectangle the same size as the text
-      // countryLabels
-      //   .insert("rect", "text")
-      //   .attr("class", "countryLabelBg")
-      //   .attr("rx", 10)
-      //   .attr("ry", 10)
-      //   .attr("transform", function(d) {
-      //     return "translate(" + (d.bbox.x - 2) + "," + d.bbox.y + ")";
-      //   })
-      //   .attr("width", function(d) {
-      //     return d.bbox.width + 4;
-      //   })
-      //   .attr("height", function(d) {
-      //     return d.bbox.height;
-      //   });
-      // legendGroup = svg.append("g").attr("id", "legend");
-      // legendGroup.append("circle").attr("cx",30).attr("cy",30).attr("r", 6).style("fill", "#ff4f4f")
-      // legendGroup.append("circle").attr("cx",30).attr("cy",60).attr("r", 6).style("fill", "#525aff")
-      // legendGroup.append("circle").attr("cx",30).attr("cy",90).attr("r", 6).style("fill", "#52ff5b")
-      // legendGroup.append("text").attr("x", 50).attr("y", 30).text("Republican").style("font-size", "15px").attr("alignment-baseline","middle")
-      // legendGroup.append("text").attr("x", 50).attr("y", 60).text("Democrat").style("font-size", "15px").attr("alignment-baseline","middle")
-      // legendGroup.append("text").attr("x", 50).attr("y", 90).text("Other").style("font-size", "15px").attr("alignment-baseline","middle")
 
       year = svg.append("g").attr("id", "bigYear");
       year

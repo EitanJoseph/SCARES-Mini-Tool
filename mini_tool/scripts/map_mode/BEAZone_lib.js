@@ -1,4 +1,8 @@
-
+/**
+ * @author Ruth Rosenblum, Chami Lamelas, Eitan Joseph
+ * @since  1.0.0
+ * @link   https://github.com/EitanJoseph/SCARES-Mini-Tool
+ */
 function getBEAZone(state) {
     var beazones = {
     'Connecticut': 'New England',

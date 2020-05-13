@@ -1,3 +1,10 @@
+/**
+ * @author Ruth Rosenblum, Chami Lamelas, Eitan Joseph
+ * @since  1.0.0
+ * @link   https://github.com/EitanJoseph/SCARES-Mini-Tool
+ */
+
+
 function getDataFromServer() {
   // sending data at /slide3data over GET as JSON
   // using GET because client doesn't need to send specific paramters to the server

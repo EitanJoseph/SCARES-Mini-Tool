@@ -3,6 +3,12 @@
  It contains customization of the links.
 */
 
+/**
+ * @author Ruth Rosenblum, Chami Lamelas, Eitan Joseph
+ * @since  1.0.0
+ * @link   https://github.com/EitanJoseph/SCARES-Mini-Tool
+ */
+
 a:link,
 a:visited {
   background-color: white;

@@ -1,5 +1,11 @@
 // This is the main file that sends data to the client and accesses the postgres database on turing
 
+/**
+ * @author Ruth Rosenblum, Chami Lamelas, Eitan Joseph
+ * @since  1.0.0
+ * @link   https://github.com/EitanJoseph/SCARES-Mini-Tool
+ */
+
 var express = require("express");
 const { Client } = require("pg");
 

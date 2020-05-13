@@ -3,7 +3,6 @@
 Running: 
 
 Type "npm run <your name>" 
-Open a browser and type "localhost:<your port>"
 
 ## Features: 
 

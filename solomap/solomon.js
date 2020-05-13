@@ -1,3 +1,9 @@
+/**
+ * @author Ruth Rosenblum, Chami Lamelas, Eitan Joseph
+ * @since  1.0.0
+ * @link   https://github.com/EitanJoseph/SCARES-Mini-Tool
+ */
+
 $.getJSON('states.json', function (data) {
     states = data;
 }).then(function () {

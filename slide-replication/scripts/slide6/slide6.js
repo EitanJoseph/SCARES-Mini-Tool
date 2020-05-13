@@ -1,5 +1,11 @@
 // This file is a script that holds the necessary functions used on the slide 6 webpage.
 
+/**
+ * @author Ruth Rosenblum, Chami Lamelas, Eitan Joseph
+ * @since  1.0.0
+ * @link   https://github.com/EitanJoseph/SCARES-Mini-Tool
+ */
+
 /*
   Given a year, updates the webpage and sends a new post request to the server to query
   new data given subject and year parameters. 

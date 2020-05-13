@@ -2,6 +2,12 @@
  This file contains the functions that are needed by slide1.ejs. 
 */
 
+/**
+ * @author Ruth Rosenblum, Chami Lamelas, Eitan Joseph
+ * @since  1.0.0
+ * @link   https://github.com/EitanJoseph/SCARES-Mini-Tool
+ */
+
 // These global variables track the last valid entries for year1, year2
 var lastValidYear1 = -1
 var lastValidYear2 = -1

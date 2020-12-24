@@ -1,8 +1,6 @@
 # HEJP Scares Mini Tool
 
-Running: 
-
-Type "npm run <your name>" 
+Running: Choose which project want to run and check their specific running instructions.
 
 ## Features: 
 
